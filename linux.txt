@@ -57,7 +57,7 @@ sudo nala -y polychromatic openrazer-meta nvidia-driver firmware-misc-nonfree qb
 sudo dpkg --add-architecture i386 && sudo apt update
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
 
-sudo nala install git tilix screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters drawing aptitude unrar qdirstat trash-cli grub-customizer unzip gzip autokey-gtk fish
+sudo nala install git tilix screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters drawing aptitude unrar qdirstat trash-cli grub-customizer unzip gzip fish gnome-screensaver python3.11-venv 
 
 sudo nala tetrio-desktop
 sudo aptitude install tetrio-desktop
@@ -70,18 +70,17 @@ WEBSITES
 https://discord.com/download
 https://github.com/VSCodium/vscodium/releases
 https://www.onlyoffice.com/download-desktop.aspx
-https://www.microsoft.com/en-us/edge/download
 https://github.com/th-ch/youtube-music/releases
 https://www.jetbrains.com/toolbox-app/
+https://github.com/phil294/AHK_X11/releases
 
 cd /home/calvo/Desktop | find . -type f -name '*.deb' | grep -i '*.deb' | xargs -i sudo dpkg -i {}
 
 https://github.com/neovim/neovim/
 https://github.com/nvim-lua/kickstart.nvim
 
-https://github.com/oh-my-fish/oh-my-fish
-fish
-omf install sashimi
+https://github.com/junegunn/vim-plug
+call plug#begin('~/.local/share/nvim/site/autoload/plug.vim')  
 
 ------------------
 CONFIG
@@ -158,13 +157,22 @@ alias sudo='sudo '
 alias gedit='gnome-text-editor'
 alias track-mouse='while true; do clear; xdotool getmouselocation; sleep 0.1; done'
 alias python='python3'
+
+fish:
+calvo@calvo-linux ~/.c/n/l/k/plugins (master)> function gedit
+                                                   gnome-text-editor
+                                               end
+calvo@calvo-linux ~/.c/n/l/k/plugins (master)> gedit
+calvo@calvo-linux ~/.c/n/l/k/plugins (master)> funcsave gedit
+set -U fish_prompt_pwd_dir_length 0
 ---
 
 screen -d -m pavucontrol
 screen -d -m youtube-music
 screen -d -m steam -silent
 screen -d -m discord
-screen -d -m autokey
+screen -d -m /home/calvo/.local/bin/ahk_x11.AppImage /home/calvo/Code/Scripts/key-bindings.ahk
+
 
 sleep 2
 audio_process=$(pgrep pavucontrol)
@@ -198,6 +206,7 @@ sh /home/calvo/Scripts/cs_in.sh -> ctrl + alt + g
 sh /home/calvo/Scripts/cs_out.sh -> ctrl + alt + h
 hide all windows -> win + d
 tilix -> ctrl + alt + t
+gnome-screensaver-command -l -> win + l
 
 
 ------------------
@@ -259,6 +268,7 @@ Quick Settings Audio Devices Hider - marcinjahn
 Weeks Start on Monday Again... F-i-f
 Alt-Tab Active Windows
 Section Todo List - Thomas Moreau
+No Anoyance V2
 ???Focus changer
 
 Desktop Icons NG(DING)
@@ -350,6 +360,7 @@ sudo update-grub
 history -d 2031-2034
 
 sudo find . -type f -name '*.kws'
+grep -Rnw '/home/calvo/.config/nvim' -e '*.setup(*'
 
 mouse
 while true; do clear; xdotool getmouselocation; sleep 0.1; done
