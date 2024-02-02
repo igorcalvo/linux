@@ -267,7 +267,7 @@ OSD Volume Number
 Quick Settings Audio Devices Hider - marcinjahn
 Weeks Start on Monday Again... F-i-f
 Alt-Tab Active Windows
-Section Todo List - Thomas Moreau
+Todo.txt - BartL
 No Anoyance V2
 ???Focus changer
 
