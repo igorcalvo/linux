@@ -26,6 +26,9 @@ curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc0d54c34d001
 echo 'deb http://download.opensuse.org/repositories/hardware:/razer/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/hardware:razer.list
 curl -fsSL https://download.opensuse.org/repositories/hardware:razer/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/hardware_razer.gpg > /dev/null
 
+curl -fsSL https://ppa.ablaze.one/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/Floorp.gpg
+sudo curl -sS --compressed -o /etc/apt/sources.list.d/Floorp.list 'https://ppa.ablaze.one/Floorp.list'
+
 sudo gnome-text-editor /etc/apt/sources.list
 deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
 
@@ -53,7 +56,7 @@ deb http://deb.debian.org/debian bookworm-backports main contrib non-free
 ---
 sudo nala update
 
-sudo nala -y polychromatic openrazer-meta nvidia-driver firmware-misc-nonfree qbittorrent
+sudo nala -y polychromatic openrazer-meta nvidia-driver firmware-misc-nonfree qbittorrent floorp
 sudo dpkg --add-architecture i386 && sudo apt update
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
 
@@ -269,6 +272,7 @@ Weeks Start on Monday Again... F-i-f
 Alt-Tab Active Windows
 Todo.txt - BartL
 No Anoyance V2
+Forge
 ???Focus changer
 
 Desktop Icons NG(DING)
