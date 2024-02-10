@@ -53,7 +53,7 @@ config.keys = {
     key = 'w',
     mods = 'CTRL',
     action = wezterm.action.CloseCurrentTab { confirm = true },
-  }
+  },
 }
 
 -- and finally, return the configuration to wezterm

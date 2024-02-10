@@ -25,7 +25,7 @@ nano /etc/sudoers
 
 # User privilege specification
 root	ALL=(ALL:ALL) ALL
-calvo	ALL=(ALL:ALL) ALL
+calvo	ALL=(ALL) ALL
 
 apt install gnome-core
 systemctl start gdm3
@@ -69,7 +69,7 @@ sudo apt-get dist-upgrade
 ```bash
 sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
-sudo nala install qbittorrent git tilix screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow
+sudo nala install qbittorrent git screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow
 
 sudo nala install tetrio-desktop
 
@@ -93,9 +93,7 @@ find . -type f -name '*.deb' | grep -i '*.deb' | xargs -i sudo dpkg -i {}
 #### 6. Neovim
 ```bash
 https://github.com/neovim/neovim/
-https://github.com/nvim-lua/kickstart.nvim
-https://neovide.dev/
-https://raphamorim.io/rio/docs/install/build-from-source
+https://github.com/nvim-lua/kickstart.nvim - not needed
 
 sudo nala install ninja-build gettext cmake unzip curl
 
@@ -105,6 +103,8 @@ cd neovim && git fetch && git checkout release-0.9
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+
+https://neovide.dev/
 ```
 
 #### 7. Config
@@ -120,34 +120,21 @@ dconf write /org/gnome/desktop/interface/clock-show-weekday true
 dconf write /org/gnome/desktop/interface/clock-show-date true
 dconf write /org/gnome/desktop/calendar/show-weekdate true
 
-dconf load /com/gexperts/Tilix/ < tilix.dconf
 sudo update-grub
 sudo update-alternatives --config x-terminal-emulator
 sudo modprobe razerkbd
 sudo sensors-detect
+dconf load /com/gexperts/Tilix/ < tilix.dconf
 ```
 
-#### 8. Fish
-```bash
-set -U fish_prompt_pwd_dir_length 0
-nvim ~/.config/fish/config.fish
-
-alias gedit "gnome-text-editor"
-alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
-alias track-mouse "sh /home/calvo/Code/Scripts/track-mouse.sh"
-alias sudo "command sudo"
-alias python "command python3"
-alias nvim2 "/home/calvo/.cargo/bin/neovide"
-```
-
-#### 9. Python
+#### 8. Python
 ```bash
 sudo rm /usr/lib/python3.11/EXTERNALLY-MANAGED
 sudo nala install python3.11-venv 
 pip install pandas scipy pysimplegui mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy
 ```
 
-#### 10. Duplicate Icons
+#### 9. Duplicate Icons
 ```bash
 cd /usr/share/applications/
 find . -type f -name 'krita*' | grep -i 'krita*' | xargs -i cp {} /home/calvo/.local/share/applications/
@@ -161,11 +148,17 @@ find . -name 'gnome-software-local-file*' | xargs echo "Hidden=true" >> {}
 Just in case &nbsp;&nbsp;&nbsp;&nbsp;
 `find . -name 'krita*' -exec gnome-text-editor {} +` 
 
-#### 11. Clone repos
+#### 10. Clone repos
 ```bash
 ssh-keygen -t rsa
 cd /home/calvo/.ssh
 xclip -sel c id_rsa.pub
+```
+
+#### 11. Stow
+```bash
+stow --target="/home/calvo" --dir="/home/calvo/Code/Linux/dotfiles" -v -simulate . 
+stow --target="/home/calvo" --dir="/home/calvo/Code/Linux/dotfiles" -v --adopt . 
 ```
 
 #### 12. Startup
@@ -197,7 +190,7 @@ Type=Application
 | sh /home/calvo/Scripts/cs_kill.sh  | ctrl + alt + f |
 | sh /home/calvo/Scripts/cs_in.sh    | ctrl + alt + g |
 | sh /home/calvo/Scripts/cs_out.sh   | ctrl + alt + h |
-| wezterm  | ctrl + alt + t |
+| sh /home/calvo/Code/Scripts/terminal.sh | ctrl + alt + t |
 | gnome-screensaver-command -l  | sup + l   |
 |    |    |
 | hide all windows   | sup + d   |
