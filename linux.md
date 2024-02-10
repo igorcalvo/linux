@@ -69,7 +69,7 @@ sudo apt-get dist-upgrade
 ```bash
 sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
-sudo nala install qbittorrent git tilix screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish 
+sudo nala install qbittorrent git tilix screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow
 
 sudo nala install tetrio-desktop
 
@@ -84,6 +84,7 @@ https://www.onlyoffice.com/download-desktop.aspx
 https://github.com/th-ch/youtube-music/releases
 https://github.com/phil294/AHK_X11/releases
 https://github.com/Nixola/VRRTest/releases/
+https://wezfurlong.org/wezterm/install/linux.html
 
 cd /home/calvo/Desktop
 find . -type f -name '*.deb' | grep -i '*.deb' | xargs -i sudo dpkg -i {}
@@ -93,6 +94,8 @@ find . -type f -name '*.deb' | grep -i '*.deb' | xargs -i sudo dpkg -i {}
 ```bash
 https://github.com/neovim/neovim/
 https://github.com/nvim-lua/kickstart.nvim
+https://neovide.dev/
+https://raphamorim.io/rio/docs/install/build-from-source
 
 sudo nala install ninja-build gettext cmake unzip curl
 
@@ -126,12 +129,15 @@ sudo sensors-detect
 
 #### 8. Fish
 ```bash
+set -U fish_prompt_pwd_dir_length 0
+nvim ~/.config/fish/config.fish
+
 alias gedit "gnome-text-editor"
 alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
 alias track-mouse "sh /home/calvo/Code/Scripts/track-mouse.sh"
 alias sudo "command sudo"
 alias python "command python3"
-set -U fish_prompt_pwd_dir_length 0
+alias nvim2 "/home/calvo/.cargo/bin/neovide"
 ```
 
 #### 9. Python
@@ -191,7 +197,7 @@ Type=Application
 | sh /home/calvo/Scripts/cs_kill.sh  | ctrl + alt + f |
 | sh /home/calvo/Scripts/cs_in.sh    | ctrl + alt + g |
 | sh /home/calvo/Scripts/cs_out.sh   | ctrl + alt + h |
-| tilix  | ctrl + alt + t |
+| wezterm  | ctrl + alt + t |
 | gnome-screensaver-command -l  | sup + l   |
 |    |    |
 | hide all windows   | sup + d   |
