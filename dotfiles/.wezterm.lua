@@ -41,7 +41,7 @@ config.keys = {
   },
   {
     key = 'w',
-    mods = 'CTRL|SHIFT',
+    mods = 'CTRL',
     action = wezterm.action.CloseCurrentPane { confirm = false },
   },
   {
@@ -51,7 +51,7 @@ config.keys = {
   },
   {
     key = 'w',
-    mods = 'CTRL',
+    mods = 'CTRL|SHIFT',
     action = wezterm.action.CloseCurrentTab { confirm = true },
   },
 }

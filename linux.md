@@ -191,7 +191,6 @@ Type=Application
 | sh /home/calvo/Scripts/cs_in.sh    | ctrl + alt + g |
 | sh /home/calvo/Scripts/cs_out.sh   | ctrl + alt + h |
 | sh /home/calvo/Code/Scripts/terminal.sh | ctrl + alt + t |
-| gnome-screensaver-command -l  | sup + l   |
 |    |    |
 | hide all windows   | sup + d   |
 <!-- |    |    | -->
