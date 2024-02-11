@@ -312,14 +312,20 @@ end
 
 -- [[Custom Options]]
 vim.o.relativenumber = true
-vim.o.textwidth = 120
+vim.o.textwidth = 180
 vim.o.clipboard = "unnamedplus"
 vim.o.wrap = false
+
+-- Disable swap files
+vim.o.backup = false
+vim.o.swapfile = false
+vim.o.undofile = false
 
 -- caret Multi Caret https://github.com/mg979/vim-visual-multi
 -- [[ Basic Keymaps ]] bindings Bindings keymaps custom keymaps custom bindings
 vim.keymap.set({"n", "v", "t", "i"}, "<C-A-w>", "<esc><cmd>:lua require'dapui'.close()<cr>:q<cr>", { desc = "Quit" })
 vim.keymap.set({"n", "v", "t", "i"}, "<C-s>", "<cmd>:wa<cr>", { desc = "Save [A]ll" })
+vim.keymap.set({"n", "v", "t", "i"}, "<C-e>", "<cmd>:Neotree toggle<cr>", { desc = "Toggle Tre[E]" })
 vim.keymap.set("n", "<A-S-f>", ":Format <cr>:!black %<cr><enter>", { desc = "Format file" })
 vim.keymap.set("n", "<A-j>", ":m .+1<cr>==", { desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<cr>==", { desc = "Move line up" })
@@ -400,6 +406,106 @@ require("monokai-pro").setup({
   override = function(c) end,
 })
 
+require("neo-tree").setup({
+  close_if_last_window = true,
+  window = {
+    position = "left",
+    width = 40,
+    mapping_options = {
+      noremap = true,
+      nowait = true,
+    },
+    mappings = {
+      ["<space>"] = {
+          "toggle_node",
+          nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use 
+      },
+      ["<2-LeftMouse>"] = "open",
+      ["<cr>"] = "open",
+      ["<esc>"] = "cancel", -- close preview or floating neo-tree window
+      ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+      -- Read `# Preview Mode` for more information
+      ["l"] = "focus_preview",
+      ["S"] = "open_split",
+      ["s"] = "open_vsplit",
+      -- ["S"] = "split_with_window_picker",
+      -- ["s"] = "vsplit_with_window_picker",
+      ["t"] = "open_tabnew",
+      -- ["<cr>"] = "open_drop",
+      -- ["t"] = "open_tab_drop",
+      ["w"] = "open_with_window_picker",
+      --["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
+      ["C"] = "close_node",
+      -- ['C'] = 'close_all_subnodes',
+      ["z"] = "close_all_nodes",
+      --["Z"] = "expand_all_nodes",
+      ["a"] = {
+        "add",
+        -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
+        -- some commands may take optional config options, see `:h neo-tree-mappings` for details
+        config = {
+          show_path = "none" -- "none", "relative", "absolute"
+        }
+      },
+      ["A"] = "add_directory", -- also accepts the optional config.show_path option like "add". this also supports BASH style brace expansion.
+      ["d"] = "delete",
+      ["<F2>"] = "rename",
+      ["y"] = "copy_to_clipboard",
+      ["x"] = "cut_to_clipboard",
+      ["p"] = "paste_from_clipboard",
+      ["c"] = "copy", -- takes text input for destination, also accepts the optional config.show_path option like "add":
+      -- ["c"] = {
+      --  "copy",
+      --  config = {
+      --    show_path = "none" -- "none", "relative", "absolute"
+      --  }
+      --}
+      ["m"] = "move", -- takes text input for destination, also accepts the optional config.show_path option like "add".
+      ["q"] = "close_window",
+      ["R"] = "refresh",
+      ["?"] = "show_help",
+      ["<"] = "prev_source",
+      [">"] = "next_source",
+      ["i"] = "show_file_details",
+    }
+  },
+  filesystem = {
+    filtered_items = {
+      visible = false, -- when true, they will just be displayed differently than normal items
+      hide_dotfiles = false,
+      hide_gitignored = false,
+    },
+    follow_current_file = {
+      enabled = true, -- This will find and focus the file in the active buffer every time
+      --               -- the current file is changed while the tree is open.
+      leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+    },
+    window = {
+      mappings = {
+        ["<bs>"] = "navigate_up",
+        ["."] = "set_root",
+        ["H"] = "toggle_hidden",
+        ["/"] = "fuzzy_finder",
+        ["D"] = "fuzzy_finder_directory",
+        ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
+        -- ["D"] = "fuzzy_sorter_directory",
+        ["f"] = "filter_on_submit",
+        ["<c-x>"] = "clear_filter",
+        ["[g"] = "prev_git_modified",
+        ["]g"] = "next_git_modified",
+        ["o"] = { "show_help", nowait=false, config = { title = "Order by", prefix_key = "o" }},
+        ["oc"] = { "order_by_created", nowait = false },
+        ["od"] = { "order_by_diagnostics", nowait = false },
+        ["og"] = { "order_by_git_status", nowait = false },
+        ["om"] = { "order_by_modified", nowait = false },
+        ["on"] = { "order_by_name", nowait = false },
+        ["os"] = { "order_by_size", nowait = false },
+        ["ot"] = { "order_by_type", nowait = false },
+      },
+    },
+  },
+})
+
 -- Log Level
 -- vim.lsp.set_log_level("debug")
 
@@ -472,16 +578,16 @@ local function telescope_live_grep_open_files()
     prompt_title = "Live Grep in Open Files",
   }
 end
-vim.keymap.set("n", "<leader>s/", telescope_live_grep_open_files, { desc = "[S]earch [/] in Open Files" })
-vim.keymap.set("n", "<leader>ss", require("telescope.builtin").builtin, { desc = "[S]earch [S]elect Telescope" })
-vim.keymap.set("n", "<leader>gf", require("telescope.builtin").git_files, { desc = "Search [G]it [F]iles" })
-vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { desc = "[S]earch [F]iles" })
-vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
-vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
-vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[S]earch by [G]rep on Git Root" })
-vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
+vim.keymap.set("n", "<leader>f/", telescope_live_grep_open_files, { desc = "[F]ind [/] in Open Files" })
+vim.keymap.set("n", "<leader>fs", require("telescope.builtin").builtin, { desc = "[F]ind [S]elect Telescope" })
+vim.keymap.set("n", "<leader>ff", require("telescope.builtin").git_files, { desc = "[F]ind [G]it [F]iles" })
+vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
+vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags, { desc = "[F]ind [H]elp" })
+vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
+vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep, { desc = "[F]ind by [G]rep" })
+vim.keymap.set("n", "<leader>fG", ":LiveGrepGitRoot<cr>", { desc = "[F]ind by [G]rep on Git Root" })
+vim.keymap.set("n", "<leader>fd", require("telescope.builtin").diagnostics, { desc = "[F]ind [D]iagnostics" })
+vim.keymap.set("n", "<leader>fr", require("telescope.builtin").resume, { desc = "[F]ind [R]esume" })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -577,8 +683,8 @@ local on_attach = function(_, bufnr)
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-  nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+  nmap("<C-F12>", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  nmap("<F12>", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
@@ -609,7 +715,7 @@ require("which-key").register {
   ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
   ["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
   ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-  ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
+  ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
   ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
   ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
 }
@@ -661,7 +767,7 @@ vim.keymap.set('n', '<F6>', function() require("dap").terminate() end, { desc = 
 vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, { desc = "Debug Toggle Breakpoint" })
 vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, { desc = "Debug Step Over" })
 vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, { desc = "Debug Step Into" })
-vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, { desc = "Debug Step Out" })
+-- vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, { desc = "Debug Step Out" })
 
 vim.keymap.set("n", "<Leader>dt", function() dapui.toggle() end, { desc = "[D]ebug [T]oggle" })
 
