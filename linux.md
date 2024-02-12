@@ -69,7 +69,7 @@ sudo apt-get dist-upgrade
 ```bash
 sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
-sudo nala install qbittorrent git screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow
+sudo nala install qbittorrent git screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow virt-manager
 
 sudo nala install tetrio-desktop
 
@@ -183,15 +183,6 @@ Type=Application
 #### 13. Keyboard Shortcuts
 | Command   | Keys    |
 |--------------- | --------------- |
-| /usr/bin/flameshot gui   | sup + shift + s   |
-| xdg-open .  | sup + e   |
-| systemctl reboot  | ctrl + alt + break   |
-| sh /home/calvo/Scripts/shutdown.sh | ctrl + break   |
-| sh /home/calvo/Scripts/cs_kill.sh  | ctrl + alt + f |
-| sh /home/calvo/Scripts/cs_in.sh    | ctrl + alt + g |
-| sh /home/calvo/Scripts/cs_out.sh   | ctrl + alt + h |
-| sh /home/calvo/Code/Scripts/terminal.sh | ctrl + alt + t |
-|    |    |
 | hide all windows   | sup + d   |
 <!-- |    |    | -->
 
@@ -235,3 +226,32 @@ Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
 
 180&nbsp;&nbsp;&nbsp;&nbsp;2.5&nbsp;&nbsp;&nbsp;&nbsp;1.3&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;&nbsp;&nbsp;0
 
+#### 16. Security
+
+```bash
+sudo nala install ufw fail2ban
+
+sudo ufw limit 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw enable
+```
+
+```bash
+/etc/fail2ban/jail.local
+
+
+[DEFAULT]
+ignoreip = 127.0.0.1/8 ::1
+bantime = 3600
+findtime = 600
+maxretry = 5
+
+[sshd]
+enabled = true
+
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```

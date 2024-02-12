@@ -683,8 +683,8 @@ local on_attach = function(_, bufnr)
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-  nmap("<C-F12>", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-  nmap("<F12>", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
@@ -754,6 +754,7 @@ dap.configurations.python = {
 dapui.setup()
 dap.listeners.before.launch.dapui_config = function()
   dapui.open()
+  require("neo-tree").close_all()
 end
 dap.listeners.before.event_terminated.dapui_config = function()
   dapui.close()
@@ -762,7 +763,7 @@ end
 --   dapui.toggle()
 -- end
 
-vim.keymap.set("n", "<F5>", "<cmd>:w<cr>:lua require'dap'.continue()<cr>", { desc = "Run" })
+vim.keymap.set("n", "<F5>", "<cmd>:wa<cr>:lua require'dap'.continue()<cr>", { desc = "Run" })
 vim.keymap.set('n', '<F6>', function() require("dap").terminate() end, { desc = "Terminate" })
 vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, { desc = "Debug Toggle Breakpoint" })
 vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, { desc = "Debug Step Over" })
