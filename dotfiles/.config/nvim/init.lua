@@ -756,9 +756,6 @@ dap.listeners.before.launch.dapui_config = function()
   dapui.open()
   require("neo-tree").close_all()
 end
-dap.listeners.before.event_terminated.dapui_config = function()
-  dapui.close()
-end
 -- dap.listeners.before.event_thread.dapui_config = function ()
 --   dapui.toggle()
 -- end
