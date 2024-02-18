@@ -1,45 +1,6 @@
---[[
+-- https://learnxinyminutes.com/docs/lua/
+-- https://neovim.io/doc/user/lua-guide.html
 
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you"ve done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don"t know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.html
-
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you"re doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you"re done too. It"s your config now :)
---]]
-
--- Set <space> as the leader key
--- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -60,15 +21,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure plugins ]]
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
 require("lazy").setup({
-  -- NOTE: First, some plugins that don"t require any configuration
-
   -- Git related plugins
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
@@ -76,7 +29,6 @@ require("lazy").setup({
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
     -- LSP Configuration & Plugins
@@ -148,14 +100,6 @@ require("lazy").setup({
       vim.cmd.colorscheme "monokai-pro"
     end
   },
-  --  {
-  -- Theme inspired by Atom
-  --    "navarasu/onedark.nvim",
-  --    priority = 1000,
-  --    config = function()
-  --     vim.cmd.colorscheme "onedark"
-  --    end,
-  --  },
   {
     "williamboman/mason.nvim",
     "mfussenegger/nvim-dap",
@@ -168,7 +112,6 @@ require("lazy").setup({
     "ThePrimeagen/vim-be-good"
   },
   {
-    -- Set lualine as statusline
     "nvim-lualine/lualine.nvim",
     -- See `:help lualine.txt`
     opts = {
@@ -184,7 +127,6 @@ require("lazy").setup({
   {
     -- Add indentation guides even on blank lines
     "lukas-reineke/indent-blankline.nvim",
-    -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
     main = "ibl",
     opts = {},
@@ -215,13 +157,8 @@ require("lazy").setup({
     branch = "0.1.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-      -- Only load if `make` is available. Make sure you have the system
-      -- requirements installed.
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        -- NOTE: If you are having trouble with this installation,
-        --       refer to the README for telescope-fzf-native for more instructions.
         build = "make",
         cond = function()
           return vim.fn.executable "make" == 1
@@ -238,18 +175,8 @@ require("lazy").setup({
     },
     build = ":TSUpdate",
   },
-
-  -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-  --       These are some example plugins that I"ve included in the kickstart repository.
-  --       Uncomment any of the lines below to enable them.
-  -- require "kickstart.plugins.autoformat",
-  -- require "kickstart.plugins.debug",
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    You can use this folder to prevent any conflicts with this init.lua if you"re interested in keeping
-  --    up-to-date with whatever is in the kickstart repo.
-  --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --
+  require "kickstart.plugins.autoformat",
+  require "kickstart.plugins.debug",
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   { import = "custom.plugins" },
 }, {})
@@ -267,11 +194,6 @@ vim.wo.number = true
 
 -- Enable mouse mode
 vim.o.mouse = "a"
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help "clipboard"`
-vim.o.clipboard = "unnamedplus"
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -292,8 +214,6 @@ vim.o.timeoutlen = 300
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
-
--- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
 -- Neovide
@@ -315,6 +235,8 @@ vim.o.relativenumber = true
 vim.o.textwidth = 180
 vim.o.clipboard = "unnamedplus"
 vim.o.wrap = false
+vim.o.scrolloff = 8
+vim.o.smartindent = true
 
 -- Disable swap files
 vim.o.backup = false
@@ -323,16 +245,18 @@ vim.o.undofile = false
 
 -- caret Multi Caret https://github.com/mg979/vim-visual-multi
 -- [[ Basic Keymaps ]] bindings Bindings keymaps custom keymaps custom bindings
-vim.keymap.set({"n", "v", "t", "i"}, "<C-A-w>", "<esc><cmd>:lua require'dapui'.close()<cr>:q<cr>", { desc = "Quit" })
-vim.keymap.set({"n", "v", "t", "i"}, "<C-s>", "<cmd>:wa<cr>", { desc = "Save [A]ll" })
-vim.keymap.set({"n", "v", "t", "i"}, "<C-e>", "<cmd>:Neotree toggle<cr>", { desc = "Toggle Tre[E]" })
+vim.keymap.set({ "n", "v", "t", "i" }, "<C-A-w>", "<esc><cmd>:lua require'dapui'.close()<cr>:q<cr>", { desc = "Quit" })
+vim.keymap.set({ "n", "v", "t", "i" }, "<C-s>", "<cmd>:wa<cr>", { desc = "Save [A]ll" })
+vim.keymap.set({ "n", "v", "t", "i" }, "<C-e>", "<cmd>:Neotree toggle<cr>", { desc = "Toggle Tre[E]" })
 vim.keymap.set("n", "<A-S-f>", ":Format <cr>:!black %<cr><enter>", { desc = "Format file" })
 vim.keymap.set("n", "<A-j>", ":m .+1<cr>==", { desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<cr>==", { desc = "Move line up" })
 vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move line down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move line up" })
-vim.keymap.set({"n", "v"}, "<A-S-j>", ":yank<cr>p", { desc = "Copy line down" })
---
+vim.keymap.set({ "n", "v" }, "<A-S-j>", ":yank<cr>p", { desc = "Copy line down" })
+vim.keymap.set("n", "<C-.>", ":lua vim.lsp.buf.code_action()<cr>", { desc = "Code Actions" })
+vim.keymap.set("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>", { desc = "Source init.lua" })
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -382,16 +306,13 @@ require("monokai-pro").setup({
   },
   inc_search = "background",   -- underline | background
   background_clear = {
-    -- "float_win",
     "toggleterm",
     "telescope",
-    -- "which-key",
+    "which-key",
     "renamer",
     "notify",
-    -- "nvim-tree",
-    -- "neo-tree",
-    -- "bufferline", -- better used if background of `neo-tree` or `nvim-tree` is cleared
-  }, -- "float_win", "toggleterm", "telescope", "which-key", "renamer", "neo-tree", "nvim-tree", "bufferline"
+    "neo-tree",
+  },
   plugins = {
     bufferline = {
       underline_selected = false,
@@ -402,7 +323,6 @@ require("monokai-pro").setup({
       context_start_underline = false,
     },
   },
-  ---@param c Colorscheme
   override = function(c) end,
 })
 
@@ -417,8 +337,8 @@ require("neo-tree").setup({
     },
     mappings = {
       ["<space>"] = {
-          "toggle_node",
-          nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use 
+        "toggle_node",
+        nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
       },
       ["<2-LeftMouse>"] = "open",
       ["<cr>"] = "open",
@@ -428,21 +348,13 @@ require("neo-tree").setup({
       ["l"] = "focus_preview",
       ["S"] = "open_split",
       ["s"] = "open_vsplit",
-      -- ["S"] = "split_with_window_picker",
-      -- ["s"] = "vsplit_with_window_picker",
       ["t"] = "open_tabnew",
-      -- ["<cr>"] = "open_drop",
-      -- ["t"] = "open_tab_drop",
       ["w"] = "open_with_window_picker",
-      --["P"] = "toggle_preview", -- enter preview mode, which shows the current node without focusing
       ["C"] = "close_node",
-      -- ['C'] = 'close_all_subnodes',
       ["z"] = "close_all_nodes",
-      --["Z"] = "expand_all_nodes",
+      ["Z"] = "expand_all_nodes",
       ["a"] = {
         "add",
-        -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
-        -- some commands may take optional config options, see `:h neo-tree-mappings` for details
         config = {
           show_path = "none" -- "none", "relative", "absolute"
         }
@@ -476,7 +388,7 @@ require("neo-tree").setup({
       hide_gitignored = false,
     },
     follow_current_file = {
-      enabled = true, -- This will find and focus the file in the active buffer every time
+      enabled = true,          -- This will find and focus the file in the active buffer every time
       --               -- the current file is changed while the tree is open.
       leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
     },
@@ -488,12 +400,11 @@ require("neo-tree").setup({
         ["/"] = "fuzzy_finder",
         ["D"] = "fuzzy_finder_directory",
         ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
-        -- ["D"] = "fuzzy_sorter_directory",
         ["f"] = "filter_on_submit",
         ["<c-x>"] = "clear_filter",
         ["[g"] = "prev_git_modified",
         ["]g"] = "next_git_modified",
-        ["o"] = { "show_help", nowait=false, config = { title = "Order by", prefix_key = "o" }},
+        ["o"] = { "show_help", nowait = false, config = { title = "Order by", prefix_key = "o" } },
         ["oc"] = { "order_by_created", nowait = false },
         ["od"] = { "order_by_diagnostics", nowait = false },
         ["og"] = { "order_by_git_status", nowait = false },
@@ -663,15 +574,8 @@ vim.defer_fn(function()
   }
 end, 0)
 
--- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don"t have to repeat yourself
-  -- many times.
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
@@ -735,9 +639,9 @@ require("mason-nvim-dap").setup({
   automatic_installation = true,
 })
 
-vim.fn.sign_define('DapBreakpoint', {text = '🔴', texthl = '', linehl = '', numhl = ''})
-vim.fn.sign_define('DapBreakpointRejected', {text = '🔵', texthl = '', linehl = '', numhl = ''})
-vim.fn.sign_define('DapStopped', {text = '⭐️', texthl = '', linehl = '', numhl = ''})
+vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapBreakpointRejected', { text = '🔵', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '⭐️', texthl = '', linehl = '', numhl = '' })
 
 local dap, dapui = require("dap"), require("dapui")
 dap.configurations.python = {
@@ -768,9 +672,7 @@ vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, { desc =
 -- vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, { desc = "Debug Step Out" })
 
 vim.keymap.set("n", "<Leader>dt", function() dapui.toggle() end, { desc = "[D]ebug [T]oggle" })
-
 vim.keymap.set('n', '<leader>dk', ':lua require"dap".up()<CR>zz', { desc = "[D]ebug Up" })
-
 vim.keymap.set('n', '<leader>dj', ':lua require"dap".down()<CR>zz', { desc = "[D]ebug Down" })
 
 vim.keymap.set({ "n", "v" }, "<Leader>dh", function()
@@ -794,40 +696,30 @@ end, { desc = "[D]ebug [S]copes" })
 vim.keymap.set("n", "<Leader>de", "<cmd>lua require('dapui').eval()<cr>", { desc = "[D]ebug [E]val" })
 
 require("nvim-dap-virtual-text").setup {
-    enabled = true,                        -- enable this plugin (the default)
-    enabled_commands = true,               -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
-    highlight_changed_variables = true,    -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
-    highlight_new_as_changed = false,      -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
-    show_stop_reason = true,               -- show stop reason when stopped for exceptions
-    commented = false,                     -- prefix virtual text with comment string
-    only_first_definition = true,          -- only show virtual text at first definition (if there are multiple)
-    all_references = false,                -- show virtual text on all all references of the variable (not only definitions)
-    clear_on_continue = false,             -- clear virtual text on "continue" (might cause flickering when stepping)
-    --- A callback that determines how a variable is displayed or whether it should be omitted
-    --- @param variable Variable https://microsoft.github.io/debug-adapter-protocol/specification#Types_Variable
-    --- @param buf number
-    --- @param stackframe dap.StackFrame https://microsoft.github.io/debug-adapter-protocol/specification#Types_StackFrame
-    --- @param node userdata tree-sitter node identified as variable definition of reference (see `:h tsnode`)
-    --- @param options nvim_dap_virtual_text_options Current options for nvim-dap-virtual-text
-    --- @return string|nil A text how the virtual text should be displayed or nil, if this variable shouldn't be displayed
-    display_callback = function(variable, buf, stackframe, node, options)
-      if options.virt_text_pos == 'inline' then
-        return ' = ' .. variable.value
-      else
-        return variable.name .. ' = ' .. variable.value
-      end
-    end,
-    -- position of virtual text, see `:h nvim_buf_set_extmark()`, default tries to inline the virtual text. Use 'eol' to set to end of line
-    virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
+  enabled = true,                     -- enable this plugin (the default)
+  enabled_commands = true,            -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
+  highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
+  highlight_new_as_changed = false,   -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
+  show_stop_reason = true,            -- show stop reason when stopped for exceptions
+  commented = false,                  -- prefix virtual text with comment string
+  only_first_definition = true,       -- only show virtual text at first definition (if there are multiple)
+  all_references = false,             -- show virtual text on all all references of the variable (not only definitions)
+  clear_on_continue = false,          -- clear virtual text on "continue" (might cause flickering when stepping)
+  display_callback = function(variable, buf, stackframe, node, options)
+    if options.virt_text_pos == 'inline' then
+      return ' = ' .. variable.value
+    else
+      return variable.name .. ' = ' .. variable.value
+    end
+  end,
+  virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
 
-    -- experimental features:
-    all_frames = false,                    -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
-    virt_lines = false,                    -- show virtual lines instead of virtual text (will flicker!)
-    virt_text_win_col = nil                -- position the virtual text at a fixed window column (starting from the first text column) ,
-                                           -- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
+  -- experimental features:
+  all_frames = false,     -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
+  virt_lines = false,     -- show virtual lines instead of virtual text (will flicker!)
+  virt_text_win_col = nil -- position the virtual text at a fixed window column (starting from the first text column) ,
+  -- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
 }
-
-
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -840,7 +732,7 @@ require("nvim-dap-virtual-text").setup {
 local servers = {
   -- clangd = {},
   -- gopls = {},
-  -- pyright = {},
+  pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { "html", "twig", "hbs"} },
