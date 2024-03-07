@@ -7,3 +7,7 @@ alias track-mouse "sh /home/calvo/Code/Scripts/track-mouse.sh"
 alias sudo "command sudo"
 alias python "command python3"
 alias nvim2 "/home/calvo/.cargo/bin/neovide"
+
+zoxide init fish --cmd cd | source
+
+# bind -k sf forward-word

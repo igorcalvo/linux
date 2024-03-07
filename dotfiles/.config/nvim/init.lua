@@ -237,6 +237,7 @@ vim.o.clipboard = "unnamedplus"
 vim.o.wrap = false
 vim.o.scrolloff = 8
 vim.o.smartindent = true
+vim.o.magic = true
 
 -- Disable swap files
 vim.o.backup = false
@@ -256,6 +257,7 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move line up" })
 vim.keymap.set({ "n", "v" }, "<A-S-j>", ":yank<cr>p", { desc = "Copy line down" })
 vim.keymap.set("n", "<C-.>", ":lua vim.lsp.buf.code_action()<cr>", { desc = "Code Actions" })
 vim.keymap.set("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>", { desc = "Source init.lua" })
+vim.keymap.set("n", "<leader>r", ":reg<cr>", { desc = "[R]egisters" })
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -618,7 +620,6 @@ require("which-key").register {
   ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
   ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
   ["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
-  ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
   ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
   ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
   ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
