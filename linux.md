@@ -48,6 +48,9 @@ curl -fsSL https://download.opensuse.org/repositories/hardware:razer/Debian_12/R
 curl -fsSL https://ppa.ablaze.one/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/Floorp.gpg
 sudo curl -sS --compressed -o /etc/apt/sources.list.d/Floorp.list 'https://ppa.ablaze.one/Floorp.list'
 
+# ascii-image-converter
+echo 'deb [trusted=yes] https://apt.fury.io/ascii-image-converter/ /' | sudo tee /etc/apt/sources.list.d/ascii-image-converter.list
+
 # Nvidia proprietary drivers
 sudo nano /etc/apt/sources.list
 
@@ -67,7 +70,7 @@ sudo apt-get dist-upgrade
 
 #### 4. Installing
 ```bash
-sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree
+sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree ascii-image-converter
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
 sudo nala install qbittorrent git screen tilix xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow virt-manager jq fzf tldr ranger ncdu bat cpufetch stress glmark2
 
@@ -117,6 +120,9 @@ https://neovide.dev/
 
 ```bash
 git config --global user.email "igorcalvob@gmail.com"
+
+# remove ascii-image-converter's source
+sudo rm -v /etc/apt/sources.list.d/ascii-image-converter.list
 
 dconf write /org/gnome/desktop/background/picture-options "'spanned'" |
 dconf write /org/gnome/desktop/wm/preferences/focus-new-windows "'smart'" |
