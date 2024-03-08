@@ -69,7 +69,7 @@ sudo apt-get dist-upgrade
 ```bash
 sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
-sudo nala install qbittorrent git screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow virt-manager jq fzf tldr ranger ncdu bat
+sudo nala install qbittorrent git screen tilix xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow virt-manager jq fzf tldr ranger ncdu bat
 
 sudo nala install tetrio-desktop
 
@@ -117,19 +117,22 @@ https://neovide.dev/
 
 ```bash
 git config --global user.email "igorcalvob@gmail.com"
-dconf write /org/gnome/desktop/background/picture-options "'spanned'"
-dconf write /org/gnome/desktop/wm/preferences/focus-new-windows "'smart'"
-dconf write /org/gnome/settings-daemon/plugins/media-keys/volume-step 2
-dconf write /org/gnome/desktop/interface/clock-show-seconds true
-dconf write /org/gnome/desktop/interface/clock-show-weekday true
-dconf write /org/gnome/desktop/interface/clock-show-date true
+
+dconf write /org/gnome/desktop/background/picture-options "'spanned'" |
+dconf write /org/gnome/desktop/wm/preferences/focus-new-windows "'smart'" |
+dconf write /org/gnome/settings-daemon/plugins/media-keys/volume-step 2 |
+dconf write /org/gnome/desktop/interface/clock-show-seconds true |
+dconf write /org/gnome/desktop/interface/clock-show-weekday true |
+dconf write /org/gnome/desktop/interface/clock-show-date true |
 dconf write /org/gnome/desktop/calendar/show-weekdate true
 
 sudo update-grub
 sudo update-alternatives --config x-terminal-emulator
 sudo modprobe razerkbd
 sudo sensors-detect
+
 dconf load /com/gexperts/Tilix/ < tilix.dconf
+tilix -> linux colors
 ```
 
 #### 8. Python
