@@ -1,11 +1,8 @@
 [/]
-app-title='${appName}: ${sessionName}'
 new-instance-mode='focus-window'
-prompt-on-close-process=false
 prompt-on-delete-profile=true
 prompt-on-new-session=false
 quake-specific-monitor=0
-session-name='${directory} '
 theme-variant='dark'
 warn-vte-config-issue=false
 
@@ -22,17 +19,15 @@ terminal-scroll-down='disabled'
 list=['2b7c4080-0ddd-46c5-8f23-563fd3ba789d']
 
 [profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d]
-background-color='#272822'
-badge-color='#AC7EA8'
+background-color='#272728282222'
 badge-color-set=false
 bold-color-set=false
 cursor-colors-set=false
-custom-command='btop --tty_on'
+custom-command='fish'
 foreground-color='#F8F8F2'
 highlight-colors-set=false
 login-shell=true
-palette=['#000000', '#AA0000', '#00AA00', '#AA5400', '#0000AA', '#AA00AA', '#00AAAA', '#AAAAAA', '#545454', '#FF5454', '#54FF54', '#FFFF54', '#5454FF', '#FF54FF', '#54FFFF', '#FFFFFF']
-terminal-title='${id}: ${directory}'
+palette=['#272728282222', '#E8E80D0D5B5B', '#0000BCBC5858', '#CECE91913B3B', '#1C1C7171D8D8', '#8D8D4F4FFFFF', '#6767EFEFDCDC', '#C0C0BFBFBCBC', '#757571715E5E', '#F9F926267070', '#1C1CD3D37272', '#F4F4BFBF7474', '#42428989E0E0', '#AEAE8181FFFF', '#A1A1EFEFE4E4', '#F6F6F5F5F4F4']
 use-custom-command=true
-use-theme-colors=true
+use-theme-colors=false
 visible-name='Default'

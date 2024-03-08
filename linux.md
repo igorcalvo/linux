@@ -131,8 +131,8 @@ sudo update-alternatives --config x-terminal-emulator
 sudo modprobe razerkbd
 sudo sensors-detect
 
+<!-- dconf dump /com/gexperts/Terminix/ > terminix.dconf -->
 dconf load /com/gexperts/Tilix/ < tilix.dconf
-tilix -> linux colors
 ```
 
 #### 8. Python
