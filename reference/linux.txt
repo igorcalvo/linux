@@ -1,0 +1,397 @@
+------------------
+DEBIAN
+------------------
+
+su -
+apt install gnome-core
+systemctl start gdm3
+
+terminal
+su -
+gnome-text-editor /etc/sudoers
+chmod 0440 /etc/sudoers
+
+sudo apt-get remove --purge pavucontrol
+sudo apt-get install pulseaudio pavucontrol
+sudo reboot
+
+------------------
+INSTALL
+------------------
+sudo apt install nala
+sudo nala install -y nvidia-driver-libs:i386 curl
+echo "deb [signed-by=/usr/share/keyrings/polychromatic.gpg] http://ppa.launchpad.net/polychromatic/stable/ubuntu focal main" | sudo tee /etc/apt/sources.list.d/polychromatic.list
+curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc0d54c34d00160459588000e96b9cd7c22e2c8c5' | sudo gpg --dearmour -o /usr/share/keyrings/polychromatic.gpg
+
+echo 'deb http://download.opensuse.org/repositories/hardware:/razer/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/hardware:razer.list
+curl -fsSL https://download.opensuse.org/repositories/hardware:razer/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/hardware_razer.gpg > /dev/null
+
+sudo gnome-text-editor /etc/apt/sources.list
+deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
+
+---
+#deb cdrom:[Debian GNU/Linux 12.2.0 _Bookworm_ - Official amd64 NETINST with firmware 20231007-10:28]/ bookworm main non-free-firmware
+deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian/ bookworm main non-free-firmware
+
+deb http://security.debian.org/debian-security bookworm-security main non-free-firmware
+deb-src http://security.debian.org/debian-security bookworm-security main non-free-firmware
+
+# bookworm-updates, to get updates before a point release is made;
+# see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
+deb http://deb.debian.org/debian/ bookworm-updates main non-free-firmware
+deb-src http://deb.debian.org/debian/ bookworm-updates main non-free-firmware
+
+# This system was installed using small removable media
+# (e.g. netinst, live or single CD). The matching "deb cdrom"
+# entries were disabled at the end of the installation process.
+# For information about how to configure apt package sources,
+# see the sources.list(5) manual.
+
+deb http://deb.debian.org/debian bookworm-backports main contrib non-free
+
+---
+sudo nala update
+
+sudo nala -y polychromatic openrazer-meta nvidia-driver firmware-misc-nonfree qbittorrent
+sudo dpkg --add-architecture i386 && sudo apt update
+sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
+
+sudo nala install git tilix screen xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters drawing aptitude unrar qdirstat trash-cli grub-customizer
+
+sudo nala tetrio-desktop
+sudo aptitude install tetrio-desktop
+
+sudo reboot
+
+------------------
+WEBSITES
+------------------
+https://discord.com/download
+https://github.com/VSCodium/vscodium/releases
+https://www.onlyoffice.com/download-desktop.aspx
+https://www.microsoft.com/en-us/edge/download
+https://github.com/th-ch/youtube-music/releases
+https://www.jetbrains.com/toolbox-app/
+
+cd /home/calvo/Desktop | find . -type f -name '*.deb' | grep -i '*.deb' | xargs -i sudo dpkg -i {}
+
+------------------
+CONFIG
+------------------
+sudo update-alternatives --config x-terminal-emulator
+sudo modprobe razerkbd
+git config --global user.email "igorcalvob@gmail.com" | git config --global user.name "igorcalvo"
+sudo sensors-detect
+
+sudo rm /usr/lib/python3.11/EXTERNALLY-MANAGED
+pip install pandas scipy pysimplegui mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python
+
+sudo nano /etc/default/grub
+sudo update-grub
+
+------------------
+TILIX
+------------------
+Appearance
+	Theme variant Dark
+Shortcuts
+	Copy  -> cntrl + ins
+	Paste -> shift + ins
+	Terminal Right -> cntrl + shift + right arrow
+	Terminal Down -> cntrl + shift + down arrow
+	Close Terminal -> cntrl + w
+Profiles
+	Color
+		monokai dark
+		black: #272822
+		black light: #75715E
+		green: #1CD372
+		red: #F92672
+	Command
+		Run command as a login shell
+
+------------------
+DUPLICATE ICONS
+------------------
+cd /usr/share/applications/
+find . -type f -name 'krita*' | grep -i 'krita*' | xargs -i cp {} /home/calvo/.local/share/applications/
+find . -type f -name 'gnome-software-local-file*' | grep -i 'gnome-software-local-file*' | xargs -i cp {} /home/calvo/.local/share/applications/
+cd /home/calvo/local/share/.applications/
+find . -name 'krita*' | xargs echo "Hidden=true" >> {}
+
+find Documents \( -name "*.py" -o -name "*.html" \)
+
+-backup
+find . -name 'krita*' -exec gnome-text-editor {} +
+find . -name 'gnome-software-local-file*' -exec gnome-text-editor {} +
+
+------------------
+STARTUP
+------------------
+gnome-tweaks + create startup app to run startup.sh
+
+OR
+
+touch Scripts/startup.sh
+chmod +x ./startup.sh
+gedit ./startup.sh
+
+https://askubuntu.com/a/674844
+
+startup at search and add script
+
+---
+la -a
+gnome-text-editor .bashrc
+touch .bash_aliases
+
+alias sudo='sudo '
+alias gedit='gnome-text-editor'
+alias track-mouse='while true; do clear; xdotool getmouselocation; sleep 0.1; done'
+---
+
+screen -d -m pavucontrol
+screen -d -m youtube-music
+screen -d -m steam -silent
+screen -d -m discord
+
+sleep 2
+audio_process=$(pgrep pavucontrol)
+pacmd set-default-sink alsa_output.pci-0000_07_00.4.analog-stereo
+xdotool windowminimize `xdotool search --pid $audio_process | tail -1`
+
+yt_process=$(pgrep youtube-music | head -n1)
+xdotool windowclose `xdotool search --pid $yt_process | tail -1`
+
+sleep 5
+discord_process=$(pgrep Discord | head -n1)
+xdotool windowclose `xdotool search --pid $discord_process | tail -1`
+
+xdotool mousemove 3000 500
+xdotool click 1
+xdotool windowminimize `xdotool search --pid $audio_process | tail -1`
+
+exit
+
+------------------
+KEYBOARD SHORTCUTS
+------------------
+Keyboard Shortcuts -> Custom
+/usr/bin/flameshot gui -> win + shift + s
+xdg-open . -> win + e
+sudo shutdown -r now / systemctl reboot -> ctrl + alt + break
+sudo shutdown -h now / sh /home/calvo/Scripts/shutdown.sh -> ctrl + break
+sh /home/calvo/Scripts/update.sh -> ctrl + alt + u
+sh /home/calvo/Scripts/cs_kill.sh -> ctrl + alt + f
+sh /home/calvo/Scripts/cs_in.sh -> ctrl + alt + g
+sh /home/calvo/Scripts/cs_out.sh -> ctrl + alt + h
+hide all windows -> win + d
+tilix -> ctrl + alt + t
+
+
+------------------
+DCONF
+------------------
+org - gnome - settings-daemons - plugins - media-keys - volume-step = 2
+
+------------------
+GNOME TWEAKS
+------------------
+Top Bar -> Clock all on
+
+------------------
+SSH
+------------------
+ssh-keygen -t rsa
+cd /home/calvo/.ssh
+xclip -sel c id_rsa.pub
+
+------------------
+RICING
+------------------
+https://www.gnome-look.org/p/1356095
+/usr/share/icons
+
+https://www.gnome-look.org/p/1256209
+find ./ -name "kora*" | xargs -i sudo mv -i {} /usr/share/icons
+
+green
+https://www.gnome-look.org/p/1013030
+https://www.pling.com/p/1299514/
+https://www.gnome-look.org/p/1273210
+
+THE ONE
+https://www.gnome-look.org/p/1977647
+shift by 0.1
+
+------------------
+DESKTOP & LOGIN
+------------------
+gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters
+sudo apt-get install gtk-3-examples gtk3-icon-browser gnome-backgrounds
+
+-- Audio Output Switcher
+Clipboard Indicator - Tudmotu
+Color Picker
+Dash to Dock - michele d
+Impatience
+Just Perfection
+Lock Keys - kazimeiras
+OpenWeather
+--Time++
+Vitals
+Desktop Icons NG(DING)
+Tray Icons: Reloaded
+Blur my Shell
+
+gsettings set org.gnome.desktop.background picture-options spanned
+
+------------------
+FOLDER
+------------------
+~/.local/share/applications
+books.desktop
+
+[Desktop Entry]
+Name=Books
+Comment=Books
+Keywords=folder;manager;explore;disk;filesystem;
+Exec=nautilus /home/calvo/Books
+Icon=/home/calvo/Pictures/Icons/book.png
+Terminal=false
+Type=Application
+
+------------------
+Gnome-Classic
+------------------
+
+sudo nano /usr/share/gnome-shell/modes/classic.json
+
+"panel": { "left": ["appMenu"],
+       "center": ["dateMenu"],
+       "right": ["a11y", "keyboard", "quickSettings"]
+     }
+
+cd /usr/share/gnome-shell/themes
+sudo mkdir My-Theme
+sudo mkdir gnome-shell
+sudo touch gnome-shell.css
+
+enable Window List extension
+
+gnome-text-editor ~/.local/share/gnome-shell/dash-to-dock@micxgx.gmail.com/stylesheet.css
+
+#dashtodockContainer.bottom #dash {
+  margin: 0px;
+  margin-bottom: 40px;
+
+------------------
+GAMING
+------------------
+cs2: -fullscreen
+
+------------------
+PLANNER
+------------------
+sudo add-apt-repository ppa:flatpak/stable
+sudo apt update
+sudo apt install flatpak
+sudo apt install gnome-software-plugin-flatpak
+
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.github.alainm23.planne
+
+------------------
+ANKI
+------------------
+https://apps.ankiweb.net/
+sudo apt install libxcb-xinerama0 libxcb-cursor0
+
+1771074083
+3918629684
+613684242
+947935257
+1152543397
+Add Ons" --> "config", and make sure that the interval coefficient is set to 0.0
+
+30	9999		off	1m 5m 15m	1	4	Sequential
+2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
+600	off	off	off	off	off	off	180	2.5	1.3	1	1.2	0
+
+------------------
+MISC
+------------------
+sudo passwd --delete calvo
+
+sudo nano /etc/default/grub
+sudo update-grub
+
+history -d 2031-2034
+
+sudo find . -type f -name '*.kws'
+
+mouse
+while true; do clear; xdotool getmouselocation; sleep 0.1; done
+
+------------------
+UBUNTU
+------------------
+FIREFOX
+------------------
+sudo snap remove firefox
+sudo apt remove firefox
+
+sudo add-apt-repository ppa:mozillateam/ppa
+
+echo '                                                                                                                                            
+Package: *
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+
+echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+
+sudo apt install firefox
+
+------------------
+23.10 CLEANUP
+------------------
+sudo apt-get remove -y --purge libreoffice\* thunderbird\*
+sudo apt-get remove -y gnome-text-editor remmina
+sudo apt-get clean
+sudo apt-get autoremove -y
+sudo apt --fix-broken install -y
+
+------------------
+INSTALL
+------------------
+sudo add-apt-repository -y ppa:polychromatic/stable |
+sudo add-apt-repository -y ppa:openrazer/stable |
+sudo add-apt-repository -y ppa:qbittorrent-team/qbittorrent-stable |
+sudo add-apt-repository -y multiverse
+sudo apt-get update -y | sudo apt-get upgrade -y | sudo apt-get dist-upgrade -y
+
+sudo apt install -y firefox polychromatic openrazer-meta qbittorrent steam nvidia-driver-535
+sudo apt-get install -y pavucontrol git fuse libfuse2 lightdm
+sudo apt install -y tilix screen xdotool gedit python3-pip curl krita flameshot xclip lm-sensors vlc nodejs npm calibre lightdm-gtk-greeter-settings ffmpeg
+
+------------------
+FIXES
+------------------
+SLOW SHUTDOWN
+
+qbittorrent_process=$(pgrep qbittorrent)
+kill $qbittorrent_process
+sleep 7s
+
+sudo ln -s /home/calvo/Scripts/qbittorrent.sh /etc/rc0.d/K99close-qbittorrent
+sudo ln -s /home/calvo/Scripts/qbittorrent.sh /etc/rc6.d/K99close-qbittorrent
+
+DESKTOP
+
+sudo apt-get install unity-control-center
+sudo apt-get remove unity-control-center
+
+sudo apt install gnome-shell-extension-desktop-icons-ng
+https://askubuntu.com/questions/1280798/repeating-error-cant-install-desktop-iconscsoriano/1281240#1281240

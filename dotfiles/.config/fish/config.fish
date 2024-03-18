@@ -10,6 +10,7 @@ alias nvim2 "/home/calvo/.cargo/bin/neovide"
 alias disk "ncdu"
 alias cat "command batcat"
 alias ls "command eza"
+alias rm "command trash"
 
 zoxide init fish --cmd cd | source
 

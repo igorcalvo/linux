@@ -1,0 +1,199 @@
+Download Linux Distro
+Download Rufus (Bootable PenDrive)
+Make Bootable Pendrive
+Change BIOS Load Order to Pendrive first
+Disable Secure Boot on BIOS (?)
+
+UBUNTU
+
+Ubuntu (safe graphics)
+English -> Install Ubuntu
+Detect Keyboard Layout
+Connect to WiFi
+Normal Installation
+Download updates while installing
+Install third-party software
+Configure Secure Boot
+Erase disk and intall Ubuntu (Advanced -> Use LVM (unencrypted))
+sudo apt update -y && sudo apt upgrade -y
+
+MINT
+
+Start Linux Mint
+English
+Detect Keyboard Layout
+Install the multimedia codecs
+*Configure Secure Boot
+Erase disk and intall Linux Mint (Advanced -> Use LVM (unencrypted))
+sudo apt update -y && sudo apt upgrade -y
+
+
+SOFTWARES
+
+* Check if not already installed (apt list --installed | grep "package" / sudo apt-get install ./file.deb)
+- Google Chrome (web, toggle memory saver chrome://settings/performance)
+- Microsoft Edge (web, for Bing Chat)
+- Brave (web, privacy browser)
+- Update Drivers (NVidia 525)
+- Tilix Terminal (sudo apt install tilix)
+- VSCode (web)
+- Visual Studio (web)
+- Docker Desktop (web + repository, edit resource usage, linux-commands.txt --- DOCKER INSTALL ---)
+- Azure Data Studio (web) (https://github.com/microsoft/pgtoolsservice/issues/280#issuecomment-1186669813)
+- MongoDB Compass (web)
+- CopyQ (sudo apt install copyq) (File->Preferences->Autostart, File->Preferences->Shorcuts->Show/hide->Win+V, File-Preferences->History->Max:50)
+- Surfshark VPN (web)
+- QDirStat (sudo apt install qdirstat)
+- VLC (sudo snap install vlc)
+- Git (sudo apt install git -y) /
+  + (git config --global user.email "thiago.pessia@gmail.com" && git config --global user.name "Tpessia" && git config --global credential.helper store && git config --global core.filemode false)
+  + nano ~/.bashrc:
+  `parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  }
+  if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(parse_git_branch)\[\033[00m\]\$ '
+    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+  else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  fi`
+- NVM (Node/NPM) (git)
+- OnlyOffice (https://www.onlyoffice.com/download-desktop.aspx)
+- Flameshot (sudo apt install flameshot)
+- Pinta (MS Paint alternative, sudo apt-get install pinta)
+- rclone (google drive sync, linux-command.txt --- RCLONE ---, https://ostechnix.com/mount-google-drive-using-rclone-in-linux/, https://forum.rclone.org/t/auto-mount-on-reboot/7069/7)
+- psensor (hardware temp + usage) (https://wpitchoune.net/psensor/ -> https://wpitchoune.net/psensor/ubuntu.html, https://askubuntu.com/questions/776977/authentication-is-required-to-update-smart-data-from-in-16-04) (Startup -> Enable, Hide Window)
+- GParted (sudo apt install gparted)
+- Battery Optimizer (https://github.com/linrunner/TLP: sudo apt install tlp tlp-rdw; systemctl enable tlp.service; sudo tlp start)
+- Acer Battery 80% (https://github.com/frederik-h/acer-wmi-battery,
+  sudo cp ./acer-wmi-battery.ko /lib/modules/`uname -r` && sudo depmod -a && sudo modprobe acer_wmi_battery && echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode && lsmod | grep "acer_wmi_battery" (check),
+  check config startup.service,
+  https://github.com/linrunner/TLP/issues/596)
+
+
+CONFIGS
+
+- SWAP:
+  - If Default Swap: echo vm.swappiness=(25 if RAM>8GB, 80 if RAM<=8GB) | sudo tee -a /etc/sysctl.conf (modify vm.swappiness, vm.vfs_cache_pressure, vm.overcommit_memory, transparent_hugepage)
+  - if Swap Off + zram: same as Default Swap + disable zswap + comment out from /etc/fstab + sudo swapoff -a + sudo apt install zram-tools + sudo zramswap stop /
+    + sudo nano /etc/default/zramswap + PERCENT=25 + PRIORITY=100 + sudo zramswap start + Verify: zramctl + free -m
+  - If Swap On + zswap: same as Default Swap + disable zram + sudo nano /etc/default/grub + GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.compressor=lz4 zswap.max_pool_percent=20 zswap.zpool=z3fold" \
+    + sudo update-grub + echo z3fold | sudo tee -a /etc/initramfs-tools/modules + sudo update-initramfs -u /
+    + Verify after boot: dmesg | grep zswap + cat /sys/module/zswap/parameters/max_pool_percent
+  - If Swap Crashes: https://askubuntu.com/a/736956 (disable swap - /etc/fstab)
+- Hide GRUB if single-boot (https://askubuntu.com/questions/1123290/grub-timeout-in-etc-default-grub-not-changing-the-wait-time-with-lvm)
+- Enable Magic Key funcs: echo "kernel.sysrq = 240" >> /etc/sysctl.d/99-sysctl.conf
+- Create default startup service
+  > sudo nano /usr/local/bin/startup
+  `
+  #!/bin/sh
+
+  . /lib/lsb/init-functions
+
+  log_daemon_msg "Starting Startup Service"
+
+  echo 1 | sudo tee /sys/bus/wmi/drivers/acer-wmi-battery/health_mode
+
+  log_daemon_msg "Stoping Startup Service"
+  `
+  > sudo chmod +x /usr/local/bin/startup
+  > sudo chown root:root /usr/local/bin/startup
+  > sudo nano /etc/systemd/system/startup.service
+  `
+  [Unit]
+  Description=startup
+  After=syslog.target
+  Wants=syslog.target
+
+  [Service]
+  Type=oneshot
+  ExecStart=/usr/local/bin/startup
+
+  [Install]
+  WantedBy=default.target
+  `
+  > sudo systemctl start startup
+  > sudo systemctl status startup
+  > journalctl -xeu startup.service
+  > sudo systemctl enable startup
+- Create public folder and group
+  > sudo groupadd public
+  > sudo usermod -aG public pessia
+  > sudo mkdir /data
+  > sudo chown -R :public /data
+  > sudo chmod -R 770 /data
+  > echo '' > /data/public.txt (also favorite this file)
+
+
+DISTRO:KUBUNTU
+
+- Disable Klipper Clipboard: RightClick taskbar arrow -> Configure System Tray -> Entries -> Clipboard -> Disabled
+- Always show battery: RightClick taskbar arrow -> Configure System Tray -> Entries -> Battery -> Always show
+- System Settings -> Mouse -> Touchpad -> Tap to click | Invert scroll
+- System Settings -> Power Management -> Dim Screen | Screen Energy Saving | Suspend Session
+- System Settings -> Workspace Behavior -> Screen Locking -> After
+- System Settings -> Windows Management -> Task Switcher -> Compact
+- System Settings -> Shortcuts -> Custom -> New Group -> Custom -> New -> Global -> Command/Url
+- Default Applications -> Browser -> Chrome
+- Plasma Search -> Disable Activities, Bookmarks, Browser History, Browser Tabs, Kate Sessions, Konsole Profiles, Web Search Keywords, Windows
+- Dolphin: Menu → Configure → Configure toolbars -> Bookmarks
+- Wallpaper/Lock screen: Screen Locking -> Appearance
+- Shortcuts:
+  - Session Management -> Log out (Ctrl + Alt + Del)
+  - Session Management -> Lock session (Win + L)
+  - KDE Daemon: Show System Activity (Ctrl + Shift + Esc)
+  - TTY ("Ctrl + Alt + [Number 1-6]") ("top", "sudo kill -9 [PID]", Ctrl + D to close)
+  - TTY UI ("Ctrl + Alt + [Number 7-N]")
+  - Disable Ctrl + . (IBus Preferences -> Emoji -> Emoji annotation -> remove ctrl + .)
+  - SysRq Reset: Fn+Alt+PrtSc+r+e+i+s+u+b (acronym Reboot Even If System Utterly Broken)
+  - SysRq OOM-Killer: Fn+Alt+PrtSc+f (same as echo f > /proc/sysrq-trigger)
+  - Reset Plasma DE ("Ctrl + Win + X" = "killall plasmashell && plasmashell")
+  - Open terminal ("Win + C" = "tilix")
+  - Xkill ("Win + X" = "xkill")
+  - Flameshot ("Ctrl + PrtScr" = "flameshot gui")
+  - CopyQ (Win + V)
+- Apps:
+  - Kate (Windows Notepad alternatives)
+  - Dolphin File Manager (General->Behavior->Use common display style, View Modes->Details->Preview icon size:smallest)
+
+
+DISTRO:CINNAMON
+
+- Touchpad -> Tap to click
+- Power Management -> Never
+- Screensaver -> Never
+- World Clock Calendar Applet
+- Cursor Theme (https://www.cinnamon-look.org/p/1381208)
+- Shortcuts:
+  - Shut down (Ctrl + Alt + Del)
+  - Log out (Ctrl + Alt + End)
+  - Lock screen -> Win + L
+  - Open System Monitor ("Ctrl + Shift + Esc" = "> gnome-system-monitor")
+  - Disable Alt + Move Window (System Settings -> Windows -> Behavior -> Special key to move and resize windows)
+  - Kill Cinnamon DE (Ctrl + Win + Backspace)
+  - Reset Cinnamon DE ("Ctrl + Win + X" = "Restart Cinnamon")
+  - TTY ("Ctrl + Alt + [Number 1-6]") ("top", "sudo kill -9 [PID]", Ctrl + D to close)
+  - TTY UI ("Ctrl + Alt + [Number 7-N]")
+  - Disable Ctrl + . (IBus Preferences -> Emoji -> Emoji annotation -> remove ctrl + .)
+  - SysRq Reset: Fn+Alt+PrtSc+r+e+i+s+u+b (acronym Reboot Even If System Utterly Broken)
+  - SysRq OOM-Killer: Fn+Alt+PrtSc+f (same as echo f > /proc/sysrq-trigger)
+  - Open terminal ("Win + C" = "tilix")
+  - Xkill ("Win + X" = "xkill")
+  - Flameshot ("Ctrl + PrtScr" = "flameshot gui")
+  - CopyQ (Win + V)
+- Apps:
+  - Xed Text Editor (Windows Notepad alternatives)
+  - Nemo File Manager
+
+
+TUNING/BENCHMARK
+
+- Blender Benchmark (https://opendata.blender.org/)
+- Undervolt/GUI (https://github.com/georgewhewell/undervolt / https://github.com/lukechadwick/linux-intel-undervolt-gui)
+- CPU-X (https://github.com/TheTumultuousUnicornOfDarkness/CPU-X)
+- memtester (sudo memtester 200M 1)
+- smartmontools (disk analysis)
+- RAM Dual Channel, Dual Rank, Frequency (MHz), CAS, Timing, DDR version
+
+- sysbench
+- 7-zip (apt install p7zip-full) (https://www.7-cpu.com/) (7z b -mmt1 [single thread] / 7z b [multi thread])
