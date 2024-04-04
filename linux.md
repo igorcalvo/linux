@@ -72,7 +72,7 @@ sudo apt-get dist-upgrade
 ```bash
 sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree ascii-image-converter
 sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
-sudo nala install qbittorrent git screen tilix xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow virt-manager jq fzf tldr ranger ncdu bat cpufetch stress glmark2 imagemagick
+sudo nala install qbittorrent git screen tilix xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow virt-manager jq fzf tldr ranger ncdu bat cpufetch stress glmark2 imagemagick pandoc
 
 sudo nala install tetrio-desktop
 
