@@ -751,6 +751,10 @@ local servers = {
 -- Setup neovim lua configuration
 require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
+  override = function(root_dir, library)
+    library.enabled = true
+    library.plugins = true
+  end,
 })
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
