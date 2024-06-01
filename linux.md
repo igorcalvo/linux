@@ -269,3 +269,134 @@ enabled = true
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
+
+#### 17. Arch BTW
+```bash
+
+efivar -l
+setfont ter-c18n
+
+ip link
+ping archlinux.org
+
+iwctl
+help
+device list
+station wlan0 scan
+station wlan0 get-networks
+station wlan0 connect ¨AP 81 - 5G¨
+exit
+
+timedatectl
+timedatectl set-timezone America/Sao_Paulo
+timedatectl
+
+fdisk -l
+fdisk /dev/nvme0n1
+m
+...
+efi +1G
+swap +4G
+root
+...
+w
+
+mkfs.fat -F32 /dev/nvme0n1p1
+mkswap /dev/nvme0n1p2
+mkfs.ext4 /dev/nvme0n1p3
+
+mount /dev/nvme0n1p3 /mnt
+mount -o fmask=0077,dmask=0077 --mkdir /dev/nvme0n1p1 /mnt/boot
+swapon /dev/nvme0n1p2
+
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+sudo pacman -Sy pacman-contrib
+rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+pacstrap -K /mnt base linux linux-firmware
+
+genfstab -U -p /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+pacman -S vim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager
+
+vim /etc/locale.gen
+/en_US
+locale-gen
+echo LANG=en_US-UTF-8 > /etc/locale.conf
+export LANG=en_US.UTF-8
+
+ln -s /usr/share/zoneinfo/Brazil/East > /etc/localtime
+hwclock --systohc --utc
+
+echo arch-hostname > /etc/hostname
+systemctl enable fstrim.timer
+vim /etc/pacman.conf
+/multilib
+pacman -Sy
+passwd
+useradd -m -g users -G wheel,storage,power -s bin/bash calvo
+passwd calvo
+EDITOR=vim visudo
+/%wheel
+G
+Defaults rootpw
+
+ls /sys/firmware/efi/efivars
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
+bootctl install
+
+bootctl remove
+sudo umount /boot
+sudo mount -o fmask=0077,dmask=0077 /dev/nvme01n1p1
+bootctl install
+
+vim /boot/loader/entries/arch.conf
+title Arch
+linux /vmlinuz-linux
+initrd /intel-ucode.img
+initrd /initramfs-linux.img
+echo ¨options root=PARTUUID=$(blk -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1¨ >> /boot/loader/entries/arch.conf
+
+cat /boot/loader/entries/arch.conf
+cat /etc/mkinitcpio.conf
+lsinitcpio --early /boot/initramfs-linux.omg > /home/calvo/init.txt
+
+ip link
+sudo systemctl enable dhcpcd@wlo1.service
+sudo systemctl enable NetworkManager.service
+
+pacman -S nvidia-dkms libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
+vim /etc/mkinitcpio.conf
+MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+mkdir /etc/pacman.d/hooks
+vim /etc/pacman.d/hooks/nvidia.hook
+
+[Trigger]
+Operation=Install
+Operation=Upgrade
+Operation=Remove
+Type=Package
+Target=nvidia
+
+[Action]
+Depends=mkinitcpio
+When=PostTransaction
+Exec=/usr/bin/mkinitcpio -P
+
+exit (until red)
+umount -R /mnt
+reboot
+
+nmtui
+
+su -
+chmod 0440 /etc/sudoers
+nano /etc/sudoers
+
+# User privilege specification
+root	ALL=(ALL:ALL) ALL
+calvo	ALL=(ALL) ALL
+
+apt install gnome-core
+systemctl start gdm3
+sudo reboot
+```
