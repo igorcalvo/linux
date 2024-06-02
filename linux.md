@@ -387,6 +387,20 @@ umount -R /mnt
 reboot
 
 nmtui
+sudo pacman -S gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji
+pacman -Sy archinstall archlinux-keyring
+
+https://github.com/Jguer/yay
+sudo pacman -S git base-devel neovim kitty
+git clone https://aur.archlinux.org/yay.git
+makepkg -si
+yay --version
+
+hyprland wiki
+quickstart
+nvidia
+wrapper
+libs install
 
 su -
 chmod 0440 /etc/sudoers
