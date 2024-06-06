@@ -316,15 +316,16 @@ pacstrap -K /mnt base linux linux-firmware
 
 genfstab -U -p /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
-pacman -S vim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager
+pacman -S vim nvim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager
 
-vim /etc/locale.gen
+nvim /etc/locale.gen
 /en_US
+
 locale-gen
 echo LANG=en_US-UTF-8 > /etc/locale.conf
 export LANG=en_US.UTF-8
 
-ln -s /usr/share/zoneinfo/Brazil/East > /etc/localtime
+ln -s /usr/share/zoneinfo/America/Sao_Paulo > /etc/localtime
 hwclock --systohc --utc
 
 echo arch-hostname > /etc/hostname
@@ -333,7 +334,7 @@ vim /etc/pacman.conf
 /multilib
 pacman -Sy
 passwd
-useradd -m -g users -G wheel,storage,power -s bin/bash calvo
+useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
 EDITOR=vim visudo
 /%wheel
@@ -354,19 +355,19 @@ title Arch
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-echo ¨options root=PARTUUID=$(blk -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1¨ >> /boot/loader/entries/arch.conf
+echo ¨options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1¨ >> /boot/loader/entries/arch.conf
 
 cat /boot/loader/entries/arch.conf
 cat /etc/mkinitcpio.conf
 lsinitcpio --early /boot/initramfs-linux.omg > /home/calvo/init.txt
 
 ip link
-sudo systemctl enable dhcpcd@wlo1.service
 sudo systemctl enable NetworkManager.service
 
 pacman -S nvidia-dkms libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
 vim /etc/mkinitcpio.conf
 MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+HOOKS(= -kms)
 mkdir /etc/pacman.d/hooks
 vim /etc/pacman.d/hooks/nvidia.hook
 
@@ -382,11 +383,14 @@ Depends=mkinitcpio
 When=PostTransaction
 Exec=/usr/bin/mkinitcpio -P
 
+mkinitcpio -P
 exit (until red)
 umount -R /mnt
 reboot
 
 nmtui
+sudo systemctl enable dhcpcd@wlo1.service
+
 sudo pacman -S gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji
 pacman -Sy archinstall archlinux-keyring
 
