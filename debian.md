@@ -1,202 +1,35 @@
 ```
-                   -`                
-                  .o+`               
-                 `ooo/               
-                `+oooo:              
-               `+oooooo:             
-               -+oooooo+:            
-             `/:-:++oooo+:           
-            `/++++/+++++++:          
-           `/++++++++++++++:         
-          `/+++ooooooooooooo/`       
-         ./ooosssso++osssssso+`      
-        .oossssso-````/ossssss+`     
-       -osssssso.      :ssssssso.    
-      :osssssss/        osssso+++.   
-     /ossssssss/        +ssssooo/-   
-   `/ossssso+/:-        -:/+osssso+- 
-  `+sso+:-`                 `.-/+oso:
- `++:.                           `-/+
- .`                                 `/
-
+       _,met$$$$$gg.       
+    ,g$$$$$$$$$$$$$$$P.    
+  ,g$$P"     """Y$$.".     
+ ,$$P'              `$$$.  
+',$$P       ,ggs.     `$$b:
+`d$$'     ,$P"'   .    $$$ 
+ $$P      d$'     ,    $$P 
+ $$:      $$.   -    ,d$$' 
+ $$;      Y$b._   _,d$P'   
+ Y$$.    `.`"Y$$$$P"'      
+ `$$b      "-.__           
+  `Y$$                     
+   `Y$$.                   
+     `$$b.                 
+       `Y$$b.              
+          `"Y$b._          
+              `"""         
 ```
-### Arch Install
-#### 1. Verifying boot and setting font
+#### 1. Getting sudo & desktop
 ```bash
-efivar -l
-setfont ter-u20b
-```
-
-#### 2. Internet connection
-```bash
-ip link
-
-iwctl
-help
-device list
-station wlan0 scan
-station wlan0 get-networks
-station wlan0 connect ¨AP 81 - 5G¨
-exit
-
-ping archlinux.org
-```
-
-#### 3. Disk partiotioning
-
-| Type | Size |
-|--------------- | --------------- |
-| EFI | +1G |
-| SWAP | +4G |
-| ROOT | |
-<!-- |    |    | -->
-
-```bash
-fdisk -l
-fdisk /dev/nvme0n1
-m
-w
-
-mkfs.fat -F32 /dev/nvme0n1p1
-mkswap /dev/nvme0n1p2
-mkfs.ext4 /dev/nvme0n1p3
-
-mount /dev/nvme0n1p3 /mnt
-mount -o fmask=0077,dmask=0077 --mkdir /dev/nvme0n1p1 /mnt/boot
-swapon /dev/nvme0n1p2
-```
-
-#### 4. Pacman mirrors
-```bash
-sudo pacman -Sy archlinux-keyring pacman-contrib
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
-```
-
-#### 5. Update Image & Root
-```bash
-pacstrap -K /mnt base linux linux-firmware
-genfstab -U -p /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-pacman -S nvim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel
-```
-
-#### 6. Language, Location & Time
-```bash
-nvim /etc/locale.gen
-/en_US
-x
-
-locale-gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-export LANG=en_US.UTF-8
-
-ln -s /usr/share/zoneinfo/America/Sao_Paulo > /etc/localtime
-hwclock --systohc --utc
-timedatectl set-timezone America/Sao_Paulo
-timedatectl
-```
-
-#### 7. Hostname & User
-```bash
-echo arch-hostname > /etc/hostname
-
-passwd
-useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
-passwd calvo
-EDITOR=neovim visudo
-/%wheel
-G
-Defaults rootpw
+su -
+chmod 0440 /etc/sudoers
+nano /etc/sudoers
 
 # User privilege specification
 root	ALL=(ALL:ALL) ALL
 calvo	ALL=(ALL) ALL
 
-```
-
-#### 8. Pacman mirrors
-```bash
-vim /etc/pacman.conf
-color
-parallel 15
-/multilib
-
-pacman -Sy
-pacman -Syu
-```
-
-#### 9. Boot
-```bash
-ls /sys/firmware/efi/efivars
-mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
-bootctl install
-
-nvim /boot/loader/entries/arch.conf
-
-title Arch
-linux /vmlinuz-linux
-initrd /intel-ucode.img
-initrd /initramfs-linux.img
-
-echo ¨options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1¨ >> /boot/loader/entries/arch.conf
-cat /boot/loader/entries/arch.conf
-```
-
-#### 10. Nvidia & Image
-```bash
-pacman -S nvidia-dkms libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
-nvim /etc/mkinitcpio.conf
-
-MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
-HOOKS(= -kms)
-
-mkdir /etc/pacman.d/hooks
-nvim /etc/pacman.d/hooks/nvidia.hook
-
-[Trigger]
-Operation=Install
-Operation=Upgrade
-Operation=Remove
-Type=Package
-Target=nvidia
-
-[Action]
-Depends=mkinitcpio
-When=PostTransaction
-Exec=/usr/bin/mkinitcpio -P
-
-mkinitcpio -P
-```
-
-#### 11. Services
-```bash
-sudo systemctl enable fstrim.timer
-sudo systemctl enable NetworkManager.service
-```
-
-#### 12. Reboot
-```bash
-exit (until red)
-umount -R /mnt
-reboot
-```
-
-#### 13. Internet
-```bash
-nmtui
-ping archlinux.org
-
-ip link
-sudo systemctl enable dhcpcd@wlo1.service
-```
-
-#### 14. Display Manager
-```bash
-sudo pacman -S xorg gnome
-(select numbers) - gdm, gnome-shell, etc
-sudo systemctl start gdm
-sudo systemctl enable gdm
+apt install gnome-core
+systemctl start gdm3
+sudo reboot
 ```
 
 #### 2. Adding Sources
@@ -437,31 +270,3 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
 
-#### 17. Arch BTW
-```bash
-sudo pacman -S noto-fonts-cjk noto-fonts-emoji noto-fonts
-sudo systemctl enable --now bluetooth
-
-sudo pacman -S gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji
-pacman -Sy archinstall archlinux-keyring
-
-https://github.com/Jguer/yay
-sudo pacman -S git base-devel neovim kitty
-git clone https://aur.archlinux.org/yay.git
-makepkg -si
-yay --version
-
-hyprland wiki
-quickstart
-nvidia
-wrapper
-libs install
-
-su -
-chmod 0440 /etc/sudoers
-nano /etc/sudoers
-
-apt install gnome-core
-systemctl start gdm3
-sudo reboot
-```
