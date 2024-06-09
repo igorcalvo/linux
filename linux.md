@@ -85,6 +85,9 @@ pacman -S nvim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager 
 ```bash
 nvim /etc/locale.gen
 /en_US
+/en_CA
+/en_GB
+/pt_BR.UTF-8
 x
 
 locale-gen
@@ -118,10 +121,13 @@ calvo	ALL=(ALL) ALL
 #### 8. Pacman mirrors
 ```bash
 vim /etc/pacman.conf
+```
+
 color
 parallel 15
 /multilib
 
+```bash
 pacman -Sy
 pacman -Syu
 ```
@@ -131,14 +137,15 @@ pacman -Syu
 ls /sys/firmware/efi/efivars
 mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
 bootctl install
-
 nvim /boot/loader/entries/arch.conf
+```
 
 title Arch
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
 
+```bash
 echo ¨options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1¨ >> /boot/loader/entries/arch.conf
 cat /boot/loader/entries/arch.conf
 ```
@@ -147,12 +154,14 @@ cat /boot/loader/entries/arch.conf
 ```bash
 pacman -S nvidia-dkms libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
 nvim /etc/mkinitcpio.conf
-
+```
 MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 HOOKS(= -kms)
 
+```bash
 mkdir /etc/pacman.d/hooks
 nvim /etc/pacman.d/hooks/nvidia.hook
+```
 
 [Trigger]
 Operation=Install
@@ -166,6 +175,7 @@ Depends=mkinitcpio
 When=PostTransaction
 Exec=/usr/bin/mkinitcpio -P
 
+```bash
 mkinitcpio -P
 ```
 
@@ -199,98 +209,52 @@ sudo systemctl start gdm
 sudo systemctl enable gdm
 ```
 
-#### 2. Adding Sources
+#### 15. Gnome Settings 
+
+Displays
+    Nightlight
+        Manual
+        20 to 08
+        50%
+Sound
+    Fixed after firefox install
+Power
+    Dim Screen
+    Screen Blank
+        5 Minutes
+    Automatic Suspend
+        When on Battery
+    Power Button
+        Suspend
+    Show Batter Percentage
+        On
+Multitasking
+    Fixed Number of Workspaces
+        1
+    Appearance
+        Default
+Mouse & Touchpad
+    Touchpad
+        Secondary Click
+            Corner Push
+Keyboard
+    Input Sources
+        English (US)
+        English (US, intl., with dead keys)
+System
+    Region & Language
+        Language    - English (US)
+        Formats     - United Kingdom
+    Date & Time
+        Automatic Date & Time
+            On
+        Time Zone
+            Sao Paulo, Brazil
+        Time Format
+            24 H
+        Clock & Calendar
+            All On
 ```bash
-sudo apt install nala curl
-
-# Polychromatic
-echo "deb [signed-by=/usr/share/keyrings/polychromatic.gpg] http://ppa.launchpad.net/polychromatic/stable/ubuntu focal main" | sudo tee /etc/apt/sources.list.d/polychromatic.list
-curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc0d54c34d00160459588000e96b9cd7c22e2c8c5' | sudo gpg --dearmour -o /usr/share/keyrings/polychromatic.gpg
-
-# Razer
-echo 'deb http://download.opensuse.org/repositories/hardware:/razer/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/hardware:razer.list
-curl -fsSL https://download.opensuse.org/repositories/hardware:razer/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/hardware_razer.gpg > /dev/null
-
-# Floorp
-curl -fsSL https://ppa.ablaze.one/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/Floorp.gpg
-sudo curl -sS --compressed -o /etc/apt/sources.list.d/Floorp.list 'https://ppa.ablaze.one/Floorp.list'
-
-# ascii-image-converter
-echo 'deb [trusted=yes] https://apt.fury.io/ascii-image-converter/ /' | sudo tee /etc/apt/sources.list.d/ascii-image-converter.list
-
-# Nvidia proprietary drivers
-sudo nano /etc/apt/sources.list
-
-contrib non-free non-free-firmware
-deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
-
-deb http://deb.debian.org/debian bookworm-backports main contrib non-free
-```
-
-#### 3. Updating
-```bash
-sudo dpkg --add-architecture i386
-sudo nala update
-sudo nala upgrade
-sudo apt-get dist-upgrade
-```
-
-#### 4. Installing
-```bash
-sudo nala install polychromatic openrazer-meta floorp nvidia-driver firmware-misc-nonfree ascii-image-converter
-sudo nala install steam-installer mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
-sudo nala install qbittorrent git screen tilix xdotool python3-pip krita flameshot xclip vlc nodejs npm calibre ffmpeg libxcb-xinerama0 libxcb-cursor0 gir1.2-gtop-2.0 lm-sensors gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager gnome-shell-extension-desktop-icons-ng gnome-characters gnome-screensaver drawing aptitude qdirstat trash-cli grub-customizer unrar unzip gzip fish stow virt-manager jq fzf tldr ranger ncdu bat cpufetch stress glmark2 imagemagick pandoc
-
-sudo nala install tetrio-desktop
-
-sudo nala purge xsel
-sudo reboot
-```
-
-#### 5. Websites
-```bash
-https://discord.com/download
-https://github.com/VSCodium/vscodium/releases
-https://www.onlyoffice.com/download-desktop.aspx
-https://github.com/th-ch/youtube-music/releases
-https://github.com/phil294/AHK_X11/releases
-https://github.com/Nixola/VRRTest/releases/
-https://wezfurlong.org/wezterm/install/linux.html
-https://github.com/ajeetdsouza/zoxide/releases
-https://github.com/aristocratos/btop?tab=readme-ov-file#compilation-linux
-
-cd /home/calvo/Desktop
-find . -type f -name '*.deb' | grep -i '*.deb' | xargs -i sudo dpkg -i {}
-
-cargo install eza
-```
-
-#### 6. Neovim
-```bash
-https://github.com/neovim/neovim/
-https://github.com/nvim-lua/kickstart.nvim - not needed
-
-sudo nala install ninja-build gettext cmake unzip curl
-
-cd /home/calvo/Apps/Neovim/
-git clone https://github.com/neovim/neovim
-cd neovim && git fetch && git checkout release-0.9
-make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
-cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
-
-https://neovide.dev/
-```
-
-#### 7. Config
-- Grub Customizer &#8594; General Settings &#8594; 1s
-
-```bash
-git config --global user.email "igorcalvob@gmail.com"
-
-# remove ascii-image-converter's source
-sudo rm -v /etc/apt/sources.list.d/ascii-image-converter.list
-
 dconf write /org/gnome/desktop/background/picture-options "'spanned'" |
 dconf write /org/gnome/desktop/wm/preferences/focus-new-windows "'smart'" |
 dconf write /org/gnome/settings-daemon/plugins/media-keys/volume-step 2 |
@@ -298,6 +262,103 @@ dconf write /org/gnome/desktop/interface/clock-show-seconds true |
 dconf write /org/gnome/desktop/interface/clock-show-weekday true |
 dconf write /org/gnome/desktop/interface/clock-show-date true |
 dconf write /org/gnome/desktop/calendar/show-weekdate true
+```
+
+#### 16. Misc Settings
+```bash
+sudo systemctl enable --now bluetooth
+sudo pacman -S gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji
+sudo pacman -S noto-fonts-cjk noto-fonts-emoji noto-fonts
+
+sudo nvim /usr/share/applications/avahi-discover.desktop
+bssh
+bvnc
+Hidden=True
+
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+```
+
+#### 17. Yay
+```bash
+sudo pacman -Syu
+sudo pacman -S --needed base-devel git
+cd 
+mkdir apps
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+```
+
+#### 18. Installing
+```bash
+sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11
+sudo pacman -S neofetch firefox qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide 
+yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin
+
+?
+lm-sensors
+pandoc
+tetrio
+```
+
+#### 14. Ricing
+```bash
+```
+
+#### 14. Ricing
+```bash
+fullscreen 
+flameshot full -p ~/screenshots
+
+or select a part of screen 
+flameshot gui -p ~/screenshots 
+
+math cli
+```
+
+#### 14. Ricing
+```bash
+cd
+cd apps
+git clone https://github.com/tkashkin/Adwaita-for-Steam
+cd Adwaita-for-Steam
+./install.py
+```
+
+#### 14. Ricing
+```bash
+```
+
+#### 14. Ricing
+```bash
+```
+
+#### 5. Websites
+```bash
+AppImages
+https://www.onlyoffice.com/download-desktop.aspx
+https://github.com/phil294/AHK_X11/releases
+https://github.com/Nixola/VRRTest/releases/
+
+Must Compile
+https://github.com/aristocratos/btop?tab=readme-ov-file#compilation-linux
+```
+
+#### 6. Neovim
+```bash
+https://neovide.dev/
+```
+
+#### 7. Config
+```bash
+git config --global user.email "igorcalvob@gmail.com"
+git config --global user.name "igorcalvo"
+
+# remove ascii-image-converter's source
+sudo rm -v /etc/apt/sources.list.d/ascii-image-converter.list
+
 
 sudo update-grub
 sudo update-alternatives --config x-terminal-emulator
