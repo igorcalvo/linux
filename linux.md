@@ -84,12 +84,14 @@ pacman -S nvim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager 
 #### 6. Language, Location & Time
 ```bash
 nvim /etc/locale.gen
+```
 /en_US
 /en_CA
 /en_GB
 /pt_BR.UTF-8
 x
 
+```bash
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 export LANG=en_US.UTF-8
@@ -101,6 +103,7 @@ timedatectl
 ```
 
 #### 7. Hostname & User
+hostname = machine name
 ```bash
 echo arch-hostname > /etc/hostname
 
@@ -108,6 +111,7 @@ passwd
 useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
 EDITOR=neovim visudo
+```
 /%wheel
 G
 Defaults rootpw
@@ -115,8 +119,6 @@ Defaults rootpw
 # User privilege specification
 root	ALL=(ALL:ALL) ALL
 calvo	ALL=(ALL) ALL
-
-```
 
 #### 8. Pacman mirrors
 ```bash
@@ -267,18 +269,14 @@ dconf write /org/gnome/desktop/calendar/show-weekdate true
 #### 16. Misc Settings
 ```bash
 sudo systemctl enable --now bluetooth
-sudo pacman -S gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji
-sudo pacman -S noto-fonts-cjk noto-fonts-emoji noto-fonts
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+```
 
 sudo nvim /usr/share/applications/avahi-discover.desktop
 bssh
 bvnc
 Hidden=True
-
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-```
 
 #### 17. Yay
 ```bash
@@ -293,14 +291,26 @@ makepkg -si
 
 #### 18. Installing
 ```bash
-sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11
-sudo pacman -S neofetch firefox qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide 
+sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 
+sudo pacman -S -needed neofetch firefox xclip qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide 
 yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin
 
 ?
 lm-sensors
 pandoc
 tetrio
+```
+
+#### 19. Config
+```bash
+git config --global user.email "igorcalvob@gmail.com"
+git config --global user.name "igorcalvo"
+sudo update-alternatives --config x-terminal-emulator
+sudo modprobe razerkbd
+sudo sensors-detect
+
+<!-- dconf dump /com/gexperts/Terminix/ > terminix.dconf -->
+dconf load /com/gexperts/Tilix/ < tilix.dconf
 ```
 
 #### 14. Ricing
@@ -346,28 +356,6 @@ Must Compile
 https://github.com/aristocratos/btop?tab=readme-ov-file#compilation-linux
 ```
 
-#### 6. Neovim
-```bash
-https://neovide.dev/
-```
-
-#### 7. Config
-```bash
-git config --global user.email "igorcalvob@gmail.com"
-git config --global user.name "igorcalvo"
-
-# remove ascii-image-converter's source
-sudo rm -v /etc/apt/sources.list.d/ascii-image-converter.list
-
-
-sudo update-grub
-sudo update-alternatives --config x-terminal-emulator
-sudo modprobe razerkbd
-sudo sensors-detect
-
-<!-- dconf dump /com/gexperts/Terminix/ > terminix.dconf -->
-dconf load /com/gexperts/Tilix/ < tilix.dconf
-```
 
 #### 8. Python
 ```bash
