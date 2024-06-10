@@ -8,7 +8,7 @@ alias sudo "command sudo"
 alias python "command python3"
 alias nvim2 "/home/calvo/.cargo/bin/neovide"
 alias disk "ncdu"
-alias cat "command batcat"
+alias cat "command bat"
 alias ls "command eza"
 alias rm "command trash"
 

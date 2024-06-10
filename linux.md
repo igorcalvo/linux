@@ -208,11 +208,12 @@ sudo systemctl enable dhcpcd@wlo1.service
 sudo pacman -S xorg gnome
 (select numbers) - gdm, gnome-shell, etc
 sudo systemctl start gdm
+
 sudo systemctl enable gdm
+systemctl reboot
 ```
 
 #### 15. Gnome Settings 
-
 Displays
     Nightlight
         Manual
@@ -291,7 +292,7 @@ makepkg -si
 
 #### 18. Installing
 ```bash
-sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 
+sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel
 sudo pacman -S -needed neofetch firefox xclip qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide 
 yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin
 
@@ -305,9 +306,8 @@ tetrio
 ```bash
 git config --global user.email "igorcalvob@gmail.com"
 git config --global user.name "igorcalvo"
-sudo update-alternatives --config x-terminal-emulator
 sudo modprobe razerkbd
-sudo sensors-detect
+# sudo sensors-detect
 
 <!-- dconf dump /com/gexperts/Terminix/ > terminix.dconf -->
 dconf load /com/gexperts/Tilix/ < tilix.dconf
@@ -326,6 +326,11 @@ or select a part of screen
 flameshot gui -p ~/screenshots 
 
 math cli
+
+gnome-shell-extension-appindicator
+gnome-themes-standard
+
+create directories
 ```
 
 #### 14. Ricing
@@ -360,7 +365,7 @@ https://github.com/aristocratos/btop?tab=readme-ov-file#compilation-linux
 #### 8. Python
 ```bash
 sudo rm /usr/lib/python3.11/EXTERNALLY-MANAGED
-sudo nala install python3.11-venv 
+sudo nala install python3.12-venv 
 pip install pandas scipy pysimplegui mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy
 ```
 
@@ -385,10 +390,11 @@ cd /home/calvo/.ssh
 xclip -sel c id_rsa.pub
 ```
 
-#### 11. Stow
+#### 11. Stow & Neovim
 ```bash
-stow --target="/home/calvo" --dir="/home/calvo/Code/Linux/dotfiles" -v -simulate . 
-stow --target="/home/calvo" --dir="/home/calvo/Code/Linux/dotfiles" -v --adopt . 
+git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+stow --target="/home/calvo" --dir="/home/calvo/code/Linux/dotfiles" -v --simulate . 
+stow --target="/home/calvo" --dir="/home/calvo/code/Linux/dotfiles" -v --adopt . 
 ```
 
 #### 12. Startup
@@ -396,7 +402,8 @@ stow --target="/home/calvo" --dir="/home/calvo/Code/Linux/dotfiles" -v --adopt .
 - Create app to run at startup
 
 ```bash
-~/.local/share/applications/
+# ~/.local/share/applications/
+/usr/share/applications/
 startup.desktop 
 
 [Desktop Entry]
@@ -414,6 +421,7 @@ Type=Application
 | Command   | Keys    |
 |--------------- | --------------- |
 | hide all windows   | sup + d   |
+| screen shot x3 | backspace |
 <!-- |    |    | -->
 
 #### 14. Ricing
