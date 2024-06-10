@@ -100,6 +100,7 @@ require("lazy").setup({
       vim.cmd.colorscheme "monokai-pro"
     end
   },
+  { "nvim-neotest/nvim-nio" },
   {
     "williamboman/mason.nvim",
     "mfussenegger/nvim-dap",
@@ -175,8 +176,6 @@ require("lazy").setup({
     },
     build = ":TSUpdate",
   },
-  require "kickstart.plugins.autoformat",
-  require "kickstart.plugins.debug",
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   { import = "custom.plugins" },
 }, {})
