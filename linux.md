@@ -70,7 +70,7 @@ swapon /dev/nvme0n1p2
 ```bash
 sudo pacman -Sy archlinux-keyring pacman-contrib
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 ```
 
 #### 5. Update Image & Root
@@ -86,10 +86,9 @@ pacman -S nvim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager 
 nvim /etc/locale.gen
 ```
 /en_US
-/en_CA
 /en_GB
 /pt_BR.UTF-8
-x
+x #
 
 ```bash
 locale-gen
@@ -113,14 +112,17 @@ passwd calvo
 EDITOR=neovim visudo
 ```
 /%wheel
+x
 G
 Defaults rootpw
 
+```bash
 # User privilege specification
 root	ALL=(ALL:ALL) ALL
 calvo	ALL=(ALL) ALL
+```
 
-#### 8. Pacman mirrors
+#### 8. Pacman config
 ```bash
 vim /etc/pacman.conf
 ```
@@ -130,10 +132,10 @@ parallel 15
 /multilib
 
 ```bash
-pacman -Sy
 pacman -Syu
 ```
 
+<!-- TODO bootctl -> grub -->
 #### 9. Boot
 ```bash
 ls /sys/firmware/efi/efivars
@@ -185,6 +187,7 @@ mkinitcpio -P
 ```bash
 sudo systemctl enable fstrim.timer
 sudo systemctl enable NetworkManager.service
+sudo systemctl enable bluetooth
 ```
 
 #### 12. Reboot
@@ -262,61 +265,40 @@ dconf write /org/gnome/desktop/input-sources/sources [('xkb', 'us'), ('xkb', 'us
 dconf write /system/locale/region "'en_GB.UTF-8'"
 ```
 
-#### 16. Misc Settings
-```bash
-sudo systemctl enable --now bluetooth
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
-xdg-settings set default-web-browser firefox.desktop
-```
-sudo nvim /usr/share/applications/mimeinfo.cache
-inode/directory=org.gnome.Nautilus.desktop;
-text/plain=neovide.desktop;nvim.desktop;org.gnome.gedit.desktop;
-
-sudo nvim /usr/share/applications/avahi-discover.desktop
-bssh
-bvnc
-Hidden=true
-
-nvim ~/.local/share/applications/ahk_x11-compiler.desktop
-ahk_x11-windowspy.desktop
-Hidden=true
-
-#### 10. Clone repos
+#### 16. Clone repos
 ```bash
 ssh-keygen -t rsa
 cd /home/calvo/.ssh
 xclip -sel c id_rsa.pub
 ```
 
-#### 11. Stow
+#### 17. Stow
 ```bash
-stow --target="/home/calvo" --dir="/home/calvo/code/Linux/dotfiles" -v --simulate . 
-stow --target="/home/calvo" --dir="/home/calvo/code/Linux/dotfiles" -v --adopt . 
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
 ```
 
-#### 12. Startup
+#### 18. Startup
 - Gnome Tweaks
 - Create app to run at startup
 
+<!-- /usr/share/applications/ -->
 ```bash
-# ~/.local/share/applications/
-/usr/share/applications/
+~/.local/share/applications/
 startup.desktop 
 
 [Desktop Entry]
 Name=Startup
 Comment=Startup
 Keywords=folder;manager;explore;disk;filesystem;
-Exec=sh /home/calvo/code/Scripts/startup.sh
+Exec=sh /home/calvo/code/scripts/startup.sh
 # Exec=nautilus /home/calvo/book 
 Icon=/home/calvo/images/icons/shuttle.png
 Terminal=false
 Type=Application
 ```
 
-#### 17. Yay
+#### 19. Yay
 ```bash
 sudo pacman -Syu
 sudo pacman -S --needed base-devel git
@@ -327,10 +309,10 @@ cd yay
 makepkg -si
 ```
 
-#### 18. Installing
+#### 20. Installing
 ```bash
-sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk
-sudo pacman -S --needed neofetch firefox xclip qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw
+sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk
+sudo pacman -S --needed neofetch firefox xclip qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam
 yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki
 
 ?
@@ -339,7 +321,7 @@ pandoc
 tetrio
 ```
 
-#### 5. Websites
+#### 21. Websites
 AppImages
 ```bash
 https://www.onlyoffice.com/download-desktop.aspx
@@ -358,33 +340,47 @@ make GPU_SUPPORT=true VERBOSE=true
 sudo make install
 ```
 
-#### 19. Config
+#### 22. System Config
 ```bash
-git config --global user.email "igorcalvob@gmail.com"
-git config --global user.name "igorcalvo"
+git config --global user.email "igorcalvob@gmail.com" |
+git config --global user.name "igorcalvo" |
+export LC_CTYPE=en_US.UTF-8 |
+export LC_ALL=en_US.UTF-8 |
+xdg-settings set default-web-browser firefox.desktop |
 sudo modprobe razerkbd
-# sudo sensors-detect
+```
+<!-- sudo sensors-detect -->
 
-<!-- dconf dump /com/gexperts/Terminix/ > terminix.dconf -->
+Default Apps
+```
+sudo nvim /usr/share/applications/mimeinfo.cache
+inode/directory=org.gnome.Nautilus.desktop;
+text/plain=neovide.desktop;nvim.desktop;org.gnome.gedit.desktop;
+
+nvim ~/.local/share/applications/mimeinfo.cache
+[MIME Cache]
+inode/directory=org.gnome.Nautilus.desktop;
+text/plain=neovide.desktop;nvim.desktop;org.gnome.gedit.desktop;
+```
+
+nvim ~/.config/mimeapps.list
+[Default Applications]
+application/x-ahk_x11=ahk_x11.desktop
+text/html=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+inode/directory=nautilus.desktop
+
+Tilix
+```bash
+cd ~/code/linux
+# dconf dump /com/gexperts/Terminix/ > terminix.dconf 
 dconf load /com/gexperts/Tilix/ < tilix.dconf
 ```
 
-#### 14. Ricing
-```bash
-```
-
-#### 14. Ricing
-```bash
-fullscreen 
-flameshot full -p ~/screenshots
-
-or select a part of screen 
-flameshot gui -p ~/screenshots 
-
-gnome-themes-standard
-```
-
-create directories
+Directories
 ```bash
 cd 
 mkdir apps
@@ -399,24 +395,7 @@ cd images
 mkdir screenshots
 ```
 
-#### 14. Ricing
-```bash
-cd
-cd apps
-git clone https://github.com/tkashkin/Adwaita-for-Steam
-cd Adwaita-for-Steam
-./install.py
-```
-
-#### 14. Ricing
-```bash
-```
-
-#### 14. Ricing
-```bash
-```
-
-#### 8. Python
+#### 23. Python
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 pip install pandas scipy pysimplegui mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy
@@ -426,13 +405,21 @@ PATH=$PATH:/home/calvo/.local/bin
 XDG_DOWNLOAD_DIR=$HOME/downloads
 ```
 
-#### 13. Keyboard Shortcuts
+#### 24. Keyboard Shortcuts
 | Command   | Keys    |
 |--------------- | --------------- |
 | hide all windows   | sup + d   |
 <!-- |    |    | -->
 
-#### 14. Ricing
+#### 25. Ricing
+```bash
+cd
+cd apps
+git clone https://github.com/tkashkin/Adwaita-for-Steam
+cd Adwaita-for-Steam
+./install.py
+```
+
 ##### Cursors
 `/usr/share/icons`  
 https://www.gnome-look.org/p/1356095
@@ -449,6 +436,7 @@ https://www.gnome-look.org/p/1013030 \
 https://www.pling.com/p/1299514 \
 https://www.gnome-look.org/p/1273210
 
+<!-- TODO update images -->
 ##### Extensions
 ![extensions 1](./extensions-1.png)
 ![extensions 2](./extensions-2.png)
@@ -506,7 +494,9 @@ dconf write /org/gnome/shell/extensions/gtk-ding/show-volumes true |
 dconf write /org/gnome/shell/keybindings/screenshot-window [] |
 dconf write /org/gnome/shell/keybindings/screenshot [] |
 dconf write /org/gnome/shell/keybindings/show-screenshot-ui []
+```
 
+```
 Impatience
     0.5
 Dash to Dock
@@ -523,13 +513,19 @@ Gt4 Desktop Icons
         Show hidden files               true
 ```
     
-#### 9. Duplicate Icons
+#### 26. Duplicate Icons
 ```bash
 cd /usr/share/applications/
-find . -type f -name 'krita*' | grep -i 'krita*' | xargs -i cp {} /home/calvo/.local/share/applications/
-sudo rm codium-wayland.desktop
-sudo rm codium-uri-handler.desktop
+sudo nvim codium-wayland.desktop
+sudo nvim codium-uri-handler.desktop
+sudo nvim ahk_x11-compiler.desktop
+sudo nvim ahk_x11-windowspy.desktop
+sudo nvim avahi-discover.desktop
+sudo nvim bssh.desktop
+sudo nvim bvnc.desktop
+Hidden=true
 
+find . -type f -name 'krita*' | grep -i 'krita*' | xargs -i cp {} /home/calvo/.local/share/applications/
 cd /home/calvo/local/share/.applications/
 find . -name 'krita*' | xargs -i echo "Hidden=true" >> {}
 ```
@@ -539,7 +535,7 @@ Just in case &nbsp;&nbsp;&nbsp;&nbsp;
 find . -name 'krita*' -exec gedit {} + 
 ```
 
-#### 16. Security
+#### 27. Security
 ```bash
 sudo ufw limit 22/tcp |
 sudo ufw allow 80/tcp |
@@ -564,7 +560,7 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
 
-#### 15. Anki
+#### 28. Anki
 Addons:
 - 1771074083
 - 3918629684
@@ -581,3 +577,7 @@ Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
 
 180&nbsp;&nbsp;&nbsp;&nbsp;2.5&nbsp;&nbsp;&nbsp;&nbsp;1.3&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;&nbsp;&nbsp;0
 
+#### 29. Useful
+```bash
+sudo -i
+```
