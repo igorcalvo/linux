@@ -6,7 +6,7 @@ alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'sp
 alias mouse "sh /home/calvo/Code/Scripts/track-mouse.sh"
 alias sudo "command sudo"
 alias python "command python3"
-alias nvim2 "/home/calvo/.cargo/bin/neovide"
+alias nvim2 "/usr/bin/neovide"
 alias disk "ncdu"
 alias cat "command bat"
 alias ls "command eza"
