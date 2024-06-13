@@ -77,6 +77,7 @@ rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 ```bash
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U -p /mnt >> /mnt/etc/fstab
+cat /mnt/etc/fstab
 arch-chroot /mnt
 pacman -S nvim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip
 ```
@@ -412,29 +413,44 @@ XDG_DOWNLOAD_DIR=$HOME/downloads
 <!-- |    |    | -->
 
 #### 25. Ricing
-```bash
-cd
-cd apps
-git clone https://github.com/tkashkin/Adwaita-for-Steam
-cd Adwaita-for-Steam
-./install.py
-```
-
 ##### Cursors
+Volantes Cursors
 `/usr/share/icons`  
+Light
+https://github.com/varlesh/volantes-cursors
 https://www.gnome-look.org/p/1356095
 
 ##### Icons
+Kora
 `find ./ -name "kora*" | xargs -i sudo mv -i {} /usr/share/icons`  
-https://www.gnome-look.org/p/135609
+Green or Yellow
+https://www.gnome-look.org/s/Gnome/p/1256209
+https://github.com/bikass/kora
+```bash
+cd apps
+rm scallable/*
+```
 
 ##### Theme
+Marble Shell theme
 `mv -r /Marble-shell /usr/share/themes` \
 https://www.gnome-look.org/p/1977647 <br><br>
+
+```bash
+git clone https://github.com/imarkoff/Marble-shell-theme.git
+cd Marble-shell-theme
+python install.py -a --filled
+
+# L1999
+```
+/* Panel */
+font-size: 16px;
+
 Backups \
-https://www.gnome-look.org/p/1013030 \
-https://www.pling.com/p/1299514 \
-https://www.gnome-look.org/p/1273210
+Cappuccin - https://github.com/catppuccin/gtk \
+Flat Remix GNOME / GDM - https://www.gnome-look.org/p/1013030 \
+Yaru-Colors - https://www.pling.com/p/1299514 \
+Midnight-GnomeShell - https://www.gnome-look.org/p/1273210
 
 <!-- TODO update images -->
 ##### Extensions
@@ -511,6 +527,15 @@ Just Perfection
 Gt4 Desktop Icons
     Files
         Show hidden files               true
+```
+
+##### Steam Theme
+```bash
+cd
+cd apps
+git clone https://github.com/tkashkin/Adwaita-for-Steam
+cd Adwaita-for-Steam
+python install.py
 ```
     
 #### 26. Duplicate Icons
