@@ -21,6 +21,14 @@
 
 ```
 ### Arch Install
+#### 0. Getting image ready
+```bash
+https://archlinux.org/download/
+sha256sum -b yourfile.iso
+
+
+```
+
 #### 1. Verifying boot and setting font
 ```bash
 efivar -l
@@ -313,8 +321,8 @@ makepkg -si
 #### 20. Installing
 ```bash
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk
-sudo pacman -S --needed neofetch firefox xclip qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam
-yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki
+sudo pacman -S --needed neofetch firefox xclip qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick gnome-disk-utility
+yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki stremio gdm-settings
 
 ?
 lm-sensors
