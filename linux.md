@@ -25,8 +25,6 @@
 ```bash
 https://archlinux.org/download/
 sha256sum -b yourfile.iso
-
-
 ```
 
 #### 1. Verifying boot and setting font
@@ -59,6 +57,7 @@ ping archlinux.org
 | ROOT | |
 <!-- |    |    | -->
 
+If disk is in use, might have to reboot right after creating partition
 ```bash
 fdisk -l
 fdisk /dev/nvme0n1
@@ -87,7 +86,7 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U -p /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 arch-chroot /mnt
-pacman -S nvim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip
+pacman -S neovim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip tilix firefox
 ```
 
 #### 6. Language, Location & Time
@@ -118,12 +117,13 @@ echo arch-hostname > /etc/hostname
 passwd
 useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
-EDITOR=neovim visudo
-```
+EDITOR=nvim visudo
+
 /%wheel
 x
 G
 Defaults rootpw
+```
 
 ```bash
 # User privilege specification
@@ -134,13 +134,11 @@ calvo	ALL=(ALL) ALL
 #### 8. Pacman config
 ```bash
 vim /etc/pacman.conf
-```
 
 color
 parallel 15
 /multilib
 
-```bash
 pacman -Syu
 ```
 
@@ -153,10 +151,12 @@ bootctl install
 nvim /boot/loader/entries/arch.conf
 ```
 
+```
 title Arch
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
+```
 
 ```bash
 echo ¨options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1¨ >> /boot/loader/entries/arch.conf
@@ -167,14 +167,14 @@ cat /boot/loader/entries/arch.conf
 ```bash
 pacman -S nvidia-dkms libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
 nvim /etc/mkinitcpio.conf
-```
+
 MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 HOOKS(= -kms)
+```
 
 ```bash
 mkdir /etc/pacman.d/hooks
 nvim /etc/pacman.d/hooks/nvidia.hook
-```
 
 [Trigger]
 Operation=Install
@@ -187,6 +187,7 @@ Target=nvidia
 Depends=mkinitcpio
 When=PostTransaction
 Exec=/usr/bin/mkinitcpio -P
+```
 
 ```bash
 mkinitcpio -P
@@ -218,7 +219,27 @@ sudo systemctl enable dhcpcd@wlo1.service
 #### 14. Display Manager
 ```bash
 sudo pacman -S xorg gnome
-(select numbers) - gdm, gnome-shell, etc
+
+enter
+4,6,8,14,15,16,18,20,23,25,26,28,48,58
+
+gdm
+calculator
+chracters
+control-center
+disk-utility
+font-viwer
+logs
+menus
+session
+shell
+shell-extensions
+system-monitor
+nautilus
+user-dirs-gtk
+```
+
+```bash
 sudo systemctl start gdm
 
 sudo systemctl enable gdm
@@ -226,6 +247,10 @@ systemctl reboot
 ```
 
 #### 15. Gnome Settings 
+```
+Displays
+    Layout
+    Frequencies
 Sound
     Fixed after firefox install
 Power
@@ -235,10 +260,13 @@ Power
     Automatic Suspend
         When on Battery
     Power Button
-        Suspend
+        Suspend / Power Off
     Show Batter Percentage
         On
 Mouse & Touchpad
+    Mouse
+        Mouse Acceleration
+            Off
     Touchpad
         Secondary Click
             Corner Push
@@ -251,6 +279,7 @@ System
             On
         Time Zone
             Sao Paulo, Brazil
+```
 
 ```bash
 dconf write /org/gnome/desktop/background/picture-options "'spanned'" |
@@ -269,8 +298,8 @@ dconf write /org/gnome/settings-daemon/plugins/color/night-light-temperature 316
 dconf write /org/gnome/mutter/dynamic-workspaces false |
 dconf write /org/gnome/desktop/interface/show-battery-percentage true |
 dconf write /org/gnome/desktop/interface/color-scheme "'default'" |
-dconf write /org/gnome/desktop/input-sources/mru-sources [('xkb', 'us')] |
-dconf write /org/gnome/desktop/input-sources/sources [('xkb', 'us'), ('xkb', 'us+intl')]" |
+dconf write /org/gnome/desktop/input-sources/mru-sources "[('xkb', 'us')]" |
+dconf write /org/gnome/desktop/input-sources/sources "[('xkb', 'us'), ('xkb', 'us+intl')]" |
 dconf write /system/locale/region "'en_GB.UTF-8'"
 ```
 
