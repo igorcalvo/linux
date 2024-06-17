@@ -86,7 +86,7 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U -p /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 arch-chroot /mnt
-pacman -S neovim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip tilix firefox
+pacman -S --needed neovim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip tilix firefox stow
 ```
 
 #### 6. Language, Location & Time
@@ -218,10 +218,11 @@ sudo systemctl enable dhcpcd@wlo1.service
 
 #### 14. Display Manager
 ```bash
-sudo pacman -S xorg gnome
+sudo pacman -S xorg gnome --needed
 
 enter
-4,6,8,14,15,16,18,20,23,25,26,28,48,58
+? = backgrounds
+4,6,8,14,15,16,18,20,23,25,26,28,48,58, ?
 
 gdm
 calculator
@@ -251,8 +252,11 @@ systemctl reboot
 Displays
     Layout
     Frequencies
-Sound
-    Fixed after firefox install
+Multitasking
+    Workspaces
+        1
+Appearance
+    Dark
 Power
     Dim Screen
     Screen Blank
@@ -310,60 +314,55 @@ cd /home/calvo/.ssh
 xclip -sel c id_rsa.pub
 ```
 
-#### 17. Stow
+#### 17. Stow & Tilix
 ```bash
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
 ```
 
-#### 18. Startup
-- Gnome Tweaks
-- Create app to run at startup
-
-<!-- /usr/share/applications/ -->
 ```bash
-~/.local/share/applications/
-startup.desktop 
-
-[Desktop Entry]
-Name=Startup
-Comment=Startup
-Keywords=folder;manager;explore;disk;filesystem;
-Exec=sh /home/calvo/code/scripts/startup.sh
-# Exec=nautilus /home/calvo/book 
-Icon=/home/calvo/images/icons/shuttle.png
-Terminal=false
-Type=Application
+cd ~/code/linux
+# dconf dump /com/gexperts/Terminix/ > terminix.dconf 
+dconf load /com/gexperts/Tilix/ < tilix.dconf
 ```
 
-#### 19. Yay
+#### 18. Yay
 ```bash
 sudo pacman -Syu
-sudo pacman -S --needed base-devel git
+# sudo pacman -S --needed base-devel git
 cd 
 mkdir apps
+cd apps
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 ```
 
-#### 20. Installing
+#### 19. Installing
 ```bash
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk
-sudo pacman -S --needed neofetch firefox xclip qbittorrent screen tilix xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish stow jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick gnome-disk-utility
-yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki stremio gdm-settings
+```
 
+<!-- TODO image viwer -->
+```bash
+sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick
+```
+
+```bash
+yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki stremio gdm-settings
+```
+
+```bash
 ?
 lm-sensors
 pandoc
 tetrio
 ```
 
-#### 21. Websites
+#### 20. Websites
 AppImages
 ```bash
 https://www.onlyoffice.com/download-desktop.aspx
-https://github.com/phil294/AHK_X11/releases
 https://github.com/Nixola/VRRTest/releases/
 ```
 create onlyoffice desktop entry 
@@ -378,7 +377,7 @@ make GPU_SUPPORT=true VERBOSE=true
 sudo make install
 ```
 
-#### 22. System Config
+#### 21. System Config
 ```bash
 git config --global user.email "igorcalvob@gmail.com" |
 git config --global user.name "igorcalvo" |
@@ -392,6 +391,12 @@ sudo modprobe razerkbd
 Default Apps
 ```
 sudo nvim /usr/share/applications/mimeinfo.cache
+
+/inode
+d10w
+/plain
+d10w
+
 inode/directory=org.gnome.Nautilus.desktop;
 text/plain=neovide.desktop;nvim.desktop;org.gnome.gedit.desktop;
 
@@ -411,13 +416,6 @@ x-scheme-handler/about=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
 inode/directory=nautilus.desktop
 
-Tilix
-```bash
-cd ~/code/linux
-# dconf dump /com/gexperts/Terminix/ > terminix.dconf 
-dconf load /com/gexperts/Tilix/ < tilix.dconf
-```
-
 Directories
 ```bash
 cd 
@@ -427,20 +425,48 @@ mkdir appimages
 cd ..
 mkdir code 
 mkdir Desktop
+mkdir documents
+mkdir videos
 mkdir downloads
 mkdir images
+rm Pictures Music Videos Documents Downloads Templates Public
 cd images
+mkdir icons
+mkdir wallpapers
 mkdir screenshots
+```
+
+TODO save icons for startup and openoffice
+TODO save .desktop for startup and openoffice
+#### 22. Startup
+- Gnome Tweaks
+- Create app to run at startup
+
+<!-- /usr/share/applications/ -->
+```bash
+~/.local/share/applications/
+startup.desktop 
+
+[Desktop Entry]
+Name=Startup
+Comment=Startup
+Keywords=folder;manager;explore;disk;filesystem;
+Exec=sh /home/calvo/code/scripts/startup.sh
+# Exec=nautilus /home/calvo/book 
+Icon=/home/calvo/images/icons/shuttle.png
+Terminal=false
+Type=Application
 ```
 
 #### 23. Python
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 pip install pandas scipy pysimplegui mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy
-sudo pacman -S python-virtualenv
+sudo pacman -S python-virtualenv --needed
 bash
 PATH=$PATH:/home/calvo/.local/bin
 XDG_DOWNLOAD_DIR=$HOME/downloads
+sudo nvim /etc/xdg/user-dirs.defaults
 ```
 
 #### 24. Keyboard Shortcuts
@@ -496,7 +522,7 @@ Midnight-GnomeShell - https://www.gnome-look.org/p/1273210
 
 ```bash
 dconf write /org/gnome/shell/extensions/trayIconsReloaded/icon-padding-horizontal 4 |
-dconf write /org/gnome/shell/extensions/vitals/hot-sensors ['_processor_usage_', '_memory_usage_', '_storage_free_', '_temperature_cpu_0 core 1_'] |
+dconf write /org/gnome/shell/extensions/vitals/hot-sensors "['_processor_usage_', '_memory_usage_', '_storage_free_', '_temperature_cpu_0 core 1_']" |
 dconf write /org/gnome/shell/extensions/vitals/show-gpu true |
 dconf write /org/gnome/shell/extensions/vitals/update-time 1 |
 dconf write /org/gnome/shell/extensions/vitals/use-higher-precision true |
@@ -511,7 +537,7 @@ dconf write /org/gnome/shell/extensions/openweatherrefined/decimal-places 1 |
 dconf write /org/gnome/shell/extensions/openweatherrefined/delay-ext-init 3 |
 dconf write /org/gnome/shell/extensions/openweatherrefined/expand-forecast true |
 dconf write /org/gnome/shell/extensions/openweatherrefined/geolocation-provider "'openstreetmaps'" |
-dconf write /org/gnome/shell/extensions/openweatherrefined/locs [(0, 'Vila Mariana', 0, '-23.5925361,-46.6357123')] |
+dconf write /org/gnome/shell/extensions/openweatherrefined/locs "[(0, 'Vila Mariana', 0, '-23.5925361,-46.6357123')]" |
 dconf write /org/gnome/shell/extensions/openweatherrefined/menu-alognment 37.5 |
 dconf write /org/gnome/shell/extensions/openweatherrefined/position-index 2 |
 dconf write /org/gnome/shell/extensions/openweatherrefined/position-in-panel 'left' |
@@ -522,13 +548,13 @@ dconf write /org/gnome/shell/extensions/openweatherrefined/show-comment-in-panel
 dconf write /org/gnome/shell/extensions/openweatherrefined/weather-provider 'openweathermap' |
 dconf write /org/gnome/shell/extensions/openweatherrefined/wind-direcation true |
 dconf write /org/gnome/shell/extensions/clipboard-indicator/cache-size 50 |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/clear-history ['<Control>apostrophe'] |
+dconf write /org/gnome/shell/extensions/clipboard-indicator/clear-history "['<Control>apostrophe']" |
 dconf write /org/gnome/shell/extensions/clipboard-indicator/history-size 100 |
 dconf write /org/gnome/shell/extensions/clipboard-indicator/move-item-first true |
 dconf write /org/gnome/shell/extensions/clipboard-indicator/paste-button false |
 dconf write /org/gnome/shell/extensions/clipboard-indicator/preview-size 60 |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/toggle-menu ['<Control>grave'] |
-dconf write /org/gnome/shell/extensions/color-picker/color-picker-shortcut ['<Control><Alt>p'] |
+dconf write /org/gnome/shell/extensions/clipboard-indicator/toggle-menu "['<Control>grave']" |
+dconf write /org/gnome/shell/extensions/color-picker/color-picker-shortcut "['<Control><Alt>p']" |
 dconf write /org/gnome/shell/extensions/color-picker/enable-shortcut true |
 dconf write /org/gnome/shell/extensions/color-picker/format-menu true |
 dconf write /org/gnome/shell/extensions/color-picker/menu-key 'm' |
@@ -544,9 +570,9 @@ dconf write /org/gnome/shell/extensions/gtk-ding/show-home false |
 dconf write /org/gnome/shell/extensions/gtk-ding/show-network-volumes false |
 dconf write /org/gnome/shell/extensions/gtk-ding/show-trash false |
 dconf write /org/gnome/shell/extensions/gtk-ding/show-volumes true |
-dconf write /org/gnome/shell/keybindings/screenshot-window [] |
-dconf write /org/gnome/shell/keybindings/screenshot [] |
-dconf write /org/gnome/shell/keybindings/show-screenshot-ui []
+dconf write /org/gnome/shell/keybindings/screenshot-window "[]" |
+dconf write /org/gnome/shell/keybindings/screenshot "[]" |
+dconf write /org/gnome/shell/keybindings/show-screenshot-ui "[]"
 ```
 
 ```
