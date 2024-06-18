@@ -3,7 +3,7 @@ if status is-interactive
 end
 alias gedit "gnome-text-editor"
 alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
-alias mouse "sh /home/calvo/Code/Scripts/track-mouse.sh"
+alias mouse "sh /home/calvo/code/scripts/track-mouse.sh"
 alias sudo "command sudo"
 alias python "command python3"
 alias nvim2 "/usr/bin/neovide"

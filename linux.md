@@ -677,6 +677,8 @@ Qbittorrent
     Downloads
         destination at ~/downloads/
         disable popup
+    Behavior
+        confirm when deleting torrents false
 Steam
     Login
     In Game
@@ -715,6 +717,8 @@ VS Codium
         Copy Line Down - Shift Alt Down
 GDM
     Wallpaper
+    Apply
+
     Settings - User Profile
 ```
 
