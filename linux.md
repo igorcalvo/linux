@@ -19,6 +19,14 @@
  `++:.                           `-/+
  .`                                 `/
 
+TODO steam settings
+SoH 
+Totk
+?
+csgo config
+mega backup
+documents
+
 ```
 ### Arch Install
 #### 0. Getting image ready
@@ -340,16 +348,16 @@ makepkg -si
 
 #### 19. Installing
 ```bash
-sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk
+sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk inkscape
 ```
 
 <!-- TODO image viwer -->
 ```bash
-sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick
+sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh
 ```
 
 ```bash
-yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki stremio gdm-settings
+yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki gdm-settings
 ```
 
 ```bash
@@ -364,9 +372,8 @@ AppImages
 ```bash
 https://www.onlyoffice.com/download-desktop.aspx
 https://github.com/Nixola/VRRTest/releases/
-```
-create onlyoffice desktop entry 
 
+```
 Must Compile
 [Btop](https://github.com/aristocratos/btop?tab=readme-ov-file#compilation-linux) 
 ```bash
@@ -385,6 +392,7 @@ export LC_CTYPE=en_US.UTF-8 |
 export LC_ALL=en_US.UTF-8 |
 xdg-settings set default-web-browser firefox.desktop |
 sudo modprobe razerkbd
+sudo gpasswd -a $USER plugdev
 ```
 <!-- sudo sensors-detect -->
 
@@ -404,7 +412,6 @@ nvim ~/.local/share/applications/mimeinfo.cache
 [MIME Cache]
 inode/directory=org.gnome.Nautilus.desktop;
 text/plain=neovide.desktop;nvim.desktop;org.gnome.gedit.desktop;
-```
 
 nvim ~/.config/mimeapps.list
 [Default Applications]
@@ -415,6 +422,7 @@ x-scheme-handler/https=firefox.desktop
 x-scheme-handler/about=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
 inode/directory=nautilus.desktop
+```
 
 Directories
 ```bash
@@ -423,21 +431,21 @@ mkdir apps
 cd apps
 mkdir appimages
 cd ..
-mkdir code 
-mkdir Desktop
-mkdir documents
-mkdir videos
-mkdir downloads
-mkdir images
-rm Pictures Music Videos Documents Downloads Templates Public
-cd images
-mkdir icons
-mkdir wallpapers
+
+mkdir code |
+mkdir Desktop |
+mkdir documents |
+mkdir videos |
+mkdir downloads |
+mkdir images |
+rm Pictures Music Videos Documents Downloads Templates Public |
+cd images |
+mkdir icons |
+mkdir wallpapers |
 mkdir screenshots
 ```
 
 TODO save icons for startup and openoffice
-TODO save .desktop for startup and openoffice
 #### 22. Startup
 - Gnome Tweaks
 - Create app to run at startup
@@ -467,47 +475,71 @@ bash
 PATH=$PATH:/home/calvo/.local/bin
 XDG_DOWNLOAD_DIR=$HOME/downloads
 sudo nvim /etc/xdg/user-dirs.defaults
+nvim ~/.config/user-dirs.dirs
+gsettings set org.gnome.shell app-picker-layout "[]"
 ```
 
 #### 24. Keyboard Shortcuts
 | Command   | Keys    |
 |--------------- | --------------- |
-| hide all windows   | sup + d   |
+| hide all windows      | sup + d           |
+| 3x screenshot         | backspace         |
+| hide window           | sup + down arrow  |
 <!-- |    |    | -->
 
 #### 25. Ricing
 ##### Cursors
 Volantes Cursors
-`/usr/share/icons`  
 Light
 https://github.com/varlesh/volantes-cursors
 https://www.gnome-look.org/p/1356095
 
+```bash
+cd apps
+git clone git@github.com:varlesh/volantes-cursors.git
+cd volantes-cursors
+sudo make build
+sudo make install
+```
+
 ##### Icons
 Kora
-`find ./ -name "kora*" | xargs -i sudo mv -i {} /usr/share/icons`  
 Green or Yellow
 https://www.gnome-look.org/s/Gnome/p/1256209
 https://github.com/bikass/kora
+
 ```bash
 cd apps
-rm scallable/*
+git clone git@github.com:bikass/kora.git
+cd kora
+cd apps/scalable
+find . -name 'discord*' | xargs sudo rm {}
+find . -name 'steam*' | xargs sudo rm {}
+find . -name 'youtube*' | xargs sudo rm {}
+cd ../..
+rm icon-theme.cache
+sh create-new-icon-theme.cache.sh
+cd ..
+sudo cp kora/ /usr/share/icons/
 ```
 
 ##### Theme
 Marble Shell theme
-`mv -r /Marble-shell /usr/share/themes` \
 https://www.gnome-look.org/p/1977647 <br><br>
 
 ```bash
 git clone https://github.com/imarkoff/Marble-shell-theme.git
 cd Marble-shell-theme
-python install.py -a --filled
+python install.py --blue --mode=dark --filled
 
-# L1999
+cd ~/.themes/Marble-blue-dark/gnome-shell/
+nvim gnome-shell.css
+
+/ Panel
+font-size: 15px;
+/ Popovers
+background: rgba(18, 20, 21, 1); 
 ```
-/* Panel */
-font-size: 16px;
 
 Backups \
 Cappuccin - https://github.com/catppuccin/gtk \
@@ -515,64 +547,12 @@ Flat Remix GNOME / GDM - https://www.gnome-look.org/p/1013030 \
 Yaru-Colors - https://www.pling.com/p/1299514 \
 Midnight-GnomeShell - https://www.gnome-look.org/p/1273210
 
-<!-- TODO update images -->
 ##### Extensions
-![extensions 1](./extensions-1.png)
-![extensions 2](./extensions-2.png)
+![extensions](./extensions.png)
 
-```bash
-dconf write /org/gnome/shell/extensions/trayIconsReloaded/icon-padding-horizontal 4 |
-dconf write /org/gnome/shell/extensions/vitals/hot-sensors "['_processor_usage_', '_memory_usage_', '_storage_free_', '_temperature_cpu_0 core 1_']" |
-dconf write /org/gnome/shell/extensions/vitals/show-gpu true |
-dconf write /org/gnome/shell/extensions/vitals/update-time 1 |
-dconf write /org/gnome/shell/extensions/vitals/use-higher-precision true |
-dconf write /org/gnome/shell/extensions/lockkeys/style 'show-hide-capslock' |
-dconf write /org/gnome/shell/extensions/TodoTxt/click-action 1 |
-dconf write /org/gnome/shell/extensions/TodoTxt/show-done false |
-dconf write /org/gnome/shell/extensions/TodoTxt/show-edit-button true |
-dconf write /org/gnome/shell/extensions/TodoTxt/done-format-string "'{undone}'" |
-dconf write /org/gnome/shell/extensions/TodoTxt/hide-pattern "'{undone}'" |
-dconf write /org/gnome/shell/extensions/openweatherrefined/days-forecast 5 |
-dconf write /org/gnome/shell/extensions/openweatherrefined/decimal-places 1 |
-dconf write /org/gnome/shell/extensions/openweatherrefined/delay-ext-init 3 |
-dconf write /org/gnome/shell/extensions/openweatherrefined/expand-forecast true |
-dconf write /org/gnome/shell/extensions/openweatherrefined/geolocation-provider "'openstreetmaps'" |
-dconf write /org/gnome/shell/extensions/openweatherrefined/locs "[(0, 'Vila Mariana', 0, '-23.5925361,-46.6357123')]" |
-dconf write /org/gnome/shell/extensions/openweatherrefined/menu-alognment 37.5 |
-dconf write /org/gnome/shell/extensions/openweatherrefined/position-index 2 |
-dconf write /org/gnome/shell/extensions/openweatherrefined/position-in-panel 'left' |
-dconf write /org/gnome/shell/extensions/openweatherrefined/pressure-unit 'mmHg' |
-dconf write /org/gnome/shell/extensions/openweatherrefined/refresh-interval-current 1800 |
-dconf write /org/gnome/shell/extensions/openweatherrefined/refresh-interval-forecast 10800 |
-dconf write /org/gnome/shell/extensions/openweatherrefined/show-comment-in-panel true |
-dconf write /org/gnome/shell/extensions/openweatherrefined/weather-provider 'openweathermap' |
-dconf write /org/gnome/shell/extensions/openweatherrefined/wind-direcation true |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/cache-size 50 |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/clear-history "['<Control>apostrophe']" |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/history-size 100 |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/move-item-first true |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/paste-button false |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/preview-size 60 |
-dconf write /org/gnome/shell/extensions/clipboard-indicator/toggle-menu "['<Control>grave']" |
-dconf write /org/gnome/shell/extensions/color-picker/color-picker-shortcut "['<Control><Alt>p']" |
-dconf write /org/gnome/shell/extensions/color-picker/enable-shortcut true |
-dconf write /org/gnome/shell/extensions/color-picker/format-menu true |
-dconf write /org/gnome/shell/extensions/color-picker/menu-key 'm' |
-dconf write /org/gnome/shell/extensions/color-picker/quit-key 'q' |
-dconf write /org/gnome/shell/extensions/color-picker/persistent-mode true |
-dconf write /org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size 64 |
-dconf write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button false |
-dconf write /org/gnome/shell/extensions/dash-to-dock/show-trash false |
-dconf write /org/gnome/shell/extensions/dash-to-dock/apply-custom-theme true |
-dconf write /org/gnome/shell/extensions/just-perfection/activities-button false |
-dconf write /org/gnome/shell/extensions/gtk4-ding/icon-size 'large' |
-dconf write /org/gnome/shell/extensions/gtk-ding/show-home false |
-dconf write /org/gnome/shell/extensions/gtk-ding/show-network-volumes false |
-dconf write /org/gnome/shell/extensions/gtk-ding/show-trash false |
-dconf write /org/gnome/shell/extensions/gtk-ding/show-volumes true |
-dconf write /org/gnome/shell/keybindings/screenshot-window "[]" |
-dconf write /org/gnome/shell/keybindings/screenshot "[]" |
-dconf write /org/gnome/shell/keybindings/show-screenshot-ui "[]"
+ ```bash
+dconf dump /org/gnome/shell/extensions/ > extensions.dconf
+dconf load /org/gnome/shell/extensions/ < files/dumps/extensions.dconf
 ```
 
 ```
@@ -590,6 +570,12 @@ Just Perfection
 Gt4 Desktop Icons
     Files
         Show hidden files               true
+Quick Settings Audio Devices Hider
+    Hide All But
+        Analog Output 7.1 HyperX
+        Line Out - Starship/Mantisse HD
+Todo.txt
+    Click to create file
 ```
 
 ##### Steam Theme
@@ -599,6 +585,12 @@ cd apps
 git clone https://github.com/tkashkin/Adwaita-for-Steam
 cd Adwaita-for-Steam
 python install.py
+```
+
+##### Colors
+```bash
+python code/rice/offset_colors.py ~/.themes/Marble-blue-dark/gnome-shell/gnome-shell.css -0.3
+nvim /home/calvo/.local/share/gnome-shell/extensions/custom-accent-colors@demiskp/resources/purple/gtk.css
 ```
     
 #### 26. Duplicate Icons
@@ -611,8 +603,15 @@ sudo nvim ahk_x11-windowspy.desktop
 sudo nvim avahi-discover.desktop
 sudo nvim bssh.desktop
 sudo nvim bvnc.desktop
+sudo nvim qv4l2.desktop
+sudo nvim qvidcap.desktop
+sudo nvim lstopo.desktop
 Hidden=true
 
+gsettings set org.gnome.shell app-picker-layout "[]"
+```
+
+```bash
 find . -type f -name 'krita*' | grep -i 'krita*' | xargs -i cp {} /home/calvo/.local/share/applications/
 cd /home/calvo/local/share/.applications/
 find . -name 'krita*' | xargs -i echo "Hidden=true" >> {}
@@ -620,7 +619,7 @@ find . -name 'krita*' | xargs -i echo "Hidden=true" >> {}
 
 Just in case &nbsp;&nbsp;&nbsp;&nbsp;
 ```bash
-find . -name 'krita*' -exec gedit {} + 
+find . -name 'krita*' -exec neovide {} + 
 ```
 
 #### 27. Security
@@ -665,7 +664,61 @@ Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
 
 180&nbsp;&nbsp;&nbsp;&nbsp;2.5&nbsp;&nbsp;&nbsp;&nbsp;1.3&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;&nbsp;&nbsp;0
 
-#### 29. Useful
+#### 29. Applications
+```bash
+sudo cp ~/code/linux/files/dotdesktops/* /usr/share/applications
+sudo cp files/krita-workspace.kws /usr/share/krita/workspaces/
+```
+
+```
+Razer
+    500 Dpi
+Qbittorrent
+    Downloads
+        destination at ~/downloads/
+        disable popup
+Steam
+    Login
+    In Game
+        FPS Counter Top Right
+        High Contrat True
+    Compatibility
+        Enable Steam Play for all other titles
+            Proton 9.0-2
+Discord
+    Login
+    Voice & Video Defaults
+Youtube Music
+    Login
+Firefox
+    Download directory
+    Remove
+        Import bookmarks
+        Getting Started
+        Spaces
+    Icons and Logins
+    Theme
+Krita
+    Load workspace
+    Themes -> Krita Darker
+Nvidia
+    OpenGL Settings
+        Gsync Indicator
+Pulse Audio
+    Configuration
+        Disable what's necessary
+    Input Devices
+        150%
+VS Codium
+    Monokai Pro - Ristretto
+    Keyboard Shortcuts
+        Copy Line Down - Shift Alt Down
+GDM
+    Wallpaper
+    Settings - User Profile
+```
+
+#### 30. Useful
 ```bash
 sudo -i
 ```

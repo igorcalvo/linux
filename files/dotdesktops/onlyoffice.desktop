@@ -3,6 +3,6 @@ Name=OnlyOffice
 Comment=OnlyOffice
 Keywords=folder;manager;explore;disk;filesystem;
 Exec=/home/calvo/apps/appimages/DesktopEditors-x86_64.AppImage
-Icon=/home/calvo/images/icons/only-office.png
+Icon=/home/calvo/images/icons/office.svg
 Terminal=false
 Type=Application

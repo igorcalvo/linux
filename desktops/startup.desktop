@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Startup
-Comment=Startup
-Keywords=folder;manager;explore;disk;filesystem;
-Exec=sh /home/calvo/code/Scripts/laptop-startup.sh
-# Exec=nautilus /home/calvo/Book 
-Icon=/home/calvo/images/icons/shuttle.png
-Terminal=false
-Type=Application
