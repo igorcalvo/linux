@@ -94,7 +94,7 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U -p /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 arch-chroot /mnt
-pacman -S --needed neovim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip tilix firefox stow
+pacman -S --needed neovim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip tilix firefox stow pacman-contrib
 ```
 
 #### 6. Language, Location & Time
@@ -203,9 +203,10 @@ mkinitcpio -P
 
 #### 11. Services
 ```bash
-sudo systemctl enable fstrim.timer
-sudo systemctl enable NetworkManager.service
-sudo systemctl enable bluetooth
+sudo systemctl enable fstrim.timer |
+sudo systemctl enable NetworkManager.service |
+sudo systemctl enable bluetooth |
+sudo systemctl enable paccache.timer
 ```
 
 #### 12. Reboot
@@ -469,8 +470,9 @@ Type=Application
 #### 23. Python
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
-pip install pandas scipy pysimplegui mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy
-sudo pacman -S python-virtualenv --needed
+pip install pandas scipy mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy pipreqs
+pip install PySimpleGUI==4.60.5
+sudo pacman -S python-virtualenv tk --needed
 bash
 PATH=$PATH:/home/calvo/.local/bin
 XDG_DOWNLOAD_DIR=$HOME/downloads
