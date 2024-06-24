@@ -11,6 +11,7 @@ alias disk "ncdu"
 alias cat "command bat"
 alias ls "command eza"
 alias rm "command trash"
+alias tasks "command taskwarrior-tui"
 
 zoxide init fish --cmd cd | source
 

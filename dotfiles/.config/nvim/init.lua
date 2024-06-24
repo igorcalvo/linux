@@ -65,7 +65,7 @@ require("lazy").setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { "folke/which-key.nvim",   opts = {} },
+  { "folke/which-key.nvim", opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     "lewis6991/gitsigns.nvim",
@@ -651,7 +651,7 @@ dap.configurations.python = {
     name = "Launch file",
     program = "${file}",
     pythonPath = function()
-      return "/usr/bin/python3.11"
+      return "/usr/bin/python3.12"
     end,
   },
 }

@@ -262,6 +262,9 @@ Displays
     Layout
     Frequencies
 Multitasking
+    General
+        Hot Corner
+            Off
     Workspaces
         1
 Appearance
@@ -327,6 +330,8 @@ xclip -sel c id_rsa.pub
 ```bash
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
+
+stow --dir="/home/calvo/.config/yazi" --target="/home/calvo/code/linux/dotfiles/.config/yazi" -v --simulate .
 ```
 
 ```bash
@@ -352,9 +357,8 @@ makepkg -si
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk inkscape
 ```
 
-<!-- TODO image viwer -->
 ```bash
-sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi
+sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi pandoc python-weasyprint task taskwarrior-tui
 ```
 
 ```bash
