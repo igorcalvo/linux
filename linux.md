@@ -474,7 +474,7 @@ Type=Application
 #### 23. Python
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
-pip install pandas scipy mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy pipreqs
+pip install pandas scipy mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy pipreqs pywal
 pip install PySimpleGUI==4.60.5
 sudo pacman -S python-virtualenv tk --needed
 bash
@@ -728,7 +728,21 @@ GDM
     Settings - User Profile
 ```
 
-#### 30. Useful
+#### 30. Backup Kernel
+```bash
+sudo pacman -S linux-lts-headers
+sudo pacman -S linux-lts nvidia-lts
+
+sudo su
+cd /boot/loader/entries
+cp arch.conf arch-lts.conf
+
+append -lts to linuz and to fs
+reboot and hold 't'
+```
+
+#### 31. Useful
 ```bash
 sudo -i
+sudo su
 ```
