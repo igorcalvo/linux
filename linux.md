@@ -26,13 +26,14 @@ Totk
 csgo config
 mega backup
 documents
-
 ```
 ### Arch Install
 #### 0. Getting image ready
 ```bash
 https://archlinux.org/download/
 sha256sum -b yourfile.iso
+
+https://etcher.balena.io/
 ```
 
 #### 1. Verifying boot and setting font
@@ -442,8 +443,14 @@ mkdir Desktop |
 mkdir documents |
 mkdir videos |
 mkdir downloads |
+mkdir misc |
+mkdir books |
 mkdir images |
 rm Pictures Music Videos Documents Downloads Templates Public |
+mkdir apps |
+cd apps |
+mkdir appimages |
+cd ..|
 cd images |
 mkdir icons |
 mkdir wallpapers |
@@ -696,6 +703,9 @@ Steam
 Discord
     Login
     Voice & Video Defaults
+    Keybindings
+        Toggle Mute
+        Push to Mute
 Youtube Music
     Login
 Firefox
