@@ -18,15 +18,8 @@
   `+sso+:-`                 `.-/+oso:
  `++:.                           `-/+
  .`                                 `/
-
-TODO steam settings
-SoH 
-Totk
-?
-csgo config
-mega backup
-documents
 ```
+
 ### Arch Install
 #### 0. Getting image ready
 ```bash
@@ -363,7 +356,7 @@ sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita fla
 ```
 
 ```bash
-yay -S polychromatic wezterm extension-manager qdirstat youtube-music-bin vscodium-bin ahk_x11-bin anki gdm-settings
+yay -S polychromatic wezterm extension-manager qdirstat youtube-music vscodium ahk_x11 anki gdm-settings gwe
 ```
 
 ```bash
@@ -430,14 +423,8 @@ x-scheme-handler/unknown=firefox.desktop
 inode/directory=nautilus.desktop
 ```
 
-Directories
+#### 22. Directories
 ```bash
-cd 
-mkdir apps
-cd apps
-mkdir appimages
-cd ..
-
 mkdir code |
 mkdir Desktop |
 mkdir documents |
@@ -457,8 +444,11 @@ mkdir wallpapers |
 mkdir screenshots
 ```
 
-TODO save icons for startup and openoffice
-#### 22. Startup
+```bash
+cp ~/code/linux/files/icons/* ~/images/icons/
+```
+
+#### 23. Startup
 - Gnome Tweaks
 - Create app to run at startup
 
@@ -478,7 +468,7 @@ Terminal=false
 Type=Application
 ```
 
-#### 23. Python
+#### 24. Python
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 pip install pandas scipy mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy pipreqs pywal
@@ -492,7 +482,7 @@ nvim ~/.config/user-dirs.dirs
 gsettings set org.gnome.shell app-picker-layout "[]"
 ```
 
-#### 24. Keyboard Shortcuts
+#### 25. Keyboard Shortcuts
 | Command   | Keys    |
 |--------------- | --------------- |
 | hide all windows      | sup + d           |
@@ -500,7 +490,7 @@ gsettings set org.gnome.shell app-picker-layout "[]"
 | hide window           | sup + down arrow  |
 <!-- |    |    | -->
 
-#### 25. Ricing
+#### 26. Ricing
 ##### Cursors
 Volantes Cursors
 Light
@@ -606,7 +596,7 @@ python code/rice/offset_colors.py ~/.themes/Marble-blue-dark/gnome-shell/gnome-s
 nvim /home/calvo/.local/share/gnome-shell/extensions/custom-accent-colors@demiskp/resources/purple/gtk.css
 ```
     
-#### 26. Duplicate Icons
+#### 27. Duplicate Icons
 ```bash
 cd /usr/share/applications/
 sudo nvim codium-wayland.desktop
@@ -635,7 +625,7 @@ Just in case &nbsp;&nbsp;&nbsp;&nbsp;
 find . -name 'krita*' -exec neovide {} + 
 ```
 
-#### 27. Security
+#### 28. Security
 ```bash
 sudo ufw limit 22/tcp |
 sudo ufw allow 80/tcp |
@@ -660,7 +650,7 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
 
-#### 28. Anki
+#### 29. Anki
 Addons:
 - 1771074083
 - 3918629684
@@ -677,7 +667,7 @@ Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
 
 180&nbsp;&nbsp;&nbsp;&nbsp;2.5&nbsp;&nbsp;&nbsp;&nbsp;1.3&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;&nbsp;&nbsp;0
 
-#### 29. Applications
+#### 30. Applications
 ```bash
 sudo cp ~/code/linux/files/dotdesktops/* /usr/share/applications
 sudo cp files/krita-workspace.kws /usr/share/krita/workspaces/
@@ -738,7 +728,7 @@ GDM
     Settings - User Profile
 ```
 
-#### 30. Backup Kernel
+#### 31. Backup Kernel
 ```bash
 sudo pacman -S linux-lts-headers
 sudo pacman -S linux-lts nvidia-lts
@@ -751,7 +741,7 @@ append -lts to linuz and to fs
 reboot and hold 't'
 ```
 
-#### 31. Useful
+#### 32. Useful
 ```bash
 sudo -i
 sudo su
