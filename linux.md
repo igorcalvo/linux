@@ -690,6 +690,8 @@ Steam
     Compatibility
         Enable Steam Play for all other titles
             Proton 9.0-2
+    cs2 launch options
+        -fullscreen -sdlaudiodriver pipewire
 Discord
     Login
     Voice & Video Defaults
