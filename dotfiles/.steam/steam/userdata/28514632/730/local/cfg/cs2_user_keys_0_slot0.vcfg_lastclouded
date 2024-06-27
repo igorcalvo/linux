@@ -6,11 +6,11 @@
 		"c"		"radio2"
 		"i"		"afk"
 		"n"		"slot12"
-		"o"		"say .say"
+		"o"		"say AIMWARE.NET"
 		"p"		"kill"
 		"q"		"slot8"
 		"t"		"+jumpthrow"
-		"v"		"+spra1_menu"
+		"v"		"radio3"
 		"x"		"radio1"
 		"z"		"radio"
 		"KP_5"		"buy smokegrenade;"
@@ -43,7 +43,8 @@
 		"m"		"teammenu"
 		"7"		"<unbound>"
 		"8"		"<unbound>"
-		"h"		"+cl_show_team_equipment"
+		"h"		"+spra1_menu"
 		"MOUSE1"		"+attack"
+		"KP_0"		"buy negev;"
 	}
 }

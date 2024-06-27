@@ -220,6 +220,22 @@ sudo systemctl enable dhcpcd@wlo1.service
 ```
 
 #### 14. Display Manager
+##### Qtile
+
+```bash
+sudo pacman -S qtile picom nitrongen unclutter xorg xorg-xinit --needed
+
+cd 
+nvim .xinitrc
+```
+
+```bash
+picom &
+nitrogen ~/images/wallpapers/2024-06/pc/wallpaper5.png --set-auto
+qtile start
+```
+
+##### GNOME
 ```bash
 sudo pacman -S xorg gnome --needed
 
@@ -446,6 +462,15 @@ mkdir screenshots
 
 ```bash
 cp ~/code/linux/files/icons/* ~/images/icons/
+sudo nvim /etc/xdg/user-dirs.defaults
+nvim ~/.config/user-dirs.dirs
+gsettings set org.gnome.shell app-picker-layout "[]"
+```
+
+```bash
+bash
+PATH=$PATH:/home/calvo/.local/bin
+XDG_DOWNLOAD_DIR=$HOME/downloads
 ```
 
 #### 23. Startup
@@ -471,15 +496,11 @@ Type=Application
 #### 24. Python
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
-pip install pandas scipy mouse matplotlib Pillow tk selenium yt_dlp jupyter PyInstaller beautifulsoup4 openpyxl requests pyperclip opencv-python debugpy pipreqs pywal
 pip install PySimpleGUI==4.60.5
-sudo pacman -S python-virtualenv tk --needed
-bash
-PATH=$PATH:/home/calvo/.local/bin
-XDG_DOWNLOAD_DIR=$HOME/downloads
-sudo nvim /etc/xdg/user-dirs.defaults
-nvim ~/.config/user-dirs.dirs
-gsettings set org.gnome.shell app-picker-layout "[]"
+```
+
+```bash
+sudo pacman -S python-install python-pandas python-scipy python-mouse python-matplotlib python-Pillow python-tk python-selenium python-yt_dlp python-jupyter python-PyInstaller python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv-python python-debugpy python-pipreqs python-pywal python-virtualenv tk --needed
 ```
 
 #### 25. Keyboard Shortcuts
