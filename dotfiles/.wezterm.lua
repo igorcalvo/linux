@@ -1,9 +1,11 @@
-
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
+-- This will hold actions
+local act = wezterm.action
+
 -- config.color_scheme = 'Monokai Dark (Gogh)'
 -- config.color_scheme = 'Monokai Soda'
 -- config.color_scheme = 'tokyonight_night'
@@ -22,7 +24,7 @@ config.webgpu_preferred_adapter = {
   device = 7812,
   device_type = "DiscreteGpu",
   driver = "NVIDIA",
-  driver_info = "525.147.05",
+  driver_info = "550.90.07",
   name = "NVIDIA GeForce RTX 2070 SUPER",
   vendor = 4318,
 }
@@ -67,6 +69,11 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = wezterm.action.CloseCurrentTab { confirm = true },
   },
+  {
+    key = 'i',
+    mods = 'CTRL',
+    action = wezterm.action.ActivateCopyMode
+  }
 }
 
 -- and finally, return the configuration to wezterm
