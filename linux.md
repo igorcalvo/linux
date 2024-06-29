@@ -471,6 +471,7 @@ gsettings set org.gnome.shell app-picker-layout "[]"
 bash
 PATH=$PATH:/home/calvo/.local/bin
 XDG_DOWNLOAD_DIR=$HOME/downloads
+XDG_CONFIG_HOME=$HOME
 ```
 
 #### 23. Startup
