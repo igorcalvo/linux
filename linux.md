@@ -497,11 +497,8 @@ Type=Application
 #### 24. Python
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
-pip install PySimpleGUI==4.60.5
-```
-
-```bash
-sudo pacman -S python-install python-pandas python-scipy python-mouse python-matplotlib python-Pillow python-tk python-selenium python-yt_dlp python-jupyter python-PyInstaller python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv-python python-debugpy python-pipreqs python-pywal python-virtualenv tk --needed
+pip install PySimpleGUI==4.60.5 mouse Pillow tk selenium pipreqs
+sudo pacman -S python-pandas python-scipy python-matplotlib python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal python-virtualenv jupyter-notebook yt_dlp --needed
 ```
 
 #### 25. Keyboard Shortcuts

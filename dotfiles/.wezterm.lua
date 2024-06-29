@@ -71,7 +71,7 @@ config.keys = {
   },
   {
     key = 'i',
-    mods = 'CTRL',
+    mods = 'CTRL|SHIFT',
     action = wezterm.action.ActivateCopyMode
   }
 }
