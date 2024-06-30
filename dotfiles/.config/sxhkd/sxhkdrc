@@ -74,9 +74,9 @@ super + {o,i}
 	bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{KP_End,KP_Down,KP_Next,KP_Left,KP_Begin,KP_Right,KP_Home,KP_Up,KP_Prior}
+# super + {_,shift + }{KP_End,KP_Down,KP_Next,KP_Left,KP_Begin,KP_Right,KP_Home,KP_Up,KP_Prior}
+super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Down,KP_Begin,KP_Up,KP_Next,KP_Right,KP_Prior}
 	bspc {desktop -f,node -d} '^{1-9}'
-
 #
 # preselect
 #
@@ -137,3 +137,24 @@ ctrl + Scroll_Lock
 
 ctrl + Pause
 	sh ~/code/scripts/shutdown.sh
+
+XF86AudioRaiseVolume
+	pactl set-sink-volume 0 +2%
+
+XF86AudioLowerVolume
+	pactl set-sink-volume 0 -2%
+
+XF86AudioMute
+	pactl set-sink-mute 0 toggle
+
+XF86AudioPlay
+	playerctl play-pause
+
+XF86AudioPrev
+	playerctl previous
+
+XF86AudioNext
+	playerctl next
+
+XF86AudioStop
+	playerctl stop
