@@ -1,7 +1,6 @@
-# terminal
 # program launcher
 super + @space
-	dmenu_run
+	rofi -show run
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -129,8 +128,41 @@ Print
 super + shift + s
 	flameshot gui
 
-ctrl + alt + t
+ctrl + grave
+	clipcat-menu
+
+# ctrl + alt + t
+super + Return
 	wezterm
+
+super + 1
+	firefox
+
+super + 2
+	discord
+
+super + 3
+	youtube-music
+
+super + 4
+	krita
+
+super + 5
+	codium
+
+super + 6
+	steam
+
+# super + 7
+
+super + 8
+	tilix
+
+super + 9
+	qbittorrent
+
+super + 0
+	nautilus ~/downloads/
 
 ctrl + Scroll_Lock
 	systemctl reboot

@@ -119,7 +119,11 @@ echo arch-hostname > /etc/hostname
 passwd
 useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
-EDITOR=nvim visudo
+
+SUDO_EDITOR=/usr/bin/nvim
+export SUDO_EDITOR
+# EDITOR=nvim visudo
+visudo
 
 /%wheel
 x
@@ -341,6 +345,9 @@ xclip -sel c id_rsa.pub
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
 
+cd ~/code/linux/dotfiles/.config/
+mkdir x 
+mv ~/.config/x/* ~/code/linux/dotfiles/x
 stow --dir="/home/calvo/.config/yazi" --target="/home/calvo/code/linux/dotfiles/.config/yazi" -v --simulate .
 ```
 
@@ -364,15 +371,15 @@ makepkg -si
 
 #### 19. Installing
 ```bash
-sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk inkscape
+sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk inkscape ripgrep dmenu rofi playerctl
 ```
 
 ```bash
-sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi pandoc python-weasyprint task taskwarrior-tui stress glmark2 playerctl
+sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi pandoc python-weasyprint task taskwarrior-tui stress glmark2 clipcat
 ```
 
 ```bash
-yay -S polychromatic wezterm extension-manager qdirstat youtube-music vscodium ahk_x11 anki gdm-settings gwe ttf-juliamono
+yay -S polychromatic wezterm extension-manager qdirstat youtube-music vscodium ahk_x11 anki gdm-settings gwe ttf-juliamono ttf-weather-icons
 ```
 
 ```bash
@@ -387,7 +394,9 @@ AppImages
 ```bash
 https://www.onlyoffice.com/download-desktop.aspx
 https://github.com/Nixola/VRRTest/releases/
-
+# /usr/share/fonts/TTF/
+https://www.fontpalace.com/font-download/book-antiqua-bold/
+https://freefontsfamily.net/book-antiqua-font-free-download/
 ```
 Must Compile
 [Btop](https://github.com/aristocratos/btop?tab=readme-ov-file#compilation-linux) 
@@ -498,7 +507,7 @@ Type=Application
 ```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 pip install PySimpleGUI==4.60.5 mouse Pillow tk selenium pipreqs
-sudo pacman -S python-pandas python-scipy python-matplotlib python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal python-virtualenv jupyter-notebook yt_dlp --needed
+sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal python-virtualenv jupyter-notebook yt_dlp --needed
 ```
 
 #### 25. Keyboard Shortcuts
