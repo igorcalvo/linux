@@ -12,6 +12,7 @@ alias cat "command bat"
 alias ls "command eza"
 alias rm "command trash"
 alias tasks "command taskwarrior-tui"
+alias fs "yazi"
 
 zoxide init fish --cmd cd | source
 

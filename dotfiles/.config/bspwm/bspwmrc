@@ -3,9 +3,9 @@
 pgrep -x sxhkd > /dev/null || sxhkd &
 
 # bspc monitor -d I II III IV V VI VII VIII IX X
-bspc monitor DP-2 -d I II III
-bspc monitor DP-0 -d IV V VI
-bspc monitor HDMI-0 -d VII VIII IX
+bspc monitor DP-2 -d L1 L2 L3
+bspc monitor DP-0 -d C1 C2 C3
+bspc monitor HDMI-0 -d R1 R2 R3
 
 bspc config border_width         2
 bspc config window_gap          12

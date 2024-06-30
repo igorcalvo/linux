@@ -1,11 +1,4 @@
-#
-# wm independent hotkeys
-#
-
-# terminal emulator
-super + Return
-	wezterm
-
+# terminal
 # program launcher
 super + @space
 	dmenu_run
@@ -81,8 +74,8 @@ super + {o,i}
 	bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+super + {_,shift + }{KP_End,KP_Down,KP_Next,KP_Left,KP_Begin,KP_Right,KP_Home,KP_Up,KP_Prior}
+	bspc {desktop -f,node -d} '^{1-9}'
 
 #
 # preselect
@@ -119,3 +112,28 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# custom scripts
+ctrl + alt + f
+	sh ~/code/scripts/cs-kill.sh
+
+ctrl + alt + h
+	sh ~/code/scripts/cs-out.sh
+
+ctrl + alt + g
+	sh ~/code/scripts/cs-in.sh
+
+Print
+	flameshot full -p ~/images/screenshots
+
+super + shift + s
+	flameshot gui
+
+ctrl + alt + t
+	wezterm
+
+ctrl + Scroll_Lock
+	systemctl reboot
+
+ctrl + Pause
+	sh ~/code/scripts/shutdown.sh

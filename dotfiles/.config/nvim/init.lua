@@ -110,7 +110,9 @@ require("lazy").setup({
     "theHamsta/nvim-dap-virtual-text",
   },
   {
-    "ThePrimeagen/vim-be-good"
+    "ThePrimeagen/vim-be-good",
+    "norcalli/nvim-colorizer.lua",
+    "ziontee113/color-picker.nvim"
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -183,7 +185,7 @@ require("lazy").setup({
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
-vim.g.python3_host_prog = "/usr/bin/python3.11"
+vim.g.python3_host_prog = "/usr/bin/python3.12"
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -258,6 +260,9 @@ vim.keymap.set("n", "<C-.>", ":lua vim.lsp.buf.code_action()<cr>", { desc = "Cod
 vim.keymap.set("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>", { desc = "Source init.lua" })
 vim.keymap.set("n", "<leader>r", ":reg<cr>", { desc = "[R]egisters" })
 
+-- Plugins keymaps?
+vim.keymap.set("n", "cp", "<cmd>PickColor<cr>", { desc = "[C]olor [P]ick" })
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -326,6 +331,9 @@ require("monokai-pro").setup({
   },
   override = function(c) end,
 })
+
+require("colorizer").setup()
+require("color-picker").setup()
 
 require("neo-tree").setup({
   close_if_last_window = true,

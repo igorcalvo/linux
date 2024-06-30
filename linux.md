@@ -372,7 +372,7 @@ sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita fla
 ```
 
 ```bash
-yay -S polychromatic wezterm extension-manager qdirstat youtube-music vscodium ahk_x11 anki gdm-settings gwe
+yay -S polychromatic wezterm extension-manager qdirstat youtube-music vscodium ahk_x11 anki gdm-settings gwe ttf-juliamono
 ```
 
 ```bash
@@ -766,4 +766,6 @@ reboot and hold 't'
 ```bash
 sudo -i
 sudo su
+xev # events, to find key names
+fc-list | grep Mono # list font names
 ```
