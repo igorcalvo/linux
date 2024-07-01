@@ -42,6 +42,10 @@ for display in "${displays[@]}"; do
 	xrandr --output "$display" --gamma "${new_prof}"
 done
 
+if [[ -z "$new_ind" ]]; then
+	new_ind=0
+fi
+
 echo "ind=${new_ind}" > "$config"
 [[ ${ind} == 0  ]] && echo " day " || echo "night"
 # echo "${new_prof}"

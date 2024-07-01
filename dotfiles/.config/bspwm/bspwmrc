@@ -14,6 +14,11 @@ bspc config split_ratio          0.50
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
+bspc config -m DP-0 top_padding 32px
+bspc config -m DP-2 top_padding 0px
+bspc config -m HDMI-0 top_padding 0px
+bspc rule -a polybar private
+
 # bspc rule -a Gimp desktop='^8' state=floating follow=on
 # bspc rule -a Chromium desktop='^2'
 # bspc rule -a mplayer2 state=floating
