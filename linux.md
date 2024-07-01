@@ -115,13 +115,18 @@ timedatectl
 hostname = machine name
 ```bash
 echo arch-hostname > /etc/hostname
+nvim /etc/hosts
 
+127.0.0.1 localhost
+127.0.0.1 arch-pc
+```
+
+
+```bash
 passwd
 useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
 
-SUDO_EDITOR=/usr/bin/nvim
-export SUDO_EDITOR
 # EDITOR=nvim visudo
 visudo
 
@@ -371,7 +376,7 @@ makepkg -si
 
 #### 19. Installing
 ```bash
-sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk inkscape ripgrep dmenu rofi playerctl
+sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk inkscape ripgrep dmenu rofi playerctl numlockx
 ```
 
 ```bash
@@ -412,11 +417,10 @@ sudo make install
 ```bash
 git config --global user.email "igorcalvob@gmail.com" |
 git config --global user.name "igorcalvo" |
-export LC_CTYPE=en_US.UTF-8 |
-export LC_ALL=en_US.UTF-8 |
 xdg-settings set default-web-browser firefox.desktop |
 sudo modprobe razerkbd
 sudo gpasswd -a $USER plugdev
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 <!-- sudo sensors-detect -->
 
