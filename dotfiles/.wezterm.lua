@@ -28,7 +28,7 @@ config.webgpu_preferred_adapter = {
   device = 7812,
   device_type = "DiscreteGpu",
   driver = "NVIDIA",
-  driver_info = "555.58",
+  driver_info = "555.58.02",
   name = "NVIDIA GeForce RTX 2070 SUPER",
   vendor = 4318,
 }

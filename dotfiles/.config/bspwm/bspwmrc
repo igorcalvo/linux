@@ -27,7 +27,8 @@ bspc config focused_border_color '#46c8a0'
 # bspc rule -a Kupfer.py focus=on
 # bspc rule -a Screenkey manage=off
 
-# bspc rule -a firefox desktop='^7'
+# xprop
+bspc rule -a firefox desktop='^1'
 bspc rule -a discord desktop='^1'
-bspc rule -a tilix desktop='^7'
-bspc rule -a youtube-music desktop='^7'
+bspc rule -a Tilix desktop='^7'
+bspc rule -a 'YouTube Music' desktop='^7'

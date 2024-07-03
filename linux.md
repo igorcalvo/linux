@@ -229,10 +229,10 @@ sudo systemctl enable dhcpcd@wlo1.service
 ```
 
 #### 14. Display Manager
-##### Qtile
+##### BSPWM
 
 ```bash
-sudo pacman -S qtile picom nitrongen unclutter xorg xorg-xinit --needed
+sudo pacman -S bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar --needed
 
 cd 
 nvim .xinitrc
@@ -241,7 +241,7 @@ nvim .xinitrc
 ```bash
 picom &
 nitrogen ~/images/wallpapers/2024-06/pc/wallpaper5.png --set-auto
-qtile start
+bspwm
 ```
 
 ##### GNOME
@@ -381,7 +381,7 @@ sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-font
 ```
 
 ```bash
-sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi pandoc python-weasyprint task taskwarrior-tui stress glmark2 clipcat
+sudo pacman -S --needed neofetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi pandoc python-weasyprint task taskwarrior-tui stress glmark2 clipcat ly
 ```
 
 ```bash
@@ -389,6 +389,8 @@ yay -S polychromatic wezterm extension-manager qdirstat youtube-music vscodium a
 ```
 
 ```bash
+systemctl enable ly.service
+
 ?
 lm-sensors
 pandoc
