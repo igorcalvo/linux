@@ -13,6 +13,7 @@ alias ls "command eza"
 alias rm "command trash"
 alias tasks "command taskwarrior-tui"
 alias fs "yazi"
+alias services "systemctl list-unit-files | grep enabled"
 
 zoxide init fish --cmd cd | source
 
