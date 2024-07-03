@@ -250,7 +250,8 @@ sudo pacman -S xorg gnome --needed
 
 enter
 ? = backgrounds
-4,6,8,14,15,16,18,20,23,25,26,28,48,58, ?
+?? = terminal
+4,6,8,14,15,16,18,20,23,25,26,28,48,58, ?, ??
 
 gdm
 calculator

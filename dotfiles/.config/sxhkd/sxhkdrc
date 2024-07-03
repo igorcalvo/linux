@@ -2,18 +2,6 @@
 super + space
 	rofi -show run
 
-# make sxhkd reload its configuration files:
-super + Escape
-	pkill -USR1 -x sxhkd
-
-#
-# bspwm hotkeys
-#
-
-# quit/restart bspwm
-super + alt + {q,r}
-	bspc {quit,wm -r}
-
 # close and kill
 super + {_,shift + }w
 	bspc node -{c,k}
@@ -73,9 +61,9 @@ super + {o,i}
 	bspc wm -h on
 
 # focus or send to the given desktop
-# super + {_,shift + }{KP_End,KP_Down,KP_Next,KP_Left,KP_Begin,KP_Right,KP_Home,KP_Up,KP_Prior}
 super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Down,KP_Begin,KP_Up,KP_Next,KP_Right,KP_Prior}
-	bspc {desktop -f,node -d} '^{1-9}'
+	bspc {desktop -f,node -d} '^{1-9}' --follow
+
 #
 # preselect
 #
