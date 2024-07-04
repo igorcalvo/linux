@@ -14,10 +14,6 @@ super + m
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
 
-# swap the current node and the biggest window
-super + g
-	bspc node -s biggest.window
-
 #
 # state/flags
 #
@@ -120,7 +116,7 @@ ctrl + grave
 	clipcat-menu
 
 # ctrl + alt + t
-super + Return
+super + { Return, KP_Enter }
 	wezterm
 
 super + 1
@@ -150,7 +146,7 @@ super + 9
 	qbittorrent
 
 super + 0
-	nautilus ~/downloads/
+	nautilus ~/downloads/${appName}: ${sessionName}
 
 ctrl + Scroll_Lock
 	systemctl reboot
@@ -159,10 +155,10 @@ ctrl + Pause
 	sh ~/code/scripts/shutdown.sh
 
 XF86AudioRaiseVolume
-	pactl set-sink-volume 0 +2%
+	pactl set-sink-volume 0 +2% | sh ~/code/scripts/volume-notification.sh 2
 
 XF86AudioLowerVolume
-	pactl set-sink-volume 0 -2%
+	pactl set-sink-volume 0 -2% | sh ~/code/scripts/volume-notification.sh -2
 
 XF86AudioMute
 	pactl set-sink-mute 0 toggle

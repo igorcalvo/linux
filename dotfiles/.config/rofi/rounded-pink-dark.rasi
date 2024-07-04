@@ -6,13 +6,13 @@
 
 * {
     bg0:    #212121F2;
-    bg1:    #2A2A2A;
-    bg2:    #3D3D3D80;
-    bg3:    #EC407AF2;
-    fg0:    #E6E6E6;
-    fg1:    #FFFFFF;
+    bg1:    #2a2a2a;
+    bg2:    #3d3d3d80;
+    bg3:    #8f40ecF2;
+    fg0:    #e6e6e6;
+    fg1:    #ffffff;
     fg2:    #969696;
-    fg3:    #3D3D3D;
+    fg3:    #3d3d3d;
 }
 
 @import "rounded-common.rasi"
