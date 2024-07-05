@@ -12,7 +12,7 @@ local act = wezterm.action
 -- config.color_scheme = 'Thayer Bright'
 config.color_scheme = 'Tinacious Design (Dark)'
 -- config.color_scheme = 'Google Dark (Gogh)'
---
+config.window_background_opacity = 1.0
 config.font = wezterm.font_with_fallback {
   'JetBrains Mono',
   'JuliaMono',

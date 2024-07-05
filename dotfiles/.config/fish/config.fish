@@ -14,6 +14,8 @@ alias rm "command trash"
 alias tasks "command taskwarrior-tui"
 alias fs "yazi"
 alias services "systemctl list-unit-files | grep enabled"
+alias calendar "cal 2024 --monday"
+alias neofetch "command fastfetch"
 
 zoxide init fish --cmd cd | source
 
