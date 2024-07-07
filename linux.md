@@ -722,6 +722,8 @@ Steam
     In Game
         FPS Counter Top Right
         High Contrat True
+    Notifications
+        Disable friend join game
     Compatibility
         Enable Steam Play for all other titles
             Proton 9.0-2

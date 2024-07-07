@@ -11,11 +11,13 @@ alias disk "ncdu"
 alias cat "command bat"
 alias ls "command eza"
 alias rm "command trash"
-alias tasks "command taskwarrior-tui"
+# alias tasks "command taskwarrior-tui"
+alias tasks "nvim ~/lists/tasks.txt"
 alias fs "yazi"
 alias services "systemctl list-unit-files | grep enabled"
 alias calendar "cal 2024 --monday"
 alias neofetch "command fastfetch"
+alias img "command wezterm imgcat"
 
 zoxide init fish --cmd cd | source
 
