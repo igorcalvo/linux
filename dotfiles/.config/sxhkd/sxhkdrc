@@ -13,8 +13,9 @@ ctrl + alt + b
 	bspc wm -r; notify-send 'sxhkd' 'Reloaded bspwm'
 
 # close and kill
-super + {_,shift + }w
-	bspc node -{c,k}
+# super + {_,shift + }w
+ctrl + + alt + w
+	bspc node -c
 
 # alternate between the tiled and monocle layout
 super + s

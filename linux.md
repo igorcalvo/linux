@@ -403,7 +403,14 @@ pip install PySimpleGUI==4.60.5 mouse Pillow tk selenium pipreqs
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal python-virtualenv jupyter-notebook yt_dlp --needed
 ```
 
-#### 24. Ricing
+#### 24. Files
+```bash
+cp ~/code/linux/files/krita-workspace.kws ~/.local/share/krita/workspaces/
+
+TODO MEGA and more
+```
+
+#### 25. Ricing
 ##### Display Manager
 ```bash
 sudo nvim /etc/ly/config.ini
@@ -447,13 +454,12 @@ Run rice.py to change hue on new script
 ```bash
 ```
     
-#### 25. Security
+#### 26. Security
 ```bash
 sudo ufw limit 22/tcp |
 sudo ufw allow 80/tcp |
 sudo ufw allow 443/tcp |
 sudo ufw default deny incoming |
-sudo ufw default allow outgoing |
 sudo ufw enable
 ```
 
@@ -474,7 +480,7 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
 
-#### 26. Anki
+#### 27. Anki
 Addons:
 - 1771074083
 - 3918629684
@@ -491,7 +497,7 @@ Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
 
 180&nbsp;&nbsp;&nbsp;&nbsp;2.5&nbsp;&nbsp;&nbsp;&nbsp;1.3&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;&nbsp;&nbsp;0
 
-#### 27. Applications
+#### 28. Applications
 ```bash
 sudo cp ~/code/linux/files/dotdesktops/* /usr/share/applications
 sudo cp files/krita-workspace.kws /usr/share/krita/workspaces/
@@ -551,7 +557,7 @@ VS Codium
         Copy Line Down - Shift Alt Down
 ```
 
-#### 28. Backup Kernel
+#### 29. Backup Kernel
 ```bash
 sudo pacman -S linux-lts-headers
 sudo pacman -S linux-lts nvidia-lts
@@ -564,7 +570,7 @@ append -lts to linuz and to fs
 reboot and hold 't'
 ```
 
-#### 29. Useful
+#### 30. Useful
 ```bash
 sudo -i
 sudo su
