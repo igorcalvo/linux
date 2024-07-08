@@ -36,7 +36,7 @@ config.front_end = "WebGpu"
 config.webgpu_power_preference = "HighPerformance"
 config.show_update_window = true
 config.default_prog = { 'fish' }
-config.exit_behavior = "Hold"
+-- config.exit_behavior = "Hold"
 
 config.keys = {
   {

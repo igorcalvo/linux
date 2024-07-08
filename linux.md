@@ -20,6 +20,13 @@
  .`                                 `/
 ```
 
+TODO 
+Grub
+Python packages filter
+Ricing - new
+Mega.nz download
+Games - soh, totk, mm...
+
 ### Arch Install
 #### 0. Getting image ready
 ```bash
@@ -29,9 +36,10 @@ sha256sum -b yourfile.iso
 https://etcher.balena.io/
 ```
 
-#### 1. Verifying boot and setting font
+#### 1. Verifying boot and maybe setting font
 ```bash
 efivar -l
+
 setfont ter-u20b
 ```
 
@@ -94,11 +102,10 @@ pacman -S --needed neovim sudo intel-ucode iucode-tool linux-headers dhcpcd netw
 #### 6. Language, Location & Time
 ```bash
 nvim /etc/locale.gen
-```
-/en_US
-/en_GB
-/pt_BR.UTF-8
+
+/en_US.UTF-8
 x #
+```
 
 ```bash
 locale-gen
@@ -127,8 +134,7 @@ passwd
 useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
 
-# EDITOR=nvim visudo
-visudo
+EDITOR=nvim visudo
 
 /%wheel
 x
@@ -153,8 +159,8 @@ parallel 15
 pacman -Syu
 ```
 
-<!-- TODO bootctl -> grub -->
 #### 9. Boot
+##### systemd-boot
 ```bash
 ls /sys/firmware/efi/efivars
 mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
@@ -162,7 +168,7 @@ bootctl install
 nvim /boot/loader/entries/arch.conf
 ```
 
-```
+```bash
 title Arch
 linux /vmlinuz-linux
 initrd /intel-ucode.img
@@ -170,9 +176,12 @@ initrd /initramfs-linux.img
 ```
 
 ```bash
-echo ¨options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1¨ >> /boot/loader/entries/arch.conf
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1" >> /boot/loader/entries/arch.conf
 cat /boot/loader/entries/arch.conf
 ```
+
+##### grub
+TODO 
 
 #### 10. Nvidia & Image
 ```bash
@@ -230,113 +239,46 @@ sudo systemctl enable dhcpcd@wlo1.service
 
 #### 14. Display Manager
 ##### BSPWM
-
 ```bash
-sudo pacman -S bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar --needed
+sudo pacman -S bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar ly --needed
 
-cd 
-nvim .xinitrc
+mkdir .config/sxhkd
+nvim .config/sxhkd/sxhkdrc
+
+super + Return
+    tilix
+
+systemctl enable ly.service
+reboot
 ```
 
 ```bash
+super + enter
 picom &
-nitrogen ~/images/wallpapers/2024-06/pc/wallpaper5.png --set-auto
-bspwm
 ```
 
-##### GNOME
+#### 15. Directories
 ```bash
-sudo pacman -S xorg gnome --needed
-
-enter
-? = backgrounds
-?? = terminal
-4,6,8,14,15,16,18,20,23,25,26,28,48,58, ?, ??
-
-gdm
-calculator
-chracters
-control-center
-disk-utility
-font-viwer
-logs
-menus
-session
-shell
-shell-extensions
-system-monitor
-nautilus
-user-dirs-gtk
+mkdir code |
+mkdir Desktop |
+mkdir documents |
+mkdir videos |
+mkdir downloads |
+mkdir misc |
+mkdir books |
+mkdir images |
+mkdir lists |
+mkdir apps
 ```
 
 ```bash
-sudo systemctl start gdm
-
-sudo systemctl enable gdm
-systemctl reboot
-```
-
-#### 15. Gnome Settings 
-```
-Displays
-    Layout
-    Frequencies
-Multitasking
-    General
-        Hot Corner
-            Off
-    Workspaces
-        1
-Appearance
-    Dark
-Power
-    Dim Screen
-    Screen Blank
-        5 Minutes
-    Automatic Suspend
-        When on Battery
-    Power Button
-        Suspend / Power Off
-    Show Batter Percentage
-        On
-Mouse & Touchpad
-    Mouse
-        Mouse Acceleration
-            Off
-    Touchpad
-        Secondary Click
-            Corner Push
-System
-    Region & Language
-        Language    - English (US)
-        Formats     - United Kingdom
-    Date & Time
-        Automatic Date & Time
-            On
-        Time Zone
-            Sao Paulo, Brazil
-```
-
-```bash
-dconf write /org/gnome/desktop/background/picture-options "'spanned'" |
-dconf write /org/gnome/desktop/wm/preferences/focus-new-windows "'smart'" |
-dconf write /org/gnome/settings-daemon/plugins/media-keys/volume-step 2 |
-dconf write /org/gnome/desktop/interface/clock-show-seconds true |
-dconf write /org/gnome/desktop/interface/clock-show-weekday true |
-dconf write /org/gnome/desktop/interface/clock-show-date true |
-dconf write /org/gnome/desktop/interface/clock-format "'24h'" |
-dconf write /org/gnome/desktop/calendar/show-weekdate true |
-dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled true |
-dconf write /org/gnome/settings-daemon/plugins/color/night-light-schedule-automatic false |
-dconf write /org/gnome/settings-daemon/plugins/color/night-light-schedule-from 20 |
-dconf write /org/gnome/settings-daemon/plugins/color/night-light-schedule-to 8 |
-dconf write /org/gnome/settings-daemon/plugins/color/night-light-temperature 3165 |
-dconf write /org/gnome/mutter/dynamic-workspaces false |
-dconf write /org/gnome/desktop/interface/show-battery-percentage true |
-dconf write /org/gnome/desktop/interface/color-scheme "'default'" |
-dconf write /org/gnome/desktop/input-sources/mru-sources "[('xkb', 'us')]" |
-dconf write /org/gnome/desktop/input-sources/sources "[('xkb', 'us'), ('xkb', 'us+intl')]" |
-dconf write /system/locale/region "'en_GB.UTF-8'"
+cd apps |
+mkdir appimages |
+cd ..|
+cd images |
+mkdir icons |
+mkdir wallpapers |
+mkdir screenshots
 ```
 
 #### 16. Clone repos
@@ -344,6 +286,10 @@ dconf write /system/locale/region "'en_GB.UTF-8'"
 ssh-keygen -t rsa
 cd /home/calvo/.ssh
 xclip -sel c id_rsa.pub
+
+firefox
+clone linux
+clone scripts
 ```
 
 #### 17. Stow & Tilix
@@ -354,7 +300,7 @@ stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt .
 cd ~/code/linux/dotfiles/.config/
 mkdir x 
 mv ~/.config/x/* ~/code/linux/dotfiles/x
-stow --dir="/home/calvo/.config/yazi" --target="/home/calvo/code/linux/dotfiles/.config/yazi" -v --simulate .
+stow --dir="/home/calvo/.config/x" --target="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
 ```
 
 ```bash
@@ -366,9 +312,7 @@ dconf load /com/gexperts/Tilix/ < tilix.dconf
 #### 18. Yay
 ```bash
 sudo pacman -Syu
-# sudo pacman -S --needed base-devel git
-cd 
-mkdir apps
+
 cd apps
 git clone https://aur.archlinux.org/yay.git
 cd yay
@@ -377,36 +321,41 @@ makepkg -si
 
 #### 19. Installing
 ```bash
-sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk inkscape ripgrep dmenu rofi playerctl numlockx 
+sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts noto-fonts \
+ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools \
+ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel \
+clutter clutter-gtk inkscape ripgrep rofi playerctl numlockx lm_sensors xdg-user-dirs-gtk gnome-backgrounds
 ```
 
 ```bash
-sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm calibre ffmpeg gnome-tweaks dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat stress glmark2 eza zoxide discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi pandoc python-weasyprint task taskwarrior-tui stress glmark2 clipcat ly calcurse xcolor
+sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm\
+calibre ffmpeg dconf-editor drawing trash-cli xarchiver-gtk2 fish jq fzf tldr bat eza zoxide\
+stress glmark2 discord neovide fail2ban ufw steam imagemagick pavucontrol feh yazi pandoc python-weasyprint\
+task taskwarrior-tui clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal
 ```
 
 ```bash
-yay -S polychromatic wezterm extension-manager qdirstat youtube-music vscodium ahk_x11 anki gdm-settings gwe ttf-juliamono ttf-weather-icons
+yay -S polychromatic wezterm qdirstat youtube-music vscodium ahk_x11 anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders
 ```
 
 ```bash
-systemctl enable ly.service
+dconf write /system/locale/region "'en_GB.UTF-8'"
+```
 
+```
 ?
-lm-sensors
-pandoc
 tetrio
 ```
 
 #### 20. Websites
-AppImages
+##### AppImages
 ```bash
 https://www.onlyoffice.com/download-desktop.aspx
 https://github.com/Nixola/VRRTest/releases/
-# /usr/share/fonts/TTF/
-https://www.fontpalace.com/font-download/book-antiqua-bold/
-https://freefontsfamily.net/book-antiqua-font-free-download/
+https://etcher.balena.io/
 ```
-Must Compile
+
+##### Must Compile
 [Btop](https://github.com/aristocratos/btop?tab=readme-ov-file#compilation-linux) 
 ```bash
 cd ~/apps
@@ -418,114 +367,57 @@ sudo make install
 
 #### 21. System Config
 ```bash
+rm Pictures Music Videos Documents Downloads Templates Public |
+
+cp ~/code/linux/files/icons/* ~/images/icons/
+sudo nvim /etc/xdg/user-dirs.defaults
+nvim ~/.config/user-dirs.dirs
+```
+
+```bash
 git config --global user.email "igorcalvob@gmail.com" |
 git config --global user.name "igorcalvo" |
 xdg-settings set default-web-browser firefox.desktop |
 sudo modprobe razerkbd
+```
+
+```bash
 sudo gpasswd -a $USER plugdev
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-<!-- sudo sensors-detect -->
-
-Default Apps
-```
-sudo nvim /usr/share/applications/mimeinfo.cache
-
-/inode
-d10w
-/plain
-d10w
-
-inode/directory=org.gnome.Nautilus.desktop;
-text/plain=neovide.desktop;nvim.desktop;org.gnome.gedit.desktop;
-
-nvim ~/.local/share/applications/mimeinfo.cache
-[MIME Cache]
-inode/directory=org.gnome.Nautilus.desktop;
-text/plain=neovide.desktop;nvim.desktop;org.gnome.gedit.desktop;
-
-nvim ~/.config/mimeapps.list
-[Default Applications]
-application/x-ahk_x11=ahk_x11.desktop
-text/html=firefox.desktop
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
-x-scheme-handler/about=firefox.desktop
-x-scheme-handler/unknown=firefox.desktop
-inode/directory=nautilus.desktop
+sudo sensors-detect
 ```
 
-#### 22. Directories
+#### 22. Startup
 ```bash
-mkdir code |
-mkdir Desktop |
-mkdir documents |
-mkdir videos |
-mkdir downloads |
-mkdir misc |
-mkdir books |
-mkdir images |
-rm Pictures Music Videos Documents Downloads Templates Public |
-mkdir apps |
-cd apps |
-mkdir appimages |
-cd ..|
-cd images |
-mkdir icons |
-mkdir wallpapers |
-mkdir screenshots
+sudoedit /usr/share/xsessions/bspwm.desktop
+Exec=sh ~/code/scripts/wm-start.sh
+# .xinitrc
 ```
 
+#### 23. Python
 ```bash
-cp ~/code/linux/files/icons/* ~/images/icons/
-sudo nvim /etc/xdg/user-dirs.defaults
-nvim ~/.config/user-dirs.dirs
-gsettings set org.gnome.shell app-picker-layout "[]"
-```
+fuck pysimplegui
 
-```bash
-bash
-PATH=$PATH:/home/calvo/.local/bin
-XDG_DOWNLOAD_DIR=$HOME/downloads
-XDG_CONFIG_HOME=$HOME
-```
-
-#### 23. Startup
-- Gnome Tweaks
-- Create app to run at startup
-
-<!-- /usr/share/applications/ -->
-```bash
-~/.local/share/applications/
-startup.desktop 
-
-[Desktop Entry]
-Name=Startup
-Comment=Startup
-Keywords=folder;manager;explore;disk;filesystem;
-Exec=sh /home/calvo/code/scripts/startup.sh
-# Exec=nautilus /home/calvo/book 
-Icon=/home/calvo/images/icons/shuttle.png
-Terminal=false
-Type=Application
-```
-
-#### 24. Python
-```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 pip install PySimpleGUI==4.60.5 mouse Pillow tk selenium pipreqs
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal python-virtualenv jupyter-notebook yt_dlp --needed
 ```
 
-#### 25. Keyboard Shortcuts
-| Command   | Keys    |
-|--------------- | --------------- |
-| hide all windows      | sup + d           |
-| 3x screenshot         | backspace         |
-| hide window           | sup + down arrow  |
-<!-- |    |    | -->
+#### 24. Ricing
+##### Display Manager
+```bash
+sudo nvim /etc/ly/config.ini
+fg = 7
+```
 
-#### 26. Ricing
+##### Wallpaper
+1. Get it
+2. Krita
+
+```bash
+nitrogen ~/images/wallpapers/20xx-0x/pc/xxx.png --set-auto
+```
+
 ##### Cursors
 Volantes Cursors
 Light
@@ -540,82 +432,6 @@ sudo make build
 sudo make install
 ```
 
-##### Icons
-Kora
-Green or Yellow
-https://www.gnome-look.org/s/Gnome/p/1256209
-https://github.com/bikass/kora
-
-```bash
-cd apps
-git clone git@github.com:bikass/kora.git
-cd kora
-cd apps/scalable
-find . -name 'discord*' | xargs sudo rm {}
-find . -name 'steam*' | xargs sudo rm {}
-find . -name 'youtube*' | xargs sudo rm {}
-cd ../..
-rm icon-theme.cache
-sh create-new-icon-theme.cache.sh
-cd ..
-sudo cp kora/ /usr/share/icons/
-```
-
-##### Theme
-Marble Shell theme
-https://www.gnome-look.org/p/1977647 <br><br>
-
-```bash
-git clone https://github.com/imarkoff/Marble-shell-theme.git
-cd Marble-shell-theme
-python install.py --blue --mode=dark --filled
-
-cd ~/.themes/Marble-blue-dark/gnome-shell/
-nvim gnome-shell.css
-
-/ Panel
-font-size: 15px;
-/ Popovers
-background: rgba(18, 20, 21, 1); 
-```
-
-Backups \
-Cappuccin - https://github.com/catppuccin/gtk \
-Flat Remix GNOME / GDM - https://www.gnome-look.org/p/1013030 \
-Yaru-Colors - https://www.pling.com/p/1299514 \
-Midnight-GnomeShell - https://www.gnome-look.org/p/1273210
-
-##### Extensions
-![extensions](./extensions.png)
-
- ```bash
-dconf dump /org/gnome/shell/extensions/ > extensions.dconf
-dconf load /org/gnome/shell/extensions/ < files/dumps/extensions.dconf
-```
-
-```
-Impatience
-    0.5
-Dash to Dock
-    Behavior
-        Click action                Raise window
-    Appearance
-        Show overview on startup    false
-        Use built-in theme          true
-Just Perfection
-    Behavior
-        Startup Status              Desktop
-Gt4 Desktop Icons
-    Files
-        Show hidden files               true
-Quick Settings Audio Devices Hider
-    Hide All But
-        Analog Output 7.1 HyperX
-        Line Out - Starship/Mantisse HD
-Todo.txt
-    Click to create file
-```
-
 ##### Steam Theme
 ```bash
 cd
@@ -626,41 +442,12 @@ python install.py
 ```
 
 ##### Colors
+Script to separate primary and secondary colors
+Run rice.py to change hue on new script
 ```bash
-python code/rice/offset_colors.py ~/.themes/Marble-blue-dark/gnome-shell/gnome-shell.css -0.3
-nvim /home/calvo/.local/share/gnome-shell/extensions/custom-accent-colors@demiskp/resources/purple/gtk.css
 ```
     
-#### 27. Duplicate Icons
-```bash
-cd /usr/share/applications/
-sudo nvim codium-wayland.desktop
-sudo nvim codium-uri-handler.desktop
-sudo nvim ahk_x11-compiler.desktop
-sudo nvim ahk_x11-windowspy.desktop
-sudo nvim avahi-discover.desktop
-sudo nvim bssh.desktop
-sudo nvim bvnc.desktop
-sudo nvim qv4l2.desktop
-sudo nvim qvidcap.desktop
-sudo nvim lstopo.desktop
-Hidden=true
-
-gsettings set org.gnome.shell app-picker-layout "[]"
-```
-
-```bash
-find . -type f -name 'krita*' | grep -i 'krita*' | xargs -i cp {} /home/calvo/.local/share/applications/
-cd /home/calvo/local/share/.applications/
-find . -name 'krita*' | xargs -i echo "Hidden=true" >> {}
-```
-
-Just in case &nbsp;&nbsp;&nbsp;&nbsp;
-```bash
-find . -name 'krita*' -exec neovide {} + 
-```
-
-#### 28. Security
+#### 25. Security
 ```bash
 sudo ufw limit 22/tcp |
 sudo ufw allow 80/tcp |
@@ -670,7 +457,7 @@ sudo ufw default allow outgoing |
 sudo ufw enable
 ```
 
-sudo nvim /etc/fail2ban/jail.local
+sudoedit /etc/fail2ban/jail.local
 ```bash
 [DEFAULT]
 ignoreip = 127.0.0.1/8 ::1
@@ -680,12 +467,14 @@ maxretry = 5
 
 [sshd]
 enabled = true
+```
 
+```bash
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
 
-#### 29. Anki
+#### 26. Anki
 Addons:
 - 1771074083
 - 3918629684
@@ -702,7 +491,7 @@ Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
 
 180&nbsp;&nbsp;&nbsp;&nbsp;2.5&nbsp;&nbsp;&nbsp;&nbsp;1.3&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;&nbsp;&nbsp;0
 
-#### 30. Applications
+#### 27. Applications
 ```bash
 sudo cp ~/code/linux/files/dotdesktops/* /usr/share/applications
 sudo cp files/krita-workspace.kws /usr/share/krita/workspaces/
@@ -757,17 +546,12 @@ Pulse Audio
     Input Devices
         150%
 VS Codium
-    Monokai Pro - Ristretto
+    Monokai, but not pro
     Keyboard Shortcuts
         Copy Line Down - Shift Alt Down
-GDM
-    Wallpaper
-    Apply
-
-    Settings - User Profile
 ```
 
-#### 31. Backup Kernel
+#### 28. Backup Kernel
 ```bash
 sudo pacman -S linux-lts-headers
 sudo pacman -S linux-lts nvidia-lts
@@ -780,7 +564,7 @@ append -lts to linuz and to fs
 reboot and hold 't'
 ```
 
-#### 32. Useful
+#### 29. Useful
 ```bash
 sudo -i
 sudo su

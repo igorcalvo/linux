@@ -24,20 +24,18 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+PATH=$PATH:/home/calvo/.local/bin
 . "$HOME/.cargo/env"
-
-SXHKD_SHELL="/bin/sh"
 export SXHKD_SHELL="/bin/sh"
 
-SUDO_EDITOR=/usr/bin/nvim
-export SUDO_EDITOR
-
-LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
-
-LC_CTYPE=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
-
-LC_ALL=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+
+export EDITOR=nvim
+export SUDO_EDITOR=nvim
+export VISUAL=nvim
+
+export XDG_DOWNLOAD_DIR=$HOME/downloads
+export XDG_CONFIG_HOME=$HOME
 

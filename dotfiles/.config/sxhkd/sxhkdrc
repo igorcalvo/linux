@@ -1,4 +1,4 @@
-# alt + tab?
+# https://my-take-on.tech/2020/07/03/some-tricks-for-sxhkd-and-bspwm/
 
 # program launcher
 super + space
@@ -37,7 +37,6 @@ super + {p,b,n,m}
 	bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous window in the current desktop
-# super + {_,shift + }c
 alt + Tab
 	bspc node -f next.local.!hidden.window
 
@@ -102,7 +101,6 @@ ctrl + grave
 ctrl + p
 	xcolor --selection clipboard
 
-# ctrl + alt + t
 super + { Return, KP_Enter }
 	wezterm start --always-new-process
 
@@ -141,7 +139,8 @@ ctrl + Scroll_Lock
 ctrl + Pause
 	sh ~/code/scripts/shutdown.sh
 
-ctrl + l
+# ctrl + l = firefox address
+ctrl + alt + l
 	slock
 
 XF86AudioRaiseVolume
@@ -161,3 +160,11 @@ XF86AudioNext
 
 XF86AudioStop
 	playerctl stop
+
+# # Emulate delete key
+# alt + BackSpace
+#     xte 'keyup Alt_L' 'key Delete' 'keydown Alt_L'
+#
+# # Emulate home/end keys
+# ctrl + alt + @{Up,Down}
+#     xte 'keyup Control_L' 'keyup Alt_L' 'key {Home,End}'
