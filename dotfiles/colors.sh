@@ -1,0 +1,5 @@
+$background='#1e0c38'
+$primary='#c896fa'
+$lighter='#ebc3ff'
+$darker='#e66496'
+$secondary='#46c8a0'

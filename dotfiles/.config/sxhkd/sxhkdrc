@@ -169,3 +169,6 @@ XF86AudioStop
 # # Emulate home/end keys
 # ctrl + alt + @{Up,Down}
 #     xte 'keyup Control_L' 'keyup Alt_L' 'key {Home,End}'
+
+# sxhkd -c $HOME/.config/sxhkd/sxhkdrc $HOME/.config/sxhkd/sxhkdrc.common
+#

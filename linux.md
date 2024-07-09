@@ -22,7 +22,7 @@
 
 TODO 
 Grub
-Python packages filter
+
 Ricing - new
 Mega.nz download
 Games - soh, totk, mm...
@@ -400,7 +400,9 @@ fuck pysimplegui
 
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 pip install PySimpleGUI==4.60.5 mouse Pillow tk selenium pipreqs
-sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal python-virtualenv jupyter-notebook yt_dlp --needed
+sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4\
+python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal\
+python-virtualenv jupyter-notebook yt_dlp --needed
 ```
 
 #### 24. Files
