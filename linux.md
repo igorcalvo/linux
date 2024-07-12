@@ -78,9 +78,10 @@ mkfs.fat -F32 /dev/nvme0n1p1
 mkswap /dev/nvme0n1p2
 mkfs.ext4 /dev/nvme0n1p3
 
-mount /dev/nvme0n1p3 /mnt
-mount -o fmask=0077,dmask=0077 --mkdir /dev/nvme0n1p1 /mnt/boot
-swapon /dev/nvme0n1p2
+mount /dev/nvme0n1p7 /mnt
+# mount -o fmask=0077,dmask=0077 --mkdir /dev/nvme0n1p1 /mnt/boot
+mount --mkdir /dev/nvme0n1p5 /mnt/boot
+swapon /dev/nvme0n1p6
 ```
 
 #### 4. Pacman mirrors
@@ -88,23 +89,40 @@ swapon /dev/nvme0n1p2
 sudo pacman -Sy archlinux-keyring pacman-contrib
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+
+vim /etc/pacman.conf
+parallel 10
+uncomment colors
 ```
 
 #### 5. Update Image & Root
 ```bash
 pacstrap -K /mnt base linux linux-firmware
-genfstab -U -p /mnt >> /mnt/etc/fstab
+genfstab -U -p /mnt > /mnt/etc/fstab
 cat /mnt/etc/fstab
+
 arch-chroot /mnt
-pacman -S --needed neovim sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip tilix firefox stow pacman-contrib
+mount --mkdir /dev/nvme0n1p2 /mnt/win #(windows EFI)
+pacman -S --needed neovim
 ```
 
-#### 6. Language, Location & Time
+#### 6. Pacman
+```bash
+nvim /etc/pacman.conf
+
+color
+parallel 15
+/multilib
+
+pacman -Syu
+pacman -S --needed sudo intel-ucode iucode-tool linux-headers dhcpcd networkmanager git base-devel xclip tilix firefox stow pacman-contrib openssh
+```
+
+#### 7. Language, Location & Time
 ```bash
 nvim /etc/locale.gen
 
 /en_US.UTF-8
-x #
 ```
 
 ```bash
@@ -114,11 +132,9 @@ export LANG=en_US.UTF-8
 
 ln -s /usr/share/zoneinfo/America/Sao_Paulo > /etc/localtime
 hwclock --systohc --utc
-timedatectl set-timezone America/Sao_Paulo
-timedatectl
 ```
 
-#### 7. Hostname & User
+#### 8. Hostname & User
 hostname = machine name
 ```bash
 echo arch-hostname > /etc/hostname
@@ -128,35 +144,20 @@ nvim /etc/hosts
 127.0.0.1 arch-pc
 ```
 
-
 ```bash
 passwd
 useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
 
 EDITOR=nvim visudo
-
 /%wheel
-x
-G
-Defaults rootpw
-```
 
-```bash
 # User privilege specification
 root	ALL=(ALL:ALL) ALL
 calvo	ALL=(ALL) ALL
-```
 
-#### 8. Pacman config
-```bash
-vim /etc/pacman.conf
-
-color
-parallel 15
-/multilib
-
-pacman -Syu
+G
+Defaults rootpw
 ```
 
 #### 9. Boot
@@ -180,8 +181,22 @@ echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvid
 cat /boot/loader/entries/arch.conf
 ```
 
-##### grub
-TODO 
+##### Grub
+```bash
+pacman -S --needed grub efibootmgr os-prober
+grub-install --targe=x86_64-efi --efi-directory=/mnt/win --bootloader-id=GRUB
+
+nvim /etc/default/grub
+GRUB_DISABLE_OS_PROBER=false
+
+os-prober
+grub-mkconfig -o /boot/grub/grub.cfg
+
+exit
+reboot
+sudo os-prober
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 #### 10. Nvidia & Image
 ```bash
@@ -207,6 +222,20 @@ Target=nvidia
 Depends=mkinitcpio
 When=PostTransaction
 Exec=/usr/bin/mkinitcpio -P
+
+nvim /etc/pacman.d/hooks/grub.hook
+
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = usr/lib/modules/*/vmlinuz
+
+[Action]
+Description = Updating grub configuration ...
+When = PostTransaction
+Exec = /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ```bash
@@ -217,6 +246,7 @@ mkinitcpio -P
 ```bash
 sudo systemctl enable fstrim.timer |
 sudo systemctl enable NetworkManager.service |
+sudo systemctl enable systemd-resolved |
 sudo systemctl enable bluetooth |
 sudo systemctl enable paccache.timer
 ```
@@ -248,6 +278,9 @@ nvim .config/sxhkd/sxhkdrc
 super + Return
     tilix
 
+nvim /usr/share/xsessions/bspwm.desktop
+Exec=bspwm & sxhkd
+
 systemctl enable ly.service
 reboot
 ```
@@ -255,12 +288,41 @@ reboot
 ```bash
 super + enter
 picom &
+mkdir code
+```
+Preferences -> Apearance -> Theme Variant -> Dark
+
+#### 15. Clone repos
+```bash
+ssh-keygen -t rsa
+cd /home/calvo/.ssh
+xclip -sel c id_rsa.pub
+
+firefox
+clone linux
+clone scripts
 ```
 
-#### 15. Directories
+#### 16. Stow & Tilix
 ```bash
-mkdir code |
-mkdir Desktop |
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
+
+cd ~/code/linux/dotfiles/.config/
+mkdir x 
+mv ~/.config/x/* ~/code/linux/dotfiles/x
+stow --dir="/home/calvo/.config/x" --target="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
+```
+
+```bash
+cd ~/code/linux
+# dconf dump /com/gexperts/Terminix/ > terminix.dconf 
+dconf load /com/gexperts/Tilix/ < tilix.dconf
+```
+
+#### 17. Directories
+```bash
+mkdir desktop |
 mkdir documents |
 mkdir videos |
 mkdir downloads |
@@ -281,33 +343,6 @@ mkdir wallpapers |
 mkdir screenshots
 ```
 
-#### 16. Clone repos
-```bash
-ssh-keygen -t rsa
-cd /home/calvo/.ssh
-xclip -sel c id_rsa.pub
-
-firefox
-clone linux
-clone scripts
-```
-
-#### 17. Stow & Tilix
-```bash
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
-
-cd ~/code/linux/dotfiles/.config/
-mkdir x 
-mv ~/.config/x/* ~/code/linux/dotfiles/x
-stow --dir="/home/calvo/.config/x" --target="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
-```
-
-```bash
-cd ~/code/linux
-# dconf dump /com/gexperts/Terminix/ > terminix.dconf 
-dconf load /com/gexperts/Tilix/ < tilix.dconf
-```
 
 #### 18. Yay
 ```bash
@@ -382,6 +417,8 @@ sudo modprobe razerkbd
 ```
 
 ```bash
+timedatectl set-timezone America/Sao_Paulo
+timedatectl
 sudo gpasswd -a $USER plugdev
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo sensors-detect
