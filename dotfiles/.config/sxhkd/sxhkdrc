@@ -121,9 +121,10 @@ super + 5
 	codium
 
 super + 6
-	steam
+	bspc desktop -f 'C3' & screen -d -m wezterm start -- sudo iftop
 
-# super + 7
+super + 7
+	bspc desktop -f last & anki
 
 super + 8
 	tilix

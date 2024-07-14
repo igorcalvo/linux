@@ -32,9 +32,9 @@ export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-export EDITOR=nvim
-export SUDO_EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=/usr/bin/nvim
+export SUDO_EDITOR=/usr/bin/nvim
+export VISUAL=/usr/bin/nvim
 
 export XDG_DOWNLOAD_DIR=$HOME/downloads
 export XDG_CONFIG_HOME=$HOME

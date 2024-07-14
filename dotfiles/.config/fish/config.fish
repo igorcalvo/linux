@@ -1,7 +1,8 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
-alias gedit "gnome-text-editor"
+
+alias gedit "command gnome-text-editor"
 alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
 alias mouse "sh /home/calvo/code/scripts/track-mouse.sh"
 alias sudo "command sudo"
@@ -18,7 +19,12 @@ alias services "systemctl list-unit-files | grep enabled"
 alias calendar "cal 2024 --monday"
 alias neofetch "command fastfetch"
 alias img "command wezterm imgcat"
+alias update-grub "sudo grub-mkconfig -o /boot/grub/grub.cfg"
+alias network "iftop"
 
 zoxide init fish --cmd cd | source
-
 # bind -k sf forward-word
+
+set -Ux EDITOR /usr/bin/nvim
+set -Ux SUDO_EDITOR /usr/bin/nvim
+set -Ux VISUAL /usr/bin/nvim

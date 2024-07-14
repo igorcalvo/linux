@@ -20,6 +20,7 @@ terminal-paste-primary='disabled'
 terminal-scroll-down='disabled'
 
 [profiles]
+default='3f9d92cf-abf7-45b1-b274-0547407c9f90'
 list=['2b7c4080-0ddd-46c5-8f23-563fd3ba789d', '3f9d92cf-abf7-45b1-b274-0547407c9f90']
 
 [profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d]
@@ -33,7 +34,7 @@ cursor-colors-set=false
 custom-command='btop --tty_on'
 dim-transparency-percent=0
 exit-action='hold'
-font='JetBrains Mono 12'
+font='JetBrains Mono 10'
 foreground-color='#A1B0B8'
 highlight-colors-set=false
 login-shell=true
@@ -42,7 +43,7 @@ terminal-title='${id}: ${directory}'
 use-custom-command=true
 use-system-font=false
 use-theme-colors=true
-visible-name='Default'
+visible-name='btop'
 
 [profiles/3f9d92cf-abf7-45b1-b274-0547407c9f90]
 allow-bold=true
@@ -76,7 +77,7 @@ dim-transparency-percent=0
 draw-margin=80
 encoding='UTF-8'
 exit-action='hold'
-font='JetBrains Mono 12'
+font='Monospace 12'
 foreground-color='#BBBBBBBBDADA'
 highlight-background-color='#000000'
 highlight-colors-set=false
@@ -94,10 +95,10 @@ select-by-word-chars='-,./?%&#:_'
 shortcut='disabled'
 show-scrollbar=true
 terminal-bell='sound'
-terminal-title='${id}: ${directory}'
+terminal-title='${id}: ${directory} - ARCH'
 text-blink-mode='always'
 triggers=@as []
-use-custom-command=true
+use-custom-command=false
 use-system-font=false
 use-theme-colors=true
-visible-name='Default Backup'
+visible-name='fresh install'
