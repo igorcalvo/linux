@@ -90,6 +90,9 @@ ctrl + alt + h
 ctrl + alt + g
 	sh ~/code/scripts/cs-in.sh
 
+ctrl + alt + j
+	kill -9 $(pgrep anki | head -n1)
+
 Print
 	flameshot full -p ~/images/screenshots
 
@@ -122,9 +125,10 @@ super + 5
 
 super + 6
 	bspc desktop -f 'C3' & screen -d -m wezterm start -- sudo iftop
+	# bspc desktop -f last & 
 
 super + 7
-	bspc desktop -f last & anki
+	anki
 
 super + 8
 	tilix
@@ -146,10 +150,10 @@ ctrl + alt + l
 	slock
 
 XF86AudioRaiseVolume
-	pactl set-sink-volume 0 +2% | sh ~/code/scripts/volume-notification.sh
+	pactl set-sink-volume $(pactl get-default-sink) +2% | sh ~/code/scripts/volume-notification.sh
 
 XF86AudioLowerVolume
-	pactl set-sink-volume 0 -2% | sh ~/code/scripts/volume-notification.sh
+	pactl set-sink-volume $(pactl get-default-sink) -2% | sh ~/code/scripts/volume-notification.sh
 
 XF86AudioPlay
 	playerctl play-pause

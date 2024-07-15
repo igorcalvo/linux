@@ -403,7 +403,7 @@ sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-font
 ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools \
 ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel \
 clutter clutter-gtk inkscape ripgrep rofi playerctl numlockx lm_sensors xdg-user-dirs-gtk gnome-backgrounds \
-pulseaudio
+pulseaudio mpv
 ```
 
 ##### Apps
@@ -600,11 +600,15 @@ sudo systemctl start fail2ban
 
 #### 27. Anki
 Addons:
-- 1771074083
-- 3918629684
-- 613684242
-- 947935257
-- 1152543397
+- 1771074083 heatmap
+- 3918629684 japanese support
+- 613684242 true retention
+- 947935257 reset ease
+- 1152543397 postpode cards's review
+- 2494384865 buttons colors
+- 1084228676 color confirmation
+- 1610304449 kanji grid
+- 1136455830 advanced review button bar
 
 Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
 
