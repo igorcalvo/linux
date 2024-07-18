@@ -599,25 +599,27 @@ sudo systemctl start fail2ban
 ```
 
 #### 27. Anki
+Download decks from MEGA
+
 Addons:
 - 1771074083 heatmap
 - 3918629684 japanese support
 - 613684242 true retention
 - 947935257 reset ease
 - 1152543397 postpode cards's review
-- 2494384865 buttons colors
 - 1084228676 color confirmation
 - 1610304449 kanji grid
 - 1136455830 advanced review button bar
+<!-- - 2494384865 buttons colors -->
 
-Add Ons &#8594; "config" &#8594; interval coefficient is set to 0.0
-
-30&nbsp;&nbsp;&nbsp;&nbsp;9999&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;1m 5m 15m&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;Sequential
-2m 7m&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp; Tag Only&nbsp;&nbsp;&nbsp;&nbsp;Deck&nbsp;&nbsp;&nbsp;&nbsp;Card type&nbsp;&nbsp;&nbsp;&nbsp; Show after reviews&nbsp;&nbsp;&nbsp;&nbsp;Show after reviews&nbsp;&nbsp;&nbsp;&nbsp; Due date, then random
-
-600&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;off&nbsp;&nbsp;&nbsp;&nbsp;
-
-180&nbsp;&nbsp;&nbsp;&nbsp;2.5&nbsp;&nbsp;&nbsp;&nbsp;1.3&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;&nbsp;&nbsp;0
+Old Deck settings
+```
+Add Ons "config" interval coefficient 0.0
+30	9999	off	1m 5m 15m	1	4	Sequential
+2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
+600	off	off	off	off	off	off	
+180	2.5	1.3	1	1.2	0
+```
 
 #### 28. Applications
 ```
