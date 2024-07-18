@@ -21,6 +21,7 @@ alias neofetch "command fastfetch"
 alias img "command wezterm imgcat"
 alias update-grub "sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias network "iftop"
+alias figprint "command figlet -f big -t -c"
 
 zoxide init fish --cmd cd | source
 # bind -k sf forward-word

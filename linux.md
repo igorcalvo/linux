@@ -307,7 +307,7 @@ sudo systemctl enable dhcpcd@wlo1.service
 #### 14. Display Manager
 ##### BSPWM
 ```bash
-sudo pacman -S bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly --needed
+sudo pacman -S bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly slock --needed
 
 mkdir .config/sxhkd
 nvim .config/sxhkd/sxhkdrc
@@ -352,7 +352,7 @@ stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt .
 cd ~/code/linux/dotfiles/.config/
 mkdir x 
 mv ~/.config/x/* ~/code/linux/dotfiles/x
-stow --dir="/home/calvo/.config/x" --target="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
+stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
 ```
 
 ```bash
@@ -411,7 +411,7 @@ pulseaudio mpv
 sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm \
 calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq fzf tldr bat eza zoxide \
 stress glmark2 neovide fail2ban ufw imagemagick pavucontrol feh yazi pandoc python-weasyprint \
-clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop
+clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet
 
 steam
 discord
@@ -422,7 +422,7 @@ taskwarrior-tui
 
 ##### AUR
 ```bash
-yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders
+yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava
 
 tetrio
 vscodium
