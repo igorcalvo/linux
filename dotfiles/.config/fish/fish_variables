@@ -1,6 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export EDITOR:/usr/bin/nvim
+SETUVAR --export FLASK_APP:main\x2epy
 SETUVAR --export SUDO_EDITOR:/usr/bin/nvim
 SETUVAR --export VISUAL:/usr/bin/nvim
 SETUVAR __fish_initialized:3400

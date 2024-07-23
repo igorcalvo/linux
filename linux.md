@@ -492,7 +492,7 @@ fuck pysimplegui
 
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
-python-virtualenv jupyter-notebook yt-dlp --needed
+python-virtualenv jupyter-notebook yt-dlp python-flask --needed
 
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 pip install PySimpleGUI==4.60.5 mouse Pillow tk selenium pipreqs
