@@ -141,8 +141,10 @@ parallel 15
 ##### Essentials
 ```bash
 pacman -Syu
-pacman -S --needed sudo intel-ucode iucode-tool linux-headers networkmanager git base-devel xclip tilix firefox stow pacman-contrib archlinux-keyring openssh
+pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel xclip tilix firefox stow pacman-contrib archlinux-keyring openssh
 
+intel-ucode
+iucode-tool 
 dhcpcd 
 ```
 
@@ -200,7 +202,7 @@ nvim /boot/loader/entries/arch.conf
 ```bash
 title Arch
 linux /vmlinuz-linux
-initrd /intel-ucode.img
+initrd /intel-ucode.img /amd-ucode.img
 initrd /initramfs-linux.img
 ```
 
@@ -411,7 +413,7 @@ pulseaudio mpv
 sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita flameshot vlc nodejs npm \
 calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq fzf tldr bat eza zoxide \
 stress glmark2 neovide fail2ban ufw imagemagick pavucontrol feh yazi pandoc python-weasyprint \
-clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet
+clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet ncdu
 
 steam
 discord
@@ -487,15 +489,17 @@ Exec=sh ~/code/scripts/wm-start.sh
 ```
 
 #### 23. Python
+##### fuck pysimplegui
 ```bash
-fuck pysimplegui
 
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
-python-virtualenv jupyter-notebook yt-dlp python-flask --needed
+python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow --needed
+
+sudo yay -S python-pipreqs
 
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
-pip install PySimpleGUI==4.60.5 mouse Pillow tk selenium pipreqs
+selenium 
 ```
 
 #### 24. Files
