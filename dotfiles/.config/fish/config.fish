@@ -3,7 +3,8 @@ if status is-interactive
 end
 
 alias gedit "command gnome-text-editor"
-alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
+# alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
+# nitrogen ~/images/wallpapers/2024-06/pc/wallpaper5.png --set-auto --save
 alias mouse "sh /home/calvo/code/scripts/track-mouse.sh"
 alias sudo "command sudo"
 alias python "command python3"
@@ -19,11 +20,12 @@ alias services "systemctl list-unit-files | grep enabled"
 alias calendar "cal 2024 --monday"
 alias neofetch "command fastfetch"
 alias img "command wezterm imgcat"
-alias update-grub "sudo grub-mkconfig -o /boot/grub/grub.cfg"
+alias grub-update "sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias network "iftop"
 alias bigprint "command figlet -f big -t -c"
 alias s "command screen -d -m"
 alias copy "command xclip -sel c"
+alias pdf "command screen -d -m evince"
 
 function tree
     eza --tree --level=$argv

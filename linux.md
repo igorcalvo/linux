@@ -59,8 +59,8 @@ ping archlinux.org
 
 | Type | Size |
 |--------------- | --------------- |
-| EFI | +1G |
-| SWAP | +4G |
+| EFI | +2G |
+| SWAP | +16G |
 | ROOT | |
 <!-- |    |    | -->
 
@@ -361,6 +361,8 @@ stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.co
 cd ~/code/linux
 dconf load /com/gexperts/Tilix/ < tilix.dconf
 
+- fish functions
+
 # dconf dump /com/gexperts/Tilix/ > tilix.dconf 
 ```
 
@@ -623,6 +625,9 @@ Add Ons "config" interval coefficient 0.0
 2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
 600	off	off	off	off	off	off	
 180	2.5	1.3	1	1.2	0
+
+Change to default OS theme to prevent crashes
+Also, it might be possible not to rebind numpad keys
 ```
 
 #### 28. Applications
