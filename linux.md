@@ -407,7 +407,7 @@ sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-font
 ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools \
 ttf-nerd-fonts-symbols-mono fuse2 fuse3 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel \
 clutter clutter-gtk inkscape ripgrep rofi playerctl numlockx lm_sensors xdg-user-dirs-gtk gnome-backgrounds \
-pulseaudio
+pulseaudio sox
 ```
 
 ##### Apps
@@ -668,6 +668,7 @@ Firefox
         Spaces
     Icons and Logins
     Theme
+    Search -> Brave
 Krita
     Load workspace
     Themes -> Krita Darker

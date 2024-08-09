@@ -26,6 +26,7 @@ alias bigprint "command figlet -f big -t -c"
 alias s "command screen -d -m"
 alias copy "command xclip -sel c"
 alias pdf "command screen -d -m evince"
+alias memory "python /home/calvo/code/memory/main.py"
 
 function tree
     eza --tree --level=$argv
