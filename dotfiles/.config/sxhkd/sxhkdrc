@@ -113,7 +113,7 @@ super + { Return, KP_Enter }
 	wezterm start --always-new-process
 
 super + 1
-	bspc desktop -f 'L1' | firefox
+	bspc desktop -f 'L1' | firefox --new-tab --url about:newtab
 
 super + 2
 	discord

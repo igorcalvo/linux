@@ -485,8 +485,7 @@ sudo sensors-detect
 
 #### 22. Startup
 ```bash
-sudoedit /usr/share/xsessions/bspwm.desktop
-Exec=sh ~/code/scripts/wm-start.sh
+sudo sh ~/code/scripts/bspwm.sh
 # .xinitrc
 ```
 

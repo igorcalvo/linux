@@ -27,6 +27,7 @@ alias s "command screen -d -m"
 alias copy "command xclip -sel c"
 alias pdf "command screen -d -m evince"
 alias memory "python /home/calvo/code/memory/main.py"
+alias reset-mouse "sh /home/calvo/code/scripts/reset-mouse.sh"
 
 function tree
     eza --tree --level=$argv
