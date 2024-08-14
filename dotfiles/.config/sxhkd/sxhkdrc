@@ -26,7 +26,7 @@ super + s
 	bspc desktop -l next
 
 # set the window state
-super + {t,a,d,f}
+super + {a,t,d,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # move a floating window

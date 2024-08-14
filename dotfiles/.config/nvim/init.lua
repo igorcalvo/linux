@@ -250,6 +250,7 @@ vim.o.undofile = false
 vim.keymap.set({ "n", "v", "t", "i" }, "<C-A-w>", "<esc><cmd>:lua require'dapui'.close()<cr>:q<cr>", { desc = "Quit" })
 vim.keymap.set({ "n", "v", "t", "i" }, "<C-s>", "<cmd>:wa<cr>", { desc = "Save [A]ll" })
 vim.keymap.set({ "n", "v", "t", "i" }, "<C-e>", "<cmd>:Neotree toggle<cr>", { desc = "Toggle Tre[E]" })
+vim.keymap.set("i", "jk", "<esc>", { desc = "jk esc" })
 vim.keymap.set("n", "<A-S-f>", ":Format <cr>:!black %<cr><enter>", { desc = "Format file" })
 vim.keymap.set("n", "<A-j>", ":m .+1<cr>==", { desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<cr>==", { desc = "Move line up" })
