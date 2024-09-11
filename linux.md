@@ -30,7 +30,7 @@ https://archlinux.org/download/
 
 sha256sum -b yourfile.iso
 
-https://etcher.balena.io/
+# https://etcher.balena.io/#download-etcher
 ```
 
 #### 1. Verifying boot and maybe setting font
@@ -223,6 +223,7 @@ GRUB_SAVEDEFAULT=true
 GRUB_COLOR_NORMAL="light-blue/black"
 GRUB_COLOR_HIGHLIGHT="light-cyan/black"
 GRUB_TIMEOUT=3
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet pcie_aspm=off ipv6.disable=1"
 # GRUB_DEFAULT=3
 
 os-prober
@@ -415,7 +416,8 @@ pulseaudio sox
 sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita flameshot nodejs npm \
 calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq fzf tldr bat eza zoxide mpv \
 stress glmark2 neovide fail2ban ufw imagemagick pavucontrol feh yazi pandoc python-weasyprint \
-clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet ncdu
+clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet ncdu gnome-disk-utility \
+
 
 steam
 discord
@@ -495,7 +497,8 @@ sudo sh ~/code/scripts/bspwm.sh
 
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
-python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow --needed
+python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
+cython mypy --needed
 
 sudo yay -S python-pipreqs
 

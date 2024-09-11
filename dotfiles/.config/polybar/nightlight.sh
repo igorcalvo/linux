@@ -47,5 +47,5 @@ if [[ -z "$new_ind" ]]; then
 fi
 
 echo "ind=${new_ind}" > "$config"
-[[ ${ind} == 0  ]] && echo " day " || echo "night"
+[[ ${ind} == 0  ]] && echo "  DAY  " || [[ ${ind} == 1  ]] && echo "NIGHT  I" || echo "NIGHT II"
 # echo "${new_prof}"
