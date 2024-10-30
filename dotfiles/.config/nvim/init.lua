@@ -142,6 +142,7 @@ require("lazy").setup({
       toggler = {
         ---Line-comment toggle keymap
         line = "gj",
+        -- line = "C-_",
         ---Block-comment toggle keymap
         block = "gbc",
       },

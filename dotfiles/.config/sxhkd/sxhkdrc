@@ -97,6 +97,12 @@ ctrl + alt + g
 ctrl + alt + j
 	kill -9 $(pgrep anki | head -n1)
 
+ctrl + alt + i
+	python ~/code/scripts/idle-vil.py
+
+ctrl + alt + o
+	kill $(pgrep -f "idle-vil.py" | head -n1)
+
 Print
 	flameshot full -p ~/images/screenshots
 
@@ -157,6 +163,9 @@ XF86AudioRaiseVolume
 
 XF86AudioLowerVolume
 	pactl set-sink-volume $(pactl get-default-sink) -2% | sh ~/code/scripts/volume-notification.sh
+
+XF86AudioMute
+	pactl set-sink-mute $(pactl get-default-sink) 'toggle' | notify-send "mute toggled" "" -t 500 --icon=audio-headphones --app-name="Sound"
 
 XF86AudioPlay
 	playerctl play-pause
