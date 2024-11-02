@@ -428,7 +428,7 @@ taskwarrior-tui
 
 ##### AUR
 ```bash
-yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava
+yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters 
 
 tetrio
 vscodium

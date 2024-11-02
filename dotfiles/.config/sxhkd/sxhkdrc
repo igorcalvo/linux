@@ -148,6 +148,9 @@ super + 9
 super + 0
 	nautilus ~/downloads/
 
+super + period
+	gnome-characters
+
 ctrl + Scroll_Lock
 	systemctl reboot
 
