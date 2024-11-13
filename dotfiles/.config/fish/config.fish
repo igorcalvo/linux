@@ -28,6 +28,10 @@ alias copy "command xclip -sel c"
 alias pdf "command screen -d -m evince"
 alias memory "python /home/calvo/code/memory/main.py"
 alias reset-mouse "sh /home/calvo/code/scripts/reset-mouse.sh"
+alias workout "command wezterm imgcat ~/documents/workout.png"
+alias learn-java "screen -d -m sh .local/share/JetBrains/Toolbox/apps/intellij-idea-community-edition/bin/idea.sh"
+alias download-music "command yt-dlp --extract-audio --audio-format mp3 --audio-quality 0"
+alias download-video "command yt-dlp"
 
 function tree
     eza --tree --level=$argv
