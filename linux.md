@@ -141,7 +141,7 @@ parallel 15
 ##### Essentials
 ```bash
 pacman -Syu
-pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel xclip tilix firefox stow pacman-contrib archlinux-keyring openssh
+pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel xclip tilix firefox stow pacman-contrib archlinux-keyring openssh nvim
 
 intel-ucode
 iucode-tool 
@@ -191,26 +191,6 @@ Defaults rootpw
 ```
 
 #### 9. Boot
-##### systemd-boot
-```bash
-ls /sys/firmware/efi/efivars
-mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
-bootctl install
-nvim /boot/loader/entries/arch.conf
-```
-
-```bash
-title Arch
-linux /vmlinuz-linux
-initrd /intel-ucode.img /amd-ucode.img
-initrd /initramfs-linux.img
-```
-
-```bash
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1" >> /boot/loader/entries/arch.conf
-cat /boot/loader/entries/arch.conf
-```
-
 ##### Grub
 ```bash
 pacman -S --needed grub efibootmgr os-prober
@@ -233,6 +213,26 @@ exit
 reboot
 sudo os-prober
 sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+##### systemd-boot
+```bash
+ls /sys/firmware/efi/efivars
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
+bootctl install
+nvim /boot/loader/entries/arch.conf
+```
+
+```bash
+title Arch
+linux /vmlinuz-linux
+initrd /intel-ucode.img /amd-ucode.img
+initrd /initramfs-linux.img
+```
+
+```bash
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1" >> /boot/loader/entries/arch.conf
+cat /boot/loader/entries/arch.conf
 ```
 
 #### 10. Nvidia & Image
@@ -262,7 +262,9 @@ Target=nvidia
 Depends=mkinitcpio
 When=PostTransaction
 Exec=/usr/bin/mkinitcpio -P
+```
 
+```bash
 nvim /etc/pacman.d/hooks/grub.hook
 
 [Trigger]
@@ -287,7 +289,6 @@ mkinitcpio -P
 sudo systemctl enable fstrim.timer |
 sudo systemctl enable NetworkManager.service |
 sudo systemctl enable systemd-resolved |
-sudo systemctl enable bluetooth |
 sudo systemctl enable paccache.timer
 ```
 
@@ -328,7 +329,43 @@ reboot
 ```bash
 super + enter
 picom &
-mkdir code
+```
+
+###### Troubleshooting
+```bash
+sudo X --configure
+sudo nvidia-xconfig
+nvim ~/.local/share/xorg/Xorg.0.log
+
+mv /etc/X11/xorg.conf /etc/X11/xorg.conf.backup
+mv /root/xorg.conf.new /etc/X11/xorg.conf
+
+nvim /usr/share/xsessions/bspwm.desktop
+bspwm & sxhkd
+
+nvim .xinitrc
+#!/bin/bash
+exec bspwm
+exec sxhkd
+
+systemctl --user calvo --global enable
+export XDG_RUNTIME_DIR="/run/user/$UID"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=$(XDG_RUNTIME_DIR)/bus"
+
+lsmod | grep nvidia
+cat /sys/class/drm/*/status
+
+mkdir ~/.config/bspwm
+nvim bspwmrc
+#!/bin/bash
+
+tty2, tty3 (ctrl + alt + f2, f3)
+DISPLAY=:0 xrandr
+sxhkd -> super + 2, reboot
+sxhkd -> super + 3, xrandr --output eDP-1-1 --auto
+sxhkd -> super + 4, xrandr --output HDMI-1-1 --auto
+
+xrandr --output eDP-1-1 --mode 1920x1080
 ```
 
 Tilix -> Preferences -> Apearance -> Theme Variant -> Dark
@@ -338,6 +375,7 @@ View # 31
 
 #### 15. Clone repos
 ```bash
+mkdir code
 ssh-keygen -t rsa
 cd /home/calvo/.ssh
 xclip -sel c id_rsa.pub
@@ -417,6 +455,7 @@ sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita fl
 calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq fzf tldr bat eza zoxide mpv \
 stress glmark2 neovide fail2ban ufw imagemagick pavucontrol feh yazi pandoc python-weasyprint \
 clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet ncdu gnome-disk-utility \
+progress
 
 
 steam
@@ -483,6 +522,9 @@ timedatectl status
 sudo gpasswd -a $USER plugdev
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo sensors-detect
+
+sudo pacman -S bluez
+sudo systemctl enable bluetooth 
 ```
 
 #### 22. Startup
