@@ -74,6 +74,8 @@ p
 l
 n
 t
+
+1 19 23
 ...
 w
 ```
@@ -122,6 +124,11 @@ arch-chroot /mnt
 mount --mkdir /dev/nvme0n1p2 /mnt/win #(windows EFI)
 ```
 
+##### Install Basics to disk
+```bash
+pacman -Sy neovim archlinux-keyring pacman-contrib
+```
+
 #### 6. Pacman
 ##### Mirrors
 ```bash
@@ -141,7 +148,7 @@ parallel 15
 ##### Essentials
 ```bash
 pacman -Syu
-pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel xclip tilix firefox stow pacman-contrib archlinux-keyring openssh nvim
+pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel xclip tilix firefox stow openssh
 
 intel-ucode
 iucode-tool 
@@ -180,7 +187,7 @@ useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
 
 EDITOR=nvim visudo
-/%wheel
+/%wheel # just to find it
 
 # User privilege specification
 root	ALL=(ALL:ALL) ALL
@@ -195,6 +202,9 @@ Defaults rootpw
 ```bash
 pacman -S --needed grub efibootmgr os-prober
 grub-install --targe=x86_64-efi --efi-directory=/mnt/win --bootloader-id=GRUB
+
+mount --mkdir /dev/nvme0n1p1 /mnt/boot/efi
+grub-install --targer=x86_64-efi --bootloader-id=GRUB
 
 nvim /etc/default/grub
 GRUB_DISABLE_OS_PROBER=false
@@ -311,18 +321,42 @@ sudo systemctl enable dhcpcd@wlo1.service
 #### 14. Display Manager
 ##### BSPWM
 ```bash
-sudo pacman -S bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly slock --needed
+sudo pacman -S xterm bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly slock --needed
 
 mkdir .config/sxhkd
 nvim .config/sxhkd/sxhkdrc
+```
 
+```bash
 super + Return
     tilix
 
+super + 1
+    xterm
+
+super + 2
+    reboot
+
+super + 3
+    xrandr --output eDP-1-1 --mode 1920x1080
+
+super + 4
+    xrandr --output HDMI-1-1 --mode 1920x1080
+```
+
+```bash
 nvim /usr/share/xsessions/bspwm.desktop
 Exec=bspwm & sxhkd
 
 systemctl enable ly.service
+startx
+
+# might need
+nvim .xinitrc
+#!/bin/bash
+exec bspwm
+exec sxhkd
+
 reboot
 ```
 
@@ -362,7 +396,7 @@ nvim bspwmrc
 tty2, tty3 (ctrl + alt + f2, f3)
 DISPLAY=:0 xrandr
 sxhkd -> super + 2, reboot
-sxhkd -> super + 3, xrandr --output eDP-1-1 --auto
+sxhkd -> super + 3, 
 sxhkd -> super + 4, xrandr --output HDMI-1-1 --auto
 
 xrandr --output eDP-1-1 --mode 1920x1080
