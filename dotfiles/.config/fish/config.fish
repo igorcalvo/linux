@@ -32,6 +32,8 @@ alias workout "command wezterm imgcat ~/documents/workout.png"
 alias learn-java "screen -d -m sh .local/share/JetBrains/Toolbox/apps/intellij-idea-community-edition/bin/idea.sh"
 alias download-music "command yt-dlp --extract-audio --audio-format mp3 --audio-quality 0"
 alias download-video "command yt-dlp"
+alias encrypt "command openssl enc -aes-256-cbc -pbkdf2 -salt"
+alias decrypt "command openssl enc -aes-256-cbc -pbkdf2 -d"
 
 function tree
     eza --tree --level=$argv
@@ -44,3 +46,6 @@ zoxide init fish --cmd cd | source
 set -Ux EDITOR /usr/bin/nvim
 set -Ux SUDO_EDITOR /usr/bin/nvim
 set -Ux VISUAL /usr/bin/nvim
+set -Ux VISUAL /usr/bin/nvim
+
+# fish_add_path ~/.local/bin/
