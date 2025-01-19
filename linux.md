@@ -576,9 +576,12 @@ python-openpyxl python-requests python-pyperclip python-opencv python-debugpy py
 python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
 cython mypy --needed
 
-sudo yay -S python-pipreqs
+sudo yay -S python-<?>
 
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
+
+pipreqs
+shell-gpt
 selenium 
 ```
 
