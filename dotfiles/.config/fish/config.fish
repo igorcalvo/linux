@@ -34,6 +34,7 @@ alias download-music "command yt-dlp --extract-audio --audio-format mp3 --audio-
 alias download-video "command yt-dlp"
 alias encrypt "command openssl enc -aes-256-cbc -pbkdf2 -salt"
 alias decrypt "command openssl enc -aes-256-cbc -pbkdf2 -d"
+alias gpt "command chatgpt --model-4o-mini"
 
 function tree
     eza --tree --level=$argv
