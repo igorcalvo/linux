@@ -1,5 +1,11 @@
 #!/bin/sh
 
+KEY="6f682837478f455aecc4f1f66e74616c"
+CITY="3448439"
+UNITS="metric"
+SYMBOL="°"
+API="https://api.openweathermap.org/data/2.5"
+
 get_icon() {
     case $1 in
         # Icons for weather-icons
@@ -41,12 +47,16 @@ get_icon() {
     echo $icon
 }
 
-KEY="6f682837478f455aecc4f1f66e74616c"
-CITY="3448439"
-UNITS="metric"
-SYMBOL="°"
+get_duration() {
 
-API="https://api.openweathermap.org/data/2.5"
+    osname=$(uname -s)
+
+    case $osname in
+        *BSD) date -r "$1" -u +%H:%M;;
+        *) date --date="@$1" -u +%H:%M;;
+    esac
+
+}
 
 if [ -n "$CITY" ]; then
     if [ "$CITY" -eq "$CITY" ] 2>/dev/null; then
@@ -55,7 +65,8 @@ if [ -n "$CITY" ]; then
         CITY_PARAM="q=$CITY"
     fi
 
-    weather=$(curl -sf "$API/weather?appid=$KEY&$CITY_PARAM&units=$UNITS")
+    current=$(curl -sf "$API/weather?appid=$KEY&$CITY_PARAM&units=$UNITS")
+    forecast=$(curl -sf "$API/forecast?appid=$KEY&$CITY_PARAM&units=$UNITS&cnt=1")
 else
     location=$(curl -sf "https://location.services.mozilla.com/v1/geolocate?key=geoclue")
 
@@ -63,14 +74,39 @@ else
         location_lat="$(echo "$location" | jq '.location.lat')"
         location_lon="$(echo "$location" | jq '.location.lng')"
 
-        weather=$(curl -sf "$API/weather?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS")
+        current=$(curl -sf "$API/weather?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS")
+        forecast=$(curl -sf "$API/forecast?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS&cnt=1")
     fi
 fi
 
-if [ -n "$weather" ]; then
-    weather_temp=$(echo "$weather" | jq ".main.temp" | cut -d "." -f 1)
-    weather_icon=$(echo "$weather" | jq -r ".weather[0].icon")
+if [ -n "$current" ] && [ -n "$forecast" ]; then
+    current_temp=$(echo "$current" | jq ".main.temp" | cut -d "." -f 1)
+    current_icon=$(echo "$current" | jq -r ".weather[0].icon")
 
-    echo "$(get_icon "$weather_icon")" "$weather_temp$SYMBOL"
-    # echo "$(get_icon "$weather_icon")" "%{F$fg_color}$weather_temp$SYMBOL%{F-}"
+    forecast_temp=$(echo "$forecast" | jq ".list[].main.temp" | cut -d "." -f 1)
+    forecast_icon=$(echo "$forecast" | jq -r ".list[].weather[0].icon")
+
+    if [ "$current_temp" -gt "$forecast_temp" ]; then
+        trend=""
+    elif [ "$forecast_temp" -gt "$current_temp" ]; then
+        trend=""
+    else
+        trend=""
+    fi
+
+    sun_rise=$(echo "$current" | jq ".sys.sunrise")
+    sun_set=$(echo "$current" | jq ".sys.sunset")
+    now=$(date +%s)
+
+    if [ "$sun_rise" -gt "$now" ]; then
+        daytime=" $(get_duration "$((sun_rise-now))")"
+    elif [ "$sun_set" -gt "$now" ]; then
+        daytime=" $(get_duration "$((sun_set-now))")"
+    else
+        daytime=" $(get_duration "$((sun_rise-now))")"
+    fi
+
+    # echo "$(get_icon "$current_icon") $current_temp$SYMBOL  $trend  $(get_icon "$forecast_icon") $forecast_temp$SYMBOL   $daytime"
+    echo "$(get_icon "$current_icon") $current_temp$SYMBOL"
 fi
+
