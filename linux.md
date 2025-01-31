@@ -29,7 +29,7 @@
 https://archlinux.org/download/
 
 sha256sum -b yourfile.iso
-
+gnome-disk-image-monter
 # https://etcher.balena.io/#download-etcher
 ```
 
@@ -213,7 +213,7 @@ GRUB_SAVEDEFAULT=true
 GRUB_COLOR_NORMAL="light-blue/black"
 GRUB_COLOR_HIGHLIGHT="light-cyan/black"
 GRUB_TIMEOUT=3
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet pcie_aspm=off ipv6.disable=1"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet ipv6.disable=1 pcie_aspm=off"
 # GRUB_DEFAULT=3
 
 os-prober
@@ -323,6 +323,7 @@ sudo systemctl enable dhcpcd@wlo1.service
 ```bash
 sudo pacman -S xterm bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly slock --needed
 
+xrandr --listmonitors
 mkdir .config/sxhkd
 nvim .config/sxhkd/sxhkdrc
 ```
@@ -434,8 +435,6 @@ stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.co
 cd ~/code/linux
 dconf load /com/gexperts/Tilix/ < tilix.dconf
 
-- fish functions
-
 # dconf dump /com/gexperts/Tilix/ > tilix.dconf 
 ```
 
@@ -488,21 +487,25 @@ pulseaudio sox dosfstools
 sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita flameshot nodejs npm \
 calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq fzf tldr bat eza zoxide mpv \
 stress glmark2 neovide fail2ban ufw imagemagick pavucontrol feh yazi pandoc python-weasyprint \
-clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet ncdu gnome-disk-utility \
-progress
+clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet gnome-disk-utility \
+progress evince docker
+```
 
-
+```bash
 steam
 discord
 drawing
 task
 taskwarrior-tui
+ncdu
 ```
 
 ##### AUR
 ```bash
-yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters chatgpt-shell-cli
+yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters
+```
 
+```bash
 tetrio
 vscodium
 ```
@@ -512,15 +515,15 @@ vscodium
 curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 sudo systemctl enable ollama.service
-ollama run deep-seek-r1:7b
+ollama run deepseek-r1:7b
+```
 
+```bash
 sudo pacman -Sy
 sudo pacman -S docker nvidia-container-toolkit --needed
 sudo usermod -Ag docker $USER
-sudo usermod -Ag docker calvo
 bash
 newgrp docker
-fish
 reboot
 
 docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
@@ -561,19 +564,23 @@ nvim ~/.config/user-dirs.dirs
 dconf write /system/locale/region "'en_GB.UTF-8'" |
 git config --global user.email "igorcalvob@gmail.com" |
 git config --global user.name "igorcalvo" |
-xdg-settings set default-web-browser firefox.desktop |
-sudo modprobe razerkbd
+xdg-settings set default-web-browser firefox.desktop
 ```
 
 ##### Time
 ```bash
-timedatectl set-timezone America/Sao_Paulo
-timedatectl set-ntp true
+timedatectl set-timezone America/Sao_Paulo |
+timedatectl set-ntp true |
 timedatectl status
+```
+
+```bash
+reboot
 ```
 
 ##### Misc II
 ```bash
+sudo modprobe razerkbd
 sudo gpasswd -a $USER plugdev
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo sensors-detect
@@ -585,38 +592,194 @@ sudo systemctl enable bluetooth
 #### 22. Startup
 ```bash
 sudo sh ~/code/scripts/bspwm.sh
-# .xinitrc
 ```
 
 #### 23. Python
 ##### fuck pysimplegui
 ```bash
-
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
 python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
 cython mypy --needed
+```
 
-sudo yay -S python-<?>
+```bash
+yay -S python-yarg python-pipreqs
+```
 
+```bash
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 
-pipreqs
-shell-gpt
 selenium 
 ```
 
 #### 24. Files
 ```bash
+start krita
 cp ~/code/linux/files/krita-workspace.kws ~/.local/share/krita/workspaces/
+
 cp ~/code/linux/files/icons/* ~/images/icons/
-sudo cp ~/code/linux/files/dotdesktops/* /usr/share/applications/
+# sudo cp ~/code/linux/files/dotdesktops/* /usr/share/applications/
 
 MEGA
 games?
 ```
 
-#### 25. Ricing
+#### 25. Applications
+```
+Razer
+    500 Dpi
+Qbittorrent
+    Downloads
+        destination at ~/downloads/
+        disable popup
+    Behavior
+        confirm when deleting torrents false
+Steam
+    Login
+    In Game
+        FPS Counter Top Right
+        High Contrat True
+    Notifications
+        Disable friend join game
+    Compatibility
+        Enable Steam Play for all other titles
+            Proton 9.0-2
+    cs2 launch options
+        -fullscreen -sdlaudiodriver pipewire
+Discord
+    Login
+    Voice & Video Defaults
+    Keybindings
+        Toggle Mute
+        Push to Mute
+Youtube Music
+    Login
+Firefox
+    Download directory
+    Remove
+        Import bookmarks
+        Getting Started
+        Spaces
+    Icons and Logins
+    Theme Beautiful Alpen Blue
+    Search -> Brave
+    Extensions
+        Blocksite
+            chess.com
+            lichess.org
+            p
+    Unhook
+        Recommended
+    Youtube Enhancer
+        Dark theme
+        Place Controls Within the Player
+        1080
+    Momentum
+        New tab -> Name
+Krita
+    Load workspace -> Last
+    Themes -> Krita Darker
+Nvidia
+    Sudo
+    OpenGL Settings
+        Gsync Indicator
+    PowerMizer -> Performance
+    Save
+Pavucontrol
+    Configuration
+        Disable what's necessary
+    Input Devices
+        150%
+VS Codium
+    Two Monokai
+    Keyboard Shortcuts
+        Copy Line Down - Shift Alt Down
+```
+
+#### 26. Anki
+Download decks from MEGA
+
+Addons:
+- 1771074083 heatmap
+- 3918629684 japanese support
+- 613684242 true retention
+- 947935257 reset ease
+- 1152543397 postpode cards's review
+- 1084228676 color confirmation
+- 1610304449 kanji grid
+- 1136455830 advanced review button bar
+<!-- - 2494384865 buttons colors -->
+
+Old Deck settings
+```
+Add Ons "config" interval coefficient 0.0
+30	9999	off	1m 5m 15m	1	4	Sequential
+2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
+600	off	off	off	off	off	off	
+180	2.5	1.3	1	1.2	0
+
+Change to default OS theme to prevent crashes
+Also, it might be possible not to rebind numpad keys
+```
+    
+#### 27. Security
+```bash
+sudo ufw limit 22/tcp |
+sudo ufw allow 80/tcp |
+sudo ufw allow 443/tcp |
+sudo ufw allow from 88.99.58.246 |
+sudo ufw default deny incoming |
+sudo ufw enable
+```
+
+```bash
+# https://www.networkworld.com/article/968526/linux-firewall-basics-with-ufw.html
+
+iftop
+anki
+ping sync3.ankiweb.net
+allow from
+```
+
+```bash
+sudoedit /etc/fail2ban/jail.local
+
+[DEFAULT]
+ignoreip = 127.0.0.1/8 ::1
+bantime = 3600
+findtime = 600
+maxretry = 5
+
+[sshd]
+enabled = true
+```
+
+```bash
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
+
+#### 28. Backup Kernel
+```bash
+sudo pacman -S linux-zen-headers linux-zen
+# nvidia-lts
+```
+
+##### grub
+nothing to do if hook was enabled
+
+##### systemd-boot
+```bash
+sudo su
+cd /boot/loader/entries
+cp arch.conf arch-lts.conf
+
+append -zen to linuz and to fs
+reboot and hold 't'
+```
+
+#### 29. Ricing
 ##### Display Manager
 ```bash
 sudoedit /etc/ly/config.ini
@@ -667,146 +830,6 @@ Script to separate primary and secondary colors
 Run rice.py to change hue on new script
 ```bash
 TODO
-```
-    
-#### 26. Security
-```bash
-sudo ufw limit 22/tcp |
-sudo ufw allow 80/tcp |
-sudo ufw allow 443/tcp |
-sufo ufw allow from 88.99.58.246 |
-sudo ufw default deny incoming |
-sudo ufw enable
-```
-
-```bash
-# https://www.networkworld.com/article/968526/linux-firewall-basics-with-ufw.html
-
-iftop
-anki
-ping sync3.ankiweb.net
-allow from
-```
-
-```bash
-sudoedit /etc/fail2ban/jail.local
-
-[DEFAULT]
-ignoreip = 127.0.0.1/8 ::1
-bantime = 3600
-findtime = 600
-maxretry = 5
-
-[sshd]
-enabled = true
-```
-
-```bash
-sudo systemctl enable fail2ban
-sudo systemctl start fail2ban
-```
-
-#### 27. Anki
-Download decks from MEGA
-
-Addons:
-- 1771074083 heatmap
-- 3918629684 japanese support
-- 613684242 true retention
-- 947935257 reset ease
-- 1152543397 postpode cards's review
-- 1084228676 color confirmation
-- 1610304449 kanji grid
-- 1136455830 advanced review button bar
-<!-- - 2494384865 buttons colors -->
-
-Old Deck settings
-```
-Add Ons "config" interval coefficient 0.0
-30	9999	off	1m 5m 15m	1	4	Sequential
-2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
-600	off	off	off	off	off	off	
-180	2.5	1.3	1	1.2	0
-
-Change to default OS theme to prevent crashes
-Also, it might be possible not to rebind numpad keys
-```
-
-#### 28. Applications
-```
-Razer
-    500 Dpi
-Qbittorrent
-    Downloads
-        destination at ~/downloads/
-        disable popup
-    Behavior
-        confirm when deleting torrents false
-Steam
-    Login
-    In Game
-        FPS Counter Top Right
-        High Contrat True
-    Notifications
-        Disable friend join game
-    Compatibility
-        Enable Steam Play for all other titles
-            Proton 9.0-2
-    cs2 launch options
-        -fullscreen -sdlaudiodriver pipewire
-Discord
-    Login
-    Voice & Video Defaults
-    Keybindings
-        Toggle Mute
-        Push to Mute
-Youtube Music
-    Login
-Firefox
-    Download directory
-    Remove
-        Import bookmarks
-        Getting Started
-        Spaces
-    Icons and Logins
-    Theme
-    Search -> Brave
-Krita
-    Load workspace
-    Themes -> Krita Darker
-Nvidia
-    Sudo
-    OpenGL Settings
-        Gsync Indicator
-    Save
-Pulse Audio
-    Configuration
-        Disable what's necessary
-    Input Devices
-        150%
-VS Codium
-    Two Monokai
-    Keyboard Shortcuts
-        Copy Line Down - Shift Alt Down
-```
-
-#### 29. Backup Kernel
-```bash
-sudo pacman -S linux-zen-headers linux-zen
-# nvidia-lts
-```
-
-##### grub
-nothing to do if hook was enabled
-
-##### systemd-boot
-```bash
-sudo su
-cd /boot/loader/entries
-cp arch.conf arch-lts.conf
-
-append -lts to linuz and to fs
-reboot and hold 't'
 ```
 
 #### 30. Useful

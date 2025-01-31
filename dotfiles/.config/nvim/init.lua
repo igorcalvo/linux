@@ -112,7 +112,21 @@ require("lazy").setup({
   {
     "ThePrimeagen/vim-be-good",
     "norcalli/nvim-colorizer.lua",
-    "ziontee113/color-picker.nvim"
+    "ziontee113/color-picker.nvim",
+  },
+  {
+    "echasnovski/mini.icons",
+    opts = {},
+    lazy = true,
+    specs = {
+      { "nvim-tree/nvim-web-devicons", enabled = false, optional = true },
+    },
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
+    end,
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -625,21 +639,29 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-require("which-key").register {
-  ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-  ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-  ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
-  ["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
-  ["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
-  ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-  ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-}
+local wk = require("which-key")
+wk.add({
+  { "<leader>c",  group = "[C]ode" },
+  { "<leader>c_", hidden = true },
+  { "<leader>d",  group = "[D]ocument" },
+  { "<leader>d_", hidden = true },
+  { "<leader>f",  group = "[F]ind" },
+  { "<leader>f_", hidden = true },
+  { "<leader>g",  group = "[G]it" },
+  { "<leader>g_", hidden = true },
+  { "<leader>h",  group = "Git [H]unk" },
+  { "<leader>h_", hidden = true },
+  { "<leader>t",  group = "[T]oggle" },
+  { "<leader>t_", hidden = true },
+  { "<leader>w",  group = "[W]orkspace" },
+  { "<leader>w_", hidden = true },
+})
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
-require("which-key").register({
-  ["<leader>"] = { name = "VISUAL <leader>" },
-  ["<leader>h"] = { "Git [H]unk" },
-}, { mode = "v" })
+wk.add({
+  { "<leader>",  group = "VISUAL <leader>", mode = "v" },
+  { "<leader>h", desc = "Git [H]unk",       mode = "v" },
+})
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.

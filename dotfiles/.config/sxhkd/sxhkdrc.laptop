@@ -1,0 +1,196 @@
+# https://my-take-on.tech/2020/07/03/some-tricks-for-sxhkd-and-bspwm/
+
+# program launcher
+super + space
+	rofi -show run
+
+# reload sxhkd
+ctrl + alt + n
+	notify-send 'sxhkd' 'Reloading sxhkd'; pkill -x sxhkd; sxhkd
+
+# reload bspwm
+ctrl + alt + b
+	bspc wm -r; notify-send 'bspwm' 'Reloaded bspwm'
+
+# ctrl + alt + m
+# 	reload autohotkey
+#	^~m::Reload
+
+# close and kill
+# super + {_,shift + }w
+ctrl + + alt + w
+	bspc node -c
+
+# alternate between the tiled and monocle layout
+super + s
+	bspc desktop -l next
+
+# set the window state
+super + {a,t,d,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# focus the node in the given direction
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,n,m}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous window in the current desktop
+alt + Tab
+	bspc node -f next.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+alt + grave
+	bspc desktop -f prev.local
+
+# focus the last node/desktop
+super + {Tab,grave}
+	bspc {node,desktop} -f last
+
+# focus or send to the given desktop
+# super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Next,KP_Right,KP_Prior}
+super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Down,KP_Begin,KP_Up}
+	bspc {desktop -f,node -d} '^{1-6}' --follow
+
+# resize mode
+super + x : {h,j,k,l}
+	STEP=20; SELECTION={1,2,3,4}; \
+	bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
+	bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
+
+# rotate
+super + r
+	bspc node @parent -R 90
+
+### preselect
+# preselect the direction
+# super + ctrl + {h,j,k,l}
+#	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+#super + ctrl + {1-9}
+#	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+#super + ctrl + space
+#	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+#super + ctrl + shift + space
+#	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+### custom scripts
+ctrl + alt + f
+	sh ~/code/scripts/cs-kill.sh
+
+ctrl + alt + h
+	sh ~/code/scripts/cs-out.sh
+
+ctrl + alt + g
+	sh ~/code/scripts/cs-in.sh
+
+ctrl + alt + j
+	kill -9 $(pgrep anki | head -n1)
+
+ctrl + alt + i
+	python ~/code/scripts/idle-vil.py
+
+ctrl + alt + o
+	kill $(pgrep -f "idle-vil.py" | head -n1)
+
+Print
+	flameshot full -p ~/images/screenshots
+
+super + shift + s
+	flameshot gui
+
+ctrl + grave
+	clipcat-menu
+
+ctrl + p
+	xcolor --selection clipboard
+
+super + { Return, KP_Enter }
+	wezterm start --always-new-process
+	#tilix
+
+super + 1
+	bspc desktop -f 'L1' | firefox --new-tab --url about:newtab
+
+super + 2
+	reboot
+
+super + 3
+	youtube-music
+
+super + 4
+	krita
+
+super + 5
+	codium
+
+super + 6
+	sh ~/code/scripts/anki-start.sh
+
+super + 7
+	sh ~/code/scripts/anki-close.sh
+
+super + 8
+	tilix
+
+super + 9
+	qbittorrent
+
+super + 0
+	nautilus ~/downloads/
+
+super + period
+	gnome-characters
+
+ctrl + Scroll_Lock
+	systemctl reboot
+
+ctrl + Pause
+	sh ~/code/scripts/shutdown.sh
+
+# ctrl + l = firefox address
+ctrl + alt + l
+	slock
+
+XF86AudioRaiseVolume
+	pactl set-sink-volume $(pactl get-default-sink) +2% | sh ~/code/scripts/volume-notification.sh
+
+XF86AudioLowerVolume
+	pactl set-sink-volume $(pactl get-default-sink) -2% | sh ~/code/scripts/volume-notification.sh
+
+XF86AudioMute
+	pactl set-sink-mute $(pactl get-default-sink) 'toggle' | notify-send "mute toggled" "" -t 500 --icon=audio-headphones --app-name="Sound"
+
+XF86AudioPlay
+	playerctl play-pause
+
+XF86AudioPrev
+	playerctl previous
+
+XF86AudioNext
+	playerctl next
+
+XF86AudioStop
+	playerctl stop
+
+# # Emulate delete key
+# alt + BackSpace
+#     xte 'keyup Alt_L' 'key Delete' 'keydown Alt_L'
+#
+# # Emulate home/end keys
+# ctrl + alt + @{Up,Down}
+#     xte 'keyup Control_L' 'keyup Alt_L' 'key {Home,End}'
+
+# sxhkd -c $HOME/.config/sxhkd/sxhkdrc $HOME/.config/sxhkd/sxhkdrc.common
+#
