@@ -424,6 +424,7 @@ clone scripts
 ```bash
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
 stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
+sh ~/code/scripts/define-links.sh
 
 cd ~/code/linux/dotfiles/.config/
 mkdir x 
