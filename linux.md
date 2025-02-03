@@ -20,9 +20,6 @@
  .`                                 `/
 ```
 
-#### TODO
-- Ricing Colors New
-
 ### Arch Install
 #### 0. Getting image ready
 ```bash
@@ -827,10 +824,10 @@ python install.py
 ```
 
 ##### Colors
-Script to separate primary and secondary colors
-Run rice.py to change hue on new script
 ```bash
-TODO
+edit ~/colors.sh
+python ~/code/rice/load_colors.py
+python offset_colors.py ~/.config/rofi/rounded-pink-dark.rasi 0.5
 ```
 
 #### 30. Useful

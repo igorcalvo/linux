@@ -16,9 +16,9 @@ bspc config -m eDP-1-1 top_padding   35px
 bspc config -m HDMI-1-1 top_padding  35px
 bspc rule -a polybar private
 
-bspc config active_border_color   '#c896fa'
-bspc config normal_border_color   '#c896fa'
-bspc config focused_border_color  '#46c8a0'
+bspc config active_border_color   '#00db92'
+bspc config normal_border_color   '#00db92'
+bspc config focused_border_color  '#e81759'
 
 # bspc rule -a Gimp desktop='^8' state=floating follow=on
 # bspc rule -a Chromium desktop='^2'
