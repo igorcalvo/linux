@@ -1,3 +1,4 @@
+--[[ Basic Keymaps ]]
 -- https://learnxinyminutes.com/docs/lua/
 -- https://neovim.io/doc/user/lua-guide.html
 
@@ -87,12 +88,44 @@ require("lazy").setup({
           vim.keymap.set(mode, l, r, opts)
         end
 
+        map('n', '<leader>hs', gs.stage_hunk, { desc = "stage hunk" })
+        map('n', '<leader>hr', gs.reset_hunk, { desc = "reset hunk" })
+
+        map('v', '<leader>hs', function()
+          gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, { desc = "stage hunk" })
+
+        map('v', '<leader>hr', function()
+          gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, { desc = "reset hunk" })
+
+        map('n', '<leader>hS', gs.stage_buffer, { desc = "stage buffer" })
+        map('n', '<leader>hR', gs.reset_buffer, { desc = "reset buffer" })
+        map('n', '<leader>hp', gs.preview_hunk, { desc = "preview hunk" })
+        map('n', '<leader>hi', gs.preview_hunk_inline, { desc = "preview hunk inline" })
+
+        map('n', '<leader>hb', function()
+          gs.blame_line({ full = true })
+        end, { desc = "blame line" })
+
+        map('n', '<leader>hd', gs.diffthis)
+
+        map('n', '<leader>hD', function()
+          gs.diffthis('~')
+        end, { desc = "diff this" })
+
+        map('n', '<leader>hQ', function() gs.setqflist('all') end)
+        map('n', '<leader>hq', gs.setqflist, { desc = "setqflist" })
+
         -- Toggles
+        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = "toggle current line blame" })
+        map('n', '<leader>td', gs.toggle_deleted, { desc = "toggle deleted" })
+        -- , { desc = "" }
+        map('n', '<leader>tw', gs.toggle_word_diff, { desc = "toggle word diff" })
         map("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "toggle git blame line" })
       end,
     },
   },
-
   {
     "loctvl842/monokai-pro.nvim",
     priority = 1000,
@@ -275,6 +308,12 @@ vim.keymap.set({ "n", "v" }, "<A-S-j>", ":yank<cr>p", { desc = "Copy line down" 
 vim.keymap.set("n", "<C-.>", ":lua vim.lsp.buf.code_action()<cr>", { desc = "Code Actions" })
 vim.keymap.set("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>", { desc = "Source init.lua" })
 vim.keymap.set("n", "<leader>r", ":reg<cr>", { desc = "[R]egisters" })
+vim.keymap.set("n", "<leader>hc", ":Git diff<cr>", { desc = "changes" })
+vim.keymap.set("n", "<leader>gs", ":Telescope git_status<cr>", { desc = "[S]tatus" })
+vim.keymap.set("n", "<leader>gb", ":Telescope git_branches<cr>", { desc = "[B]ranches" })
+vim.keymap.set("n", "<leader>gc", ":Telescope git_commits<cr>", { desc = "[C]ommits" })
+vim.keymap.set("n", "<leader>gx", ":Telescope git_stash<cr>", { desc = "stash[X]" })
+vim.keymap.set("n", "<leader>gh", ":Telescope git_bcommits<cr>", { desc = "[H]istory" })
 
 -- Plugins keymaps?
 vim.keymap.set("n", "cp", "<cmd>PickColor<cr>", { desc = "[C]olor [P]ick" })
