@@ -587,6 +587,13 @@ sudo pacman -S bluez
 sudo systemctl enable bluetooth 
 ```
 
+##### Neovim
+```bash
+cd ~/.local/share/nvim/mason/
+```
+
+/![Mason](./mason.png)
+
 #### 22. Startup
 ```bash
 sudo sh ~/code/scripts/bspwm.sh

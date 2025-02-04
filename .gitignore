@@ -6,3 +6,5 @@ dotfiles/.config/sxhkd/sxhkdrc
 dotfiles/.config/bspwm/bspwmrc
 dotfiles/.config/polybar/config.ini
 dotfiles/.config/polybar/nightlight.sh
+dotfiles/.config/dunst/dunstrc
+dotfiles/.config/cava/config
