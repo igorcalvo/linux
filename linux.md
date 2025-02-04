@@ -590,6 +590,7 @@ sudo systemctl enable bluetooth
 ##### Neovim
 ```bash
 cd ~/.local/share/nvim/mason/
+img ~/code/linux/mason.png
 ```
 
 /![Mason](./mason.png)
