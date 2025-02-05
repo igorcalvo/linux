@@ -529,6 +529,52 @@ docker ps -a
 docker stop
 ```
 
+##### VM
+```bash
+sudo pacman -S qemu-full libvirt dnsmasq dmidecode lxqt-policykit virt-manager --needed
+sudo systemctl enable libvirtd --now
+sudo systemctl enable dnsmasq.service --now
+sudo usermod -aG libvirt $USER
+
+reboot
+virt-manager
+
+virsh net-list --all
+virsh sudo net-start default
+virsh net-autostart default
+bash
+```
+
+```bash
+cat <<EOF | virsh net-define /dev/stdin
+<network>
+  <name>default</name>
+  <uuid>$(uuidgen)</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr0'/>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.254'/>
+    </dhcp>
+  </ip>
+</network>
+EOF
+```
+
+```bash
+https://www.microsoft.com/en-us/software-download/windows10iso
+https://pve.proxmox.com/wiki/Windows_VirtIO_Drivers
+https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso
+```
+
+1. add Channel (qemu-ga)
+2. vCPU = 4; Copy host CPU configuraion (host-passthrough); 1, 4, 1 (4 Cores)
+3. Video Virtio (no 3D acceleatarion)
+4. mount visio drivers img
+5. install it from inside VM
+6. reboot
+7. `wmic cpu get NumberOfCores,NumberOfLogicalProcessors`
+
 #### 20. Websites
 ##### AppImages
 ```bash
