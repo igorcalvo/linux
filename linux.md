@@ -506,25 +506,31 @@ tetrio
 vscodium
 ```
 
-##### DeepSeek
+##### OLLAMA
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 sudo systemctl enable ollama.service
 ollama run deepseek-r1:7b
+ollama run phi4:latest
 ```
 
 ```bash
 sudo pacman -Sy
 sudo pacman -S docker nvidia-container-toolkit --needed
-sudo usermod -Ag docker $USER
+sudo usermod -aG docker $USER
 bash
 newgrp docker
+systemctl enable docker.service --now
 reboot
 
 docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -e ENABLE_RAG_WEB_SEARCH=true --name open-webui --restart always ghcr.io/open-webui/open-webui:main
 docker ps -a
 docker stop
+
+Settings -> Admin Settings -> Web Search
+Download web search tool
 ```
 
 ##### VM
