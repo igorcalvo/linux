@@ -211,7 +211,7 @@ GRUB_COLOR_NORMAL="light-blue/black"
 GRUB_COLOR_HIGHLIGHT="light-cyan/black"
 GRUB_TIMEOUT=3
 GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet ipv6.disable=1 pcie_aspm=off"
-# GRUB_DEFAULT=3
+GRUB_DEFAULT=2
 
 os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -486,16 +486,14 @@ sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita fl
 calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq fzf tldr bat eza zoxide mpv \
 stress glmark2 neovide fail2ban ufw imagemagick pavucontrol feh yazi pandoc python-weasyprint \
 clipcat calcurse xcolor gnome-system-monitor nautilus gnome-terminal iftop figlet gnome-disk-utility \
-progress evince docker lazygit
+progress evince docker lazygit ncdu
 ```
 
 ```bash
 steam
 discord
 drawing
-task
 taskwarrior-tui
-ncdu
 ```
 
 ##### AUR
@@ -819,7 +817,11 @@ sudo pacman -S linux-zen-headers linux-zen
 ```
 
 ##### grub
-nothing to do if hook was enabled
+```bash
+sudoedit /etc/default/grub
+GRUB_DEFAULT=2
+grub-update
+```
 
 ##### systemd-boot
 ```bash
@@ -838,15 +840,6 @@ sudoedit /etc/ly/config.ini
 
 fg = 7
 border_fg = 5
-```
-
-##### Wallpaper
-1. Get it
-2. Krita
-3. Nitrogen
-
-```bash
-nitrogen ~/images/wallpapers/2024-06/pc/wallpaper5.png --set-auto --save
 ```
 
 ##### Cursors
@@ -868,6 +861,23 @@ nvim ~/.config/gtk-3.0/settings.ini
 gtk-cursor-theme-name=volantes_light_cursors
 ```
 
+##### Wallpaper
+1. Get it
+2. Magick
+3. Nitrogen
+
+```bash
+nitrogen ~/images/wallpapers/20xx/wallpaper.png --set-auto --save
+```
+
+##### Colors
+```bash
+edit ~/colors.sh
+python ~/code/rice/load_colors.py
+python ~/code/rice/offset_colors.py ~/.config/rofi/rounded-pink-dark.rasi 0.5
+nvim ~/code/rice/wallpaper.sh
+```
+
 ##### Steam Theme
 ```bash
 cd
@@ -875,13 +885,6 @@ cd apps
 git clone https://github.com/tkashkin/Adwaita-for-Steam
 cd Adwaita-for-Steam
 python install.py
-```
-
-##### Colors
-```bash
-edit ~/colors.sh
-python ~/code/rice/load_colors.py
-python offset_colors.py ~/.config/rofi/rounded-pink-dark.rasi 0.5
 ```
 
 #### 30. Useful
