@@ -18,7 +18,7 @@ ctrl + alt + b
 
 # close and kill
 # super + {_,shift + }w
-ctrl + + alt + w
+ctrl + alt + w
 	bspc node -c
 
 # alternate between the tiled and monocle layout
@@ -37,10 +37,6 @@ super + {Left,Down,Up,Right}
 super + {h,j,k,l}
 	bspc node -f {west,south,north,east}
 
-# focus the node for the given path jump
-super + {p,b,n,m}
-	bspc node -f @{parent,brother,first,second}
-
 # focus the next/previous window in the current desktop
 alt + Tab
 	bspc node -f next.local.!hidden.window
@@ -58,31 +54,14 @@ super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Down,KP_Begin,KP_Up,KP_Next,KP_Ri
 	bspc {desktop -f,node -d} '^{1-9}' --follow
 
 # resize mode
-super + x : {h,j,k,l}
-	STEP=20; SELECTION={1,2,3,4}; \
-	bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
-	bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
+# super + x : {h,j,k,l}
+#	STEP=20; SELECTION={1,2,3,4}; \
+#	bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
+#	bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
 
 # rotate
 super + r
 	bspc node @parent -R 90
-
-### preselect
-# preselect the direction
-super + ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
-
-# preselect the ratio
-super + ctrl + {1-9}
-	bspc node -o 0.{1-9}
-
-# cancel the preselection for the focused node
-super + ctrl + space
-	bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 ### custom scripts
 ctrl + alt + f
@@ -182,13 +161,4 @@ XF86AudioNext
 XF86AudioStop
 	playerctl stop
 
-# # Emulate delete key
-# alt + BackSpace
-#     xte 'keyup Alt_L' 'key Delete' 'keydown Alt_L'
-#
-# # Emulate home/end keys
-# ctrl + alt + @{Up,Down}
-#     xte 'keyup Control_L' 'keyup Alt_L' 'key {Home,End}'
-
 # sxhkd -c $HOME/.config/sxhkd/sxhkdrc $HOME/.config/sxhkd/sxhkdrc.common
-#
