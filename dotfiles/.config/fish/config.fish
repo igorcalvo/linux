@@ -35,8 +35,8 @@ alias download-music "command yt-dlp --extract-audio --audio-format mp3 --audio-
 alias download-video "command yt-dlp"
 alias encrypt "command openssl enc -aes-256-cbc -pbkdf2 -salt"
 alias decrypt "command openssl enc -aes-256-cbc -pbkdf2 -d"
-# alias gpt "command chatgpt --model-4o-mini"
-alias gpt "ollama run deepseek-r1:7b"
+alias gpt "command chatgpt --interactive"
+# alias gpt "ollama run deepseek-r1:7b"
 alias webcam "screen -d -m mpv av://v4l2:/dev/video0"
 alias btop "screen -d -m tilix"
 
@@ -51,6 +51,6 @@ zoxide init fish --cmd cd | source
 set -Ux EDITOR /usr/bin/nvim
 set -Ux SUDO_EDITOR /usr/bin/nvim
 set -Ux VISUAL /usr/bin/nvim
+# set -Ux OPENAI_API_KEY$(decrypt -in ~/documents/gpt.enc -pass pass:)
 
-# set -Ux OPENAI_KEY $(decrypt -in ~/documents/gpt.enc -pass pass:)
 # fish_add_path ~/.local/bin/

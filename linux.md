@@ -506,6 +506,15 @@ tetrio
 vscodium
 ```
 
+##### GPT
+```
+https://github.com/kardolus/chatgpt-cli
+
+curl -L -o chatgpt https://github.com/kardolus/chatgpt-cli/releases/latest/download/chatgpt-linux-amd64 && chmod +x chatgpt && sudo mv chatgpt /usr/local/bin/
+set -Ux OPENAI_API_KEY $(decrypt -in ~/gpt.enc -pass pass:gpt)
+chatgpt --set-model gpt-4
+```
+
 ##### OLLAMA
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
