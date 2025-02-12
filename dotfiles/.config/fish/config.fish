@@ -51,6 +51,6 @@ zoxide init fish --cmd cd | source
 set -Ux EDITOR /usr/bin/nvim
 set -Ux SUDO_EDITOR /usr/bin/nvim
 set -Ux VISUAL /usr/bin/nvim
-# set -Ux OPENAI_API_KEY$(decrypt -in ~/documents/gpt.enc -pass pass:)
+# set -Ux OPENAI_API_KEY$(decrypt -in ~/documents/gpt.enc -pass pass:gpt)
 
 # fish_add_path ~/.local/bin/

@@ -498,7 +498,7 @@ taskwarrior-tui
 
 ##### AUR
 ```bash
-yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters
+yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters fish-done
 ```
 
 ```bash
@@ -507,11 +507,12 @@ vscodium
 ```
 
 ##### GPT
-```
+```bash
 https://github.com/kardolus/chatgpt-cli
 
 curl -L -o chatgpt https://github.com/kardolus/chatgpt-cli/releases/latest/download/chatgpt-linux-amd64 && chmod +x chatgpt && sudo mv chatgpt /usr/local/bin/
 set -Ux OPENAI_API_KEY $(decrypt -in ~/gpt.enc -pass pass:gpt)
+chatgpt --config
 chatgpt --set-model gpt-4
 ```
 
@@ -521,7 +522,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 sudo systemctl enable ollama.service
 ollama run deepseek-r1:7b
-ollama run phi4:latest
+ollama run llama3.2:3b
 ```
 
 ```bash
@@ -665,11 +666,12 @@ sudo sh ~/code/scripts/bspwm.sh
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
 python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
 python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
-cython mypy --needed
+cython mypy python-pipx --needed
 ```
 
 ```bash
 yay -S python-yarg python-pipreqs
+pipx ensurepath
 ```
 
 ```bash
