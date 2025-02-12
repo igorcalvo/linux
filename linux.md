@@ -522,7 +522,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 sudo systemctl enable ollama.service
 ollama run deepseek-r1:7b
-ollama run llama3.2:3b
+ollama run llama3.2
 ```
 
 ```bash
