@@ -2,9 +2,10 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-alias gedit "command gnome-text-editor"
-# alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
-# nitrogen ~/images/wallpapers/2024-06/pc/wallpaper5.png --set-auto --save
+abbr -a wallpaper-set --set-cursor -- "nitrogen % --set-auto --save"
+abbr -a gpt-latest-parse --set-cursor -- "cat % | jq 'sort_by(.created) | reverse | .[0].id'"
+abbr -a encrypt --set-cursor -- "openssl enc -aes-256-cbc -pbkdf2 -salt -in % -out % -pass pass:gpt"
+abbr -a decrypt --set-cursor -- "openssl enc -aes-256-cbc -pbkdf2 -d -in % -pass pass:gpt"
 alias mouse "sh /home/calvo/code/scripts/track-mouse.sh"
 alias sudo "command sudo"
 alias python "command python3"
@@ -13,7 +14,6 @@ alias disk "screen -d -m qdirstat"
 alias cat "command bat"
 alias ls "command eza"
 alias rm "command trash"
-# alias tasks "command taskwarrior-tui"
 alias tasks "nvim ~/lists/tasks.txt"
 alias fs "yazi"
 alias services "systemctl list-unit-files | grep enabled"
@@ -26,20 +26,23 @@ alias bigprint "command figlet -f big -t -c"
 alias s "command screen -d -m"
 alias copy "command xclip -sel c"
 alias pdf "command screen -d -m evince"
-# alias memory "python /home/calvo/code/memory/main.py"
 alias reset-mouse "sh /home/calvo/code/scripts/reset-mouse.sh"
 alias reset-mouse-laptop "sh /home/calvo/code/scripts/reset-mouse.laptop.sh"
-alias workout "command wezterm imgcat ~/documents/workout.png"
-# alias learn-java "screen -d -m sh .local/share/JetBrains/Toolbox/apps/intellij-idea-community-edition/bin/idea.sh"
+alias workout "wezterm imgcat ~/documents/workout.png"
 alias download-music "command yt-dlp --extract-audio --audio-format mp3 --audio-quality 0"
 alias download-video "command yt-dlp"
-alias encrypt "command openssl enc -aes-256-cbc -pbkdf2 -salt"
-alias decrypt "command openssl enc -aes-256-cbc -pbkdf2 -d"
-alias gpt "command chatgpt -t 0.5 -m gpt-4o-2024-11-20"
-alias gpt-latest-parse "command jq 'sort_by(.created) | reverse | .[0].id'"
-# alias gpt "ollama run deepseek-r1:7b"
+alias gpt "chatgpt -t 0.5 -m gpt-4o-2024-11-20"
 alias webcam "screen -d -m mpv av://v4l2:/dev/video0"
 alias btop "screen -d -m tilix"
+
+### OUTDATED
+## GNOME
+# alias gedit "command gnome-text-editor"
+# alias wallpaper "dconf write /org/gnome/desktop/background/picture-options \"'spanned'\""
+## OTHERS
+# alias memory "python /home/calvo/code/memory/main.py"
+# alias learn-java "screen -d -m sh .local/share/JetBrains/Toolbox/apps/intellij-idea-community-edition/bin/idea.sh"
+# alias gpt "ollama run deepseek-r1:7b"
 
 function tree
     eza --tree --level=$argv
@@ -53,8 +56,5 @@ set -Ux EDITOR /usr/bin/nvim
 set -Ux SUDO_EDITOR /usr/bin/nvim
 set -Ux VISUAL /usr/bin/nvim
 # set -Ux OPENAI_API_KEY$(decrypt -in ~/documents/gpt.enc -pass pass:gpt)
-# set -Ux CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
 
-# carapace --list | awk '{print $1}' | xargs -I{} touch ~/.config/fish/completions/{}.fish # disable auto-loaded completions (#185)
-# carapace _carapace | source
 # fish_add_path ~/.local/bin/

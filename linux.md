@@ -511,7 +511,7 @@ vscodium
 https://github.com/kardolus/chatgpt-cli
 
 curl -L -o chatgpt https://github.com/kardolus/chatgpt-cli/releases/latest/download/chatgpt-linux-amd64 && chmod +x chatgpt && sudo mv chatgpt /usr/local/bin/
-set -Ux OPENAI_API_KEY $(decrypt -in ~/gpt.enc -pass pass:gpt)
+set -Ux OPENAI_API_KEY $(openssl enc -aes-256-cbc -pbkdf2 -d -in ~/gpt.enc -pass pass:gpt)
 chatgpt --config
 chatgpt --set-model gpt-4
 ```
