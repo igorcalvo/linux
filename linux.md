@@ -655,6 +655,17 @@ img ~/code/linux/mason.png
 
 /![Mason](./mason.png)
 
+##### Fish
+```bash
+fish_update_completions
+mkdir ~/.config/fish/completions/
+cp ~/.local/share/fish/generated_completions/* ~/.config/fish/completions/
+cp /usr/share/fish/completions/*  ~/.config/fish/completions/
+mv ~/.config/fish/completions/convert.fish ~/.config/fish/completions/magick.fish
+sed -i 's/convert/magick/g' ~/.config/fish/completions/magick.fish
+cat ~/.config/fish/completions/magick.fish | head -n 10
+```
+
 #### 22. Startup
 ```bash
 sudo sh ~/code/scripts/bspwm.sh
