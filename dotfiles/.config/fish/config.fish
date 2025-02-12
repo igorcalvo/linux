@@ -6,6 +6,9 @@ abbr -a wallpaper-set --set-cursor -- "nitrogen % --set-auto --save"
 abbr -a gpt-latest-parse --set-cursor -- "cat % | jq 'sort_by(.created) | reverse | .[0].id'"
 abbr -a encrypt --set-cursor -- "openssl enc -aes-256-cbc -pbkdf2 -salt -in % -out % -pass pass:gpt"
 abbr -a decrypt --set-cursor -- "openssl enc -aes-256-cbc -pbkdf2 -d -in % -pass pass:gpt"
+abbr -a f --set-cursor -- 'cd / | sudo find . -name "*%*"'
+abbr -a hs --set-cursor "history search --contains %"
+
 alias mouse "sh /home/calvo/code/scripts/track-mouse.sh"
 alias sudo "command sudo"
 alias python "command python3"
@@ -34,6 +37,7 @@ alias download-video "command yt-dlp"
 alias gpt "chatgpt -t 0.5 -m gpt-4o-2024-11-20"
 alias webcam "screen -d -m mpv av://v4l2:/dev/video0"
 alias btop "screen -d -m tilix"
+alias lg "lazygit"
 
 ### OUTDATED
 ## GNOME
@@ -48,6 +52,11 @@ function tree
     eza --tree --level=$argv
 end
 # funcsave tree
+
+function how
+    tldr $argv; cheat $argv
+end
+# commandline -f execute
 
 zoxide init fish --cmd cd | source
 # bind -k sf forward-word
