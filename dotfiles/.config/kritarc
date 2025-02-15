@@ -1,13 +1,13 @@
 AlsoSaveAsKra=false
 ArtColorSel.ColorSpace=0
 ArtColorSel.InversedSaturation=false
-ArtColorSel.Light=0
+ArtColorSel.Light=0.8586786887923148
 ArtColorSel.LightPieces=11
 ArtColorSel.NumRings=7
 ArtColorSel.RingPieces=12
-ArtColorSel.SelColorH=0
-ArtColorSel.SelColorS=0
-ArtColorSel.SelColorX=0
+ArtColorSel.SelColorH=0.3333333333333333
+ArtColorSel.SelColorS=1.0000005945190156
+ArtColorSel.SelColorX=0.8586786887923148
 ArtColorSel.defaultHueSteps=12
 ArtColorSel.defaultSaturationSteps=7
 ArtColorSel.defaultValueScaleSteps=11
@@ -25,7 +25,7 @@ CanvasOnlyActive=false
 CanvasSize/ConstrainProportions=true
 CanvasSize/KeepAspectRatio=true
 ExportConfiguration-image/jpeg=<!DOCTYPE params>\n<params>\n <param type="internal" name="baseline">true</param>\n <param type="internal" name="exif">true</param>\n <param type="string" name="filters"><![CDATA[]]></param>\n <param type="internal" name="forceSRGB">false</param>\n <param type="internal" name="iptc">true</param>\n <param type="internal" name="optimize">true</param>\n <param type="internal" name="progressive">false</param>\n <param type="internal" name="quality">100</param>\n <param type="internal" name="saveProfile">true</param>\n <param type="internal" name="smoothing">0</param>\n <param type="internal" name="storeAuthor">false</param>\n <param type="internal" name="storeMetaData">false</param>\n <param type="internal" name="subsampling">0</param>\n <param type="color" name="transparencyFillcolor"><![CDATA[<!DOCTYPE color>\n<color>\n <RGB r="1" g="1" b="1" space="sRGB-elle-V2-g10.icc"/>\n</color>\n]]></param>\n <param type="internal" name="xmp">true</param>\n</params>\n
-ExportConfiguration-image/png=<!DOCTYPE params>\n<params>\n <param name="alpha" type="internal">true</param>\n <param name="compression" type="internal">1</param>\n <param name="downsample" type="internal">false</param>\n <param name="forceSRGB" type="internal">true</param>\n <param name="indexed" type="internal">false</param>\n <param name="interlaced" type="internal">false</param>\n <param name="saveAsHDR" type="internal">false</param>\n <param name="saveSRGBProfile" type="internal">false</param>\n <param name="storeAuthor" type="internal">false</param>\n <param name="storeMetaData" type="internal">false</param>\n <param name="transparencyFillcolor" type="color"><![CDATA[<!DOCTYPE color>\n<color>\n <RGB b="1" g="1" space="sRGB-elle-V2-g10.icc" r="1"/>\n</color>\n]]></param>\n</params>\n
+ExportConfiguration-image/png=<!DOCTYPE params>\n<params>\n <param name="alpha" type="internal">true</param>\n <param name="compression" type="internal">1</param>\n <param name="downsample" type="internal">false</param>\n <param name="forceSRGB" type="internal">true</param>\n <param name="indexed" type="internal">false</param>\n <param name="interlaced" type="internal">false</param>\n <param name="saveAsHDR" type="internal">false</param>\n <param name="saveSRGBProfile" type="internal">false</param>\n <param name="storeAuthor" type="internal">false</param>\n <param name="storeMetaData" type="internal">false</param>\n <param name="transparencyFillcolor" type="color"><![CDATA[<!DOCTYPE color>\n<color>\n <RGB r="1" space="sRGB-elle-V2-g10.icc" b="1" g="1"/>\n</color>\n]]></param>\n</params>\n
 FilterSelector/LastUsedFilter=gaussian blur
 GamutMasks.viewMode=0
 KisDlgPreferences/CurrentPage=general
@@ -38,8 +38,8 @@ Krita/Ocio/OcioConfigPath=
 Krita/Ocio/OcioLockColorVisualRepresentation=false
 Krita/Ocio/OcioLutPath=
 Krita/Ocio/UseOcio=false
-LastBackGroundColor=<!DOCTYPE LastBackGroundColor>\n<LastBackGroundColor>\n <RGB space="sRGB-elle-V2-srgbtrc.icc" g="0" b="0" r="0"/>\n</LastBackGroundColor>\n
-LastForeGroundColor=<!DOCTYPE LastForeGroundColor>\n<LastForeGroundColor>\n <RGB space="sRGB-elle-V2-srgbtrc.icc" g="0" b="0" r="0"/>\n</LastForeGroundColor>\n
+LastBackGroundColor=<!DOCTYPE LastBackGroundColor>\n<LastBackGroundColor>\n <RGB g="0.721568644046783" b="0.552941203117371" r="0.211764708161354" space="sRGB-elle-V2-srgbtrc.icc"/>\n</LastBackGroundColor>\n
+LastForeGroundColor=<!DOCTYPE LastForeGroundColor>\n<LastForeGroundColor>\n <RGB g="1" b="0" r="0" space="sRGB-elle-V2-srgbtrc.icc"/>\n</LastForeGroundColor>\n
 LastPreset=b) Basic-5 Size Opacity
 LastPreset_-1=b) Basic-5 Size Opacity
 LineSmoothingDelayDistance=50
@@ -52,6 +52,7 @@ LineSmoothingTailAggressiveness=0.15
 LineSmoothingType=1
 LineSmoothingUseDelayDistance=true
 NumberOfLayersForNewImage=2
+PinnedFonts=Sans Serif
 ShowGlobalSelection=true
 SpecificColorSelector/HsxMode=0
 SpecificColorSelector/UseHsx=false
@@ -66,7 +67,7 @@ colorDepthDef=U8
 colorModelDef=RGBA
 colorProfileDef=sRGB-elle-V2-srgbtrc.icc
 defaultPalette=Default
-filterdialog/geometry=\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\n"\x00\x00\x01\xbb\x00\x00\x0cR\x00\x00\x03\xae\x00\x00\n$\x00\x00\x01\xbd\x00\x00\x0cP\x00\x00\x03\xac\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\n$\x00\x00\x01\xbd\x00\x00\x0cP\x00\x00\x03\xac
+filterdialog/geometry=\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x08\x1a\x00\x00\x00\x7f\x00\x00\nJ\x00\x00\x02r\x00\x00\x08\x1c\x00\x00\x00\x81\x00\x00\nH\x00\x00\x02p\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x08\x1c\x00\x00\x00\x81\x00\x00\nH\x00\x00\x02p
 filterdialog/rememberlastpreset=false
 globalSnapBoundingBox=false
 globalSnapExtension=false
@@ -92,10 +93,12 @@ imagesizedlg_printSizeSeparatly=false
 imagesizedlg_ratioLock=true
 imagesizedlg_resunit=Pixels/Inch
 imagesizedlg_sizeunit=in
+internal_selector_active_color_set=Animation Color Set
+internal_selector_active_color_set_md5=8e071366587a400f1db855c27014a5ec
 levelOfDetailEnabled=false
 logviewer_enabled=false
-moveToolChangedValueX=24
-moveToolChangedValueY=200
+moveToolChangedValueX=487
+moveToolChangedValueY=550
 moveToolUnit=0
 numberOfOnionSkins=10
 oninSkinTintColorForward=0,255,0
@@ -154,8 +157,8 @@ toolbarslider_3=flow
 toolbarslider_4=flow
 
 [File Dialogs]
-OpenDocument=/home/calvo/desktop
-SaveAs=/home/calvo/desktop/iperocks
+OpenDocument=/home/calvo/images/symbol/teal
+SaveAs=/home/calvo/images/symbol
 
 [GradientChooser]
 global/itemSize=medium
@@ -173,6 +176,10 @@ allowGrow=true
 decoration=1
 growCenter=false
 
+[KisToolPath]
+outlineType=1
+patternTransformScale=100
+
 [KisToolSelectElliptical]
 roundCornersX=0
 roundCornersY=0
@@ -180,6 +187,10 @@ roundCornersY=0
 [KisToolSelectRectangular]
 roundCornersX=0
 roundCornersY=0
+
+[KritaShape/KisToolMultiBrush]
+handsCount=4
+transformMode=0
 
 [MainWindow]
 3 screens: Height=1033
@@ -450,9 +461,11 @@ pinControls=true
 [RecentFiles]
 File1[$e]=$HOME/images/icons/office.png
 File10[$e]=$HOME/desktop/iperocks/abc.jpg
-File11[$e]=$HOME/desktop/WhatsApp Image 2024-11-10 at 10.15.21.jpeg
-File12[$e]=$HOME/desktop/iperocks/abc.png
-File13[$e]=$HOME/desktop/b10/touched.jpg
+File11[$e]=$HOME/desktop/iperocks/abc.png
+File12[$e]=$HOME/desktop/b10/touched.jpg
+File13[$e]=$HOME/images/symbol/symbol.kra
+File14[$e]=$HOME/images/symbol/symbol.png
+File15[$e]=$HOME/images/symbol/teal/symbol.png
 File2[$e]=$HOME/images/avatar/bigodon.jpg
 File3[$e]=$HOME/desktop/b10/16.14.05(1).jpeg
 File4[$e]=$HOME/desktop/maresias/WhatsApp Image 2024-10-14 at 00.36.36(2).jpeg
@@ -463,9 +476,11 @@ File8[$e]=$HOME/desktop/maresias/WhatsApp Image 2024-10-14 at 00.36.37.png
 File9[$e]=$HOME/desktop/iperocks/7.jpg
 Name1=office.png
 Name10=abc.jpg
-Name11=WhatsApp Image 2024-11-10 at 10.15.21.jpeg
-Name12=abc.png
-Name13=touched.jpg
+Name11=abc.png
+Name12=touched.jpg
+Name13=symbol.kra
+Name14=symbol.png
+Name15=symbol.png
 Name2=bigodon.jpg
 Name3=16.14.05(1).jpeg
 Name4=WhatsApp Image 2024-10-14 at 00.36.36(2).jpeg
@@ -490,11 +505,15 @@ workspaces=All
 [SvgSymbolCollection]
 currentCollection=0
 
+[SvgTextTool]
+Geometry=AdnQywADAAAAAAtEAAAAOQAADvEAAAQpAAALRgAAADsAAA7vAAAEJwAAAAAAAAAAB4AAAAtGAAAAOwAADu8AAAQn
+windowState=AAAA/wAAAAD9AAAAAAAAA6oAAANfAAAABAAAAAQAAAAIAAAACPwAAAADAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAAgAAAAEAAAAYAGYAbwBuAHQAUwBlAHQAdABpAG4AZwBzAQAAAAD/////AAAAAAAAAAAAAAACAAAAAQAAABQAZgBvAHIAbQBhAHQAdABpAG4AZwEAAAAA/////wAAAAAAAAAA
+
 [TemplateChooserDialog]
 DetailsPaneSplitterSizes=315,227
 
 [advancedColorSelector]
-customSelectorBackgroundColor=160,160,164
+customSelectorBackgroundColor=54,184,141
 gamma=2.2
 lumaG=0.7152
 lumaR=0.2126
