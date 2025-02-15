@@ -17,10 +17,10 @@
 ;==========================================================
 
 [colors]
-background = #1e0c38
+background = #030c10
 foreground = #c8c8c8
-primary = #c896fa
-secondary = #46c8a0
+primary = #00db92
+secondary = #e81759
 disabled = #787878
 
 [bar/main]
