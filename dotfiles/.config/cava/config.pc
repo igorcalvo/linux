@@ -230,7 +230,7 @@ reverse = 0
 gradient = 1
 gradient_count = 8
 gradient_color_1 = '#00db92'
-gradient_color_2 = '#91ffb6'
+gradient_color_2 = '#e81759'
 ; background = ''
 
 [smoothing]

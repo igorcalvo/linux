@@ -501,7 +501,7 @@ taskwarrior-tui
 ```bash
 yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki \
 ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters \
-fish-done cheat-bin
+fish-done cheat-bin chatgpt-shell-cli
 ```
 
 ```bash
@@ -510,6 +510,7 @@ vscodium
 ```
 
 ##### GPT
+###### Consider AUR instead
 ```bash
 https://github.com/kardolus/chatgpt-cli
 
