@@ -136,11 +136,15 @@ require("lazy").setup({
   { "nvim-neotest/nvim-nio" },
   {
     "williamboman/mason.nvim",
+
     "mfussenegger/nvim-dap",
     "jay-babu/mason-nvim-dap.nvim",
     "HiPhish/debugpy.nvim",
     "rcarriga/nvim-dap-ui",
     "theHamsta/nvim-dap-virtual-text",
+
+    "mfussenegger/nvim-lint",
+    "rshkarin/mason-nvim-lint",
   },
   {
     "ThePrimeagen/vim-be-good",
@@ -767,31 +771,7 @@ end, { desc = "[D]ebug [S]copes" })
 
 vim.keymap.set("n", "<Leader>de", "<cmd>lua require('dapui').eval()<cr>", { desc = "[D]ebug [E]val" })
 
-require("nvim-dap-virtual-text").setup {
-  enabled = true,                     -- enable this plugin (the default)
-  enabled_commands = true,            -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
-  highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
-  highlight_new_as_changed = false,   -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
-  show_stop_reason = true,            -- show stop reason when stopped for exceptions
-  commented = false,                  -- prefix virtual text with comment string
-  only_first_definition = true,       -- only show virtual text at first definition (if there are multiple)
-  all_references = false,             -- show virtual text on all all references of the variable (not only definitions)
-  clear_on_continue = false,          -- clear virtual text on "continue" (might cause flickering when stepping)
-  display_callback = function(variable, buf, stackframe, node, options)
-    if options.virt_text_pos == 'inline' then
-      return ' = ' .. variable.value
-    else
-      return variable.name .. ' = ' .. variable.value
-    end
-  end,
-  virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
-
-  -- experimental features:
-  all_frames = false,     -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
-  virt_lines = false,     -- show virtual lines instead of virtual text (will flicker!)
-  virt_text_win_col = nil -- position the virtual text at a fixed window column (starting from the first text column) ,
-  -- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
-}
+require("nvim-dap-virtual-text").setup()
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -802,13 +782,13 @@ require("nvim-dap-virtual-text").setup {
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property "filetypes" to the map in question.
 local servers = {
-  -- clangd = {},
+  angularls = {},
+  awk_ls = {},
+  cssls = {},
   gopls = {},
-  pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { "html", "twig", "hbs"} },
-
+  html = {},
+  htmx = {},
+  jqls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -817,15 +797,31 @@ local servers = {
       -- diagnostics = { disable = { "missing-fields" } },
     },
   },
+  pyright = {},
+  ts_ls = {}
 }
+
+local linters = {
+  "debugpy", "prettier", "black", "delve", "jq", "markdownlint", "firefox-debug-adapter",
+}
+require('mason-nvim-lint').setup({
+  ensure_installed = linters,
+  automatic_installation = true,
+  ignore_install = { "inko", "ruby", "janet", "clj-kondo", "vale" },
+  quiet_mode = false
+})
 
 -- Setup neovim lua configuration
 require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
+  debug = true,
+  setup_jsonls = true,
   override = function(root_dir, library)
     library.enabled = true
     library.plugins = true
   end,
+  lspconfig = true,
+  pathStrict = true,
 })
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -837,6 +833,7 @@ local mason_lspconfig = require "mason-lspconfig"
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
+  automatic_installation = true
 }
 
 mason_lspconfig.setup_handlers {
