@@ -38,6 +38,7 @@ alias gpt "chatgpt -t 0.5 -m gpt-4o-2024-11-20"
 alias webcam "screen -d -m mpv av://v4l2:/dev/video0"
 alias btop "screen -d -m tilix"
 alias lg "lazygit"
+alias unzip "screen -d -m xarchiver"
 
 ### OUTDATED
 ## GNOME
@@ -64,6 +65,7 @@ zoxide init fish --cmd cd | source
 set -Ux EDITOR /usr/bin/nvim
 set -Ux SUDO_EDITOR /usr/bin/nvim
 set -Ux VISUAL /usr/bin/nvim
+set -Ux ANDROID_HOME /opt/android-sdk
 # set -Ux OPENAI_API_KEY$(decrypt -in ~/documents/gpt.enc -pass pass:gpt)
 
 # fish_add_path ~/.local/bin/

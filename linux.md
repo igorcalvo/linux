@@ -478,7 +478,7 @@ ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader \
 lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
 libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk \
 inkscape ripgrep rofi playerctl numlockx lm_sensors xdg-user-dirs-gtk \
-gnome-backgrounds pulseaudio sox dosfstools
+gnome-backgrounds pulseaudio sox dosfstools composer unzip wget
 ```
 
 ##### Apps
@@ -502,11 +502,15 @@ taskwarrior-tui
 yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki \
 ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters \
 fish-done cheat-bin chatgpt-shell-cli librewolf-bin
+
+# Android
+yay -S android-sdk-build-tools android-sdk-cmdline-tools-latest android-platform android-sdk-platform-tools android-sdk
 ```
 
 ```bash
 tetrio
 vscodium
+zoom
 ```
 
 ##### GPT
@@ -655,6 +659,7 @@ sudo systemctl enable bluetooth
 ```bash
 cd ~/.local/share/nvim/mason/
 img ~/code/linux/mason.png
+:MasonUpdate
 ```
 
 /![Mason](./mason.png)
