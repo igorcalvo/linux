@@ -12,7 +12,8 @@ ctrl + alt + n
 ctrl + alt + b
 	bspc wm -r; notify-send 'bspwm' 'Reloaded bspwm'
 
-# ctrl + alt + m
+ctrl + alt + m
+	sh ~/code/scripts/reset-mouse.laptop.sh
 # 	reload autohotkey
 #	^~m::Reload
 
