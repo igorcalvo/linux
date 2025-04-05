@@ -690,7 +690,7 @@ cython mypy python-pipx --needed
 ```
 
 ```bash
-yay -S python-yarg python-pipreqs
+yay -S python-yarg python-pipreqs python-mouse python-pyautogui
 pipx ensurepath
 ```
 
