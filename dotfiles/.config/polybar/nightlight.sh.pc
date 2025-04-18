@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 displays=(
-	DP-2
 	DP-0
 	HDMI-0	
 )

@@ -50,8 +50,9 @@ super + {Tab,grave}
 	bspc {node,desktop} -f last
 
 # focus or send to the given desktop
-super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Down,KP_Begin,KP_Up,KP_Next,KP_Right,KP_Prior}
-	bspc {desktop -f,node -d} '^{1-9}' --follow
+super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Down,KP_Begin,KP_Up}
+	bspc {desktop -f,node -d} '^{1-6}' --follow
+
 
 # resize mode
 # super + x : {h,j,k,l}

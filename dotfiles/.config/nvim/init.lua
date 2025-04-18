@@ -120,8 +120,7 @@ require("lazy").setup({
         -- Toggles
         map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = "toggle current line blame" })
         map('n', '<leader>td', gs.toggle_deleted, { desc = "toggle deleted" })
-        -- , { desc = "" }
-        map('n', '<leader>tw', gs.toggle_word_diff, { desc = "toggle word diff" })
+        map('n', '<leader>tW', gs.toggle_word_diff, { desc = "toggle word diff" })
         map("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "toggle git blame line" })
       end,
     },
@@ -349,7 +348,6 @@ vim.keymap.set("n", "<leader>ts", function()
   vim.opt.spell = not vim.opt.spell:get()
   print("Spell check: " .. (vim.opt.spell:get() and "ON" or "OFF"))
 end, { desc = "[S]pell check" })
-
 -- highlight SpellBad cterm=underline gui=undercurl guisp=Red
 
 -- Quick fix
@@ -364,6 +362,11 @@ vim.keymap.set('n', '<leader>Qf', quickfix, { noremap = true, silent = true })
 local wk = require("which-key")
 wk.add({ "<leader>Qf", group = "[Q]uick [F]ix", mode = "n" })
 
+-- Word Wrap word wrap
+vim.keymap.set("n", "<leader>tw", function()
+  vim.opt.wrap = not vim.opt.wrap:get()
+  print("Word wrap: " .. (vim.opt.wrap:get() and "ON" or "OFF"))
+end, { desc = "Word [W]rap" })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -746,7 +749,7 @@ wk.add({
   { "<leader>hq", group = "setqflist",        mode = "n", },
   { "<leader>tb", group = "[B]lame",          mode = "n", },
   { "<leader>td", group = "[D]eleted",        mode = "n", },
-  { "<leader>tw", group = "[W]ord Diff",      mode = "n", },
+  { "<leader>tW", group = "[W]ord Diff",      mode = "n", },
 })
 
 -- mason-lspconfig requires that these setup functions are called in this order
