@@ -66,8 +66,7 @@ super + r
 
 # scripts
 super + c
-	sh ~/code/scripts/c.sh
-
+	sh ~/code/scripts/c-laptop.sh
 
 ctrl + alt + j
 	kill -9 $(pgrep anki | head -n1)
