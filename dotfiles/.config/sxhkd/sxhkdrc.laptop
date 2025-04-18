@@ -64,6 +64,11 @@ super + {_,shift + }{KP_End,KP_Left,KP_Home,KP_Down,KP_Begin,KP_Up}
 super + r
 	bspc node @parent -R 90
 
+# scripts
+super + c
+	sh ~/code/scripts/c.sh
+
+
 ctrl + alt + j
 	kill -9 $(pgrep anki | head -n1)
 

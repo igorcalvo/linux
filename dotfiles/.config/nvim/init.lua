@@ -336,6 +336,35 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnos
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
+-- Spellcheck spellcheck spell check
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "text", "markdown" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { "en_us" }
+  end,
+})
+
+vim.keymap.set("n", "<leader>ts", function()
+  vim.opt.spell = not vim.opt.spell:get()
+  print("Spell check: " .. (vim.opt.spell:get() and "ON" or "OFF"))
+end, { desc = "[S]pell check" })
+
+-- highlight SpellBad cterm=underline gui=undercurl guisp=Red
+
+-- Quick fix
+local function quickfix()
+  vim.lsp.buf.code_action({
+    filter = function(a) return a.isPreferred end,
+    apply = true
+  })
+end
+
+vim.keymap.set('n', '<leader>Qf', quickfix, { noremap = true, silent = true })
+local wk = require("which-key")
+wk.add({ "<leader>Qf", group = "[Q]uick [F]ix", mode = "n" })
+
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -682,7 +711,6 @@ local on_attach = function(_, bufnr)
 end
 
 -- document existing key chains
-local wk = require("which-key")
 wk.add({
   { "<leader>c",  group = "[C]ode" },
   { "<leader>c_", hidden = true },
@@ -704,6 +732,21 @@ wk.add({
 wk.add({
   { "<leader>",  group = "VISUAL <leader>", mode = "v" },
   { "<leader>h", desc = "Git [H]unk",       mode = "v" },
+})
+
+wk.add({
+  { "<leader>hs", group = "[S]tage [H]unk",   mode = "n", },
+  { "<leader>hr", group = "[H]unk [R]eset",   mode = "n", },
+  { "<leader>hS", group = "[S]tage Buffer",   mode = "n", },
+  { "<leader>hR", group = "[R]eset Buffer",   mode = "n", },
+  { "<leader>hp", group = "[P]review",        mode = "n", },
+  { "<leader>hi", group = "Preview [I]nline", mode = "n", },
+  { "<leader>hb", group = "[B]lame Line",     mode = "n", },
+  { "<leader>hd", group = "[D]iff",           mode = "n", },
+  { "<leader>hq", group = "setqflist",        mode = "n", },
+  { "<leader>tb", group = "[B]lame",          mode = "n", },
+  { "<leader>td", group = "[D]eleted",        mode = "n", },
+  { "<leader>tw", group = "[W]ord Diff",      mode = "n", },
 })
 
 -- mason-lspconfig requires that these setup functions are called in this order

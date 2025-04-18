@@ -64,6 +64,9 @@ super + r
 	bspc node @parent -R 90
 
 ### custom scripts
+super + c
+	sh ~/code/scripts/c.sh
+
 ctrl + alt + f
 	sh ~/code/scripts/cs-kill.sh
 
