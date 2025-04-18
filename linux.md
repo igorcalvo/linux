@@ -562,7 +562,7 @@ reboot
 virt-manager
 
 virsh net-list --all
-virsh sudo net-start default
+sudo virsh net-start default
 virsh net-autostart default
 bash
 ```
