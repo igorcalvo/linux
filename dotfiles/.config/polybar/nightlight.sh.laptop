@@ -39,7 +39,7 @@ new_prof="${profiles[$new_ind]}"
 
 for display in "${displays[@]}"; do
 	if [[ "$display" == "eDP-1" ]]; then
-		xrandr --output "$display" --gamma "${new_prof}" --brightness 0.5
+		xrandr --output "$display" --gamma "${new_prof}" --brightness 0.8
 	fi
 	if [[ "$display" != "eDP-1" ]]; then
 		xrandr --output "$display" --gamma "${new_prof}"

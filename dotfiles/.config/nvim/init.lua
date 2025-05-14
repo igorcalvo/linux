@@ -236,7 +236,7 @@ require("lazy").setup({
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
-vim.g.python3_host_prog = "/usr/bin/python3.12"
+vim.g.python3_host_prog = "/usr/bin/python3.13"
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -773,7 +773,7 @@ dap.configurations.python = {
     name = "Launch file",
     program = "${file}",
     pythonPath = function()
-      return "/usr/bin/python3.12"
+      return "/usr/bin/python3.13"
     end,
   },
 }

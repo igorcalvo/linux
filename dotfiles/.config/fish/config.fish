@@ -39,6 +39,9 @@ alias webcam "screen -d -m mpv av://v4l2:/dev/video0"
 alias btop "screen -d -m tilix"
 alias lg "lazygit"
 alias unzip "screen -d -m xarchiver"
+alias yay-updates "grep '\[ALPM\] upgraded' /var/log/pacman.log"
+alias yay-clean "command yay -Sc"
+alias pacman-clean "command sudo pacman -Sc"
 
 ### OUTDATED
 ## GNOME
