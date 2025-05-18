@@ -488,7 +488,7 @@ flameshot nodejs npm calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish j
 fzf tldr bat eza zoxide mpv stress glmark2 neovide fail2ban ufw imagemagick \
 pavucontrol feh yazi pandoc python-weasyprint clipcat calcurse xcolor \
 gnome-system-monitor nautilus gnome-terminal iftop figlet gnome-disk-utility \
-progress evince docker lazygit ncdu drawing
+progress evince docker lazygit ncdu drawing speedtest-cli
 ```
 
 ```bash
