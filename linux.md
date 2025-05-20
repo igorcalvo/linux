@@ -92,11 +92,13 @@ mount --mkdir /dev/nvme0n1p5 /mnt/boot
 swapon /dev/nvme0n1p6
 ```
 
-#### 4. Pacman setup
+#### 4. Update Image & Root
+##### Basics
 ```bash
 sudo pacman -Sy archlinux-keyring pacman-contrib
 ```
 
+##### Pacman
 ```bash
 vim /etc/pacman.conf
 
@@ -104,7 +106,7 @@ parallel 10
 uncomment colors
 ```
 
-#### 5. Update Image & Root
+##### Image
 ```bash
 pacstrap -K /mnt base linux linux-firmware
 ```
@@ -115,18 +117,19 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 cat /mnt/etc/fstab
 ```
 
-##### Chroot
+##### Chroot & Mounting
 ```bash
 arch-chroot /mnt
 mount --mkdir /dev/nvme0n1p2 /mnt/win #(windows EFI)
+mount --mkdir /dev/nvme0n1p5 /mnt/boot/efi #(Arch EFI)
 ```
 
 ##### Install Basics to disk
 ```bash
-pacman -Sy neovim archlinux-keyring pacman-contrib
+pacman -Sy --needed neovim archlinux-keyring pacman-contrib
 ```
 
-#### 6. Pacman
+#### 5. Pacman
 ##### Mirrors
 ```bash
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
@@ -145,20 +148,23 @@ parallel 15
 ##### Essentials
 ```bash
 pacman -Syu
-pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel xclip tilix firefox stow openssh
+pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel stow openssh kitty
 
+xclip tilix firefox 
 intel-ucode
 iucode-tool 
 dhcpcd 
 ```
 
-#### 7. Language & Time
+#### 6. Config 
+##### Language
 ```bash
 nvim /etc/locale.gen
 
 /en_US.UTF-8
 ```
 
+##### Time
 ```bash
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
@@ -168,7 +174,7 @@ ln -s /usr/share/zoneinfo/America/Sao_Paulo > /etc/localtime
 hwclock --systohc --utc
 ```
 
-#### 8. Hostname & User
+##### Hostname
 hostname = machine name
 ```bash
 echo arch-hostname > /etc/hostname
@@ -178,6 +184,7 @@ nvim /etc/hosts
 127.0.0.1 arch-pc
 ```
 
+##### User
 ```bash
 passwd
 useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
@@ -194,14 +201,16 @@ G
 Defaults rootpw
 ```
 
-#### 9. Boot
+#### 8. Boot
 ##### Grub
 ```bash
 pacman -S --needed grub efibootmgr os-prober
-grub-install --targe=x86_64-efi --efi-directory=/mnt/win --bootloader-id=GRUB
 
-mount --mkdir /dev/nvme0n1p1 /mnt/boot/efi
-grub-install --targer=x86_64-efi --bootloader-id=GRUB
+mount --mkdir /dev/nvme0n1p2 /mnt/win #(windows EFI)
+mount --mkdir /dev/nvme0n1p5 /mnt/boot/efi #(Arch EFI)
+
+grub-install --target=x86_64-efi --efi-directory=/mnt/win --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/mnt/boot/efi --bootloader-id=GRUB
 
 nvim /etc/default/grub
 GRUB_DISABLE_OS_PROBER=false
@@ -215,14 +224,10 @@ GRUB_DEFAULT=2
 
 os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
-
-exit
-reboot
-sudo os-prober
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+cat /etc/fstab
 ```
 
-##### systemd-boot
+##### Systemd-boot
 ```bash
 ls /sys/firmware/efi/efivars
 mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
@@ -242,11 +247,24 @@ echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvid
 cat /boot/loader/entries/arch.conf
 ```
 
-#### 10. Nvidia & Image
+#### 9. Nvidia & Image
+##### Hyprland
+```bash
+sudo pacman -S nvidia-open-dkms linux-headers nvidia-utils lib32-nvidia-utils egl-wayland libglvnd lib32-libglvnd opencl-nvidia lib32-opencl-nvidia nvidia-settings
+```
+
+```bash
+nvim /etc/modprobe.d/nvidia.conf
+
+option nvidia_drm modeset=1
+```
+
+##### BSPWM
 ```bash
 pacman -S nvidia-dkms libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
 ```
 
+##### Config
 ```bash
 nvim /etc/mkinitcpio.conf
 
@@ -254,21 +272,22 @@ MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 HOOKS(= -kms)
 ```
 
+##### Hooks
 ```bash
 mkdir /etc/pacman.d/hooks
 nvim /etc/pacman.d/hooks/nvidia.hook
 
 [Trigger]
-Operation=Install
-Operation=Upgrade
-Operation=Remove
-Type=Package
-Target=nvidia
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = nvidia
 
 [Action]
-Depends=mkinitcpio
-When=PostTransaction
-Exec=/usr/bin/mkinitcpio -P
+Depends = mkinitcpio
+When = PostTransaction
+Exec = /usr/bin/mkinitcpio -P
 ```
 
 ```bash
@@ -291,7 +310,7 @@ Exec = /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
 mkinitcpio -P
 ```
 
-#### 11. Services
+#### 10. Services
 ```bash
 sudo systemctl enable fstrim.timer |
 sudo systemctl enable NetworkManager.service |
@@ -299,144 +318,76 @@ sudo systemctl enable systemd-resolved |
 sudo systemctl enable paccache.timer
 ```
 
-#### 12. Reboot
+#### 11. Reboot
 ```bash
 exit (until red)
 umount -R /mnt
 reboot
 ```
 
-#### 13. Internet
+#### 12. Internet
 ```bash
 nmtui
 ping archlinux.org
 
 ip link
 sudo systemctl enable dhcpcd@wlo1.service
+
+sudo systemctl enable NetworkManager.service
+sudo systemctl start NetworkManager.service
 ```
 
-#### 14. Display Manager
+#### 13. Display Manager
+##### Hyprland
+```bash
+sudo pacman -S hyprland
+Hyprland
+
+super + q
+super + c
+```
+
 ##### BSPWM
-```bash
-sudo pacman -S xterm bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly slock --needed
-
-xrandr --listmonitors
-mkdir .config/sxhkd
-nvim .config/sxhkd/sxhkdrc
-```
-
-```bash
-super + Return
-    tilix
-
-super + 1
-    xterm
-
-super + 2
-    reboot
-
-super + 3
-    xrandr --output eDP-1-1 --mode 1920x1080
-
-super + 4
-    xrandr --output HDMI-1-1 --mode 1920x1080
-```
-
-```bash
-nvim /usr/share/xsessions/bspwm.desktop
-Exec=bspwm & sxhkd
-
-systemctl enable ly.service
-startx
-
-# might need
-nvim .xinitrc
-#!/bin/bash
-exec bspwm
-exec sxhkd
-
-reboot
-```
-
-```bash
-super + enter
-picom &
-```
-
-###### Troubleshooting
-```bash
-sudo X --configure
-sudo nvidia-xconfig
-nvim ~/.local/share/xorg/Xorg.0.log
-
-mv /etc/X11/xorg.conf /etc/X11/xorg.conf.backup
-mv /root/xorg.conf.new /etc/X11/xorg.conf
-
-nvim /usr/share/xsessions/bspwm.desktop
-bspwm & sxhkd
-
-nvim .xinitrc
-#!/bin/bash
-exec bspwm
-exec sxhkd
-
-systemctl --user calvo --global enable
-export XDG_RUNTIME_DIR="/run/user/$UID"
-export DBUS_SESSION_BUS_ADDRESS="unix:path=$(XDG_RUNTIME_DIR)/bus"
-
-lsmod | grep nvidia
-cat /sys/class/drm/*/status
-
-mkdir ~/.config/bspwm
-nvim bspwmrc
-#!/bin/bash
-
-tty2, tty3 (ctrl + alt + f2, f3)
-DISPLAY=:0 xrandr
-sxhkd -> super + 2, reboot
-sxhkd -> super + 3, 
-sxhkd -> super + 4, xrandr --output HDMI-1-1 --auto
-
-xrandr --output eDP-1-1 --mode 1920x1080
-```
-
-Tilix -> Preferences -> Apearance -> Theme Variant -> Dark
+View # 32
 
 ##### Gnome
 View # 31
 
+#### 14. YAY & Browser
+```bash
+sudo pacman -Syu
+
+cd apps
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+```
+
+```bash
+yay -S librewolf-bin
+
+Settings
+    Enable Firefox Sync
+    Log in
+    Ask to save passwords
+    Remove Import Bookmarks
+```
+
 #### 15. Clone repos
 ```bash
-mkdir code
+cd
 ssh-keygen -t rsa
 cd /home/calvo/.ssh
+
+cat id_rsa.pub
 xclip -sel c id_rsa.pub
 
-firefox
+librewolf
 clone linux
 clone scripts
 ```
 
-#### 16. Stow & Tilix
-```bash
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
-sh ~/code/scripts/define-links.sh
-
-cd ~/code/linux/dotfiles/.config/
-mkdir x 
-mv ~/.config/x/* ~/code/linux/dotfiles/x
-stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
-```
-
-```bash
-cd ~/code/linux
-dconf load /com/gexperts/Tilix/ < tilix.dconf
-
-# dconf dump /com/gexperts/Tilix/ > tilix.dconf 
-```
-
-#### 17. Directories
+#### 16. Directories
 ```bash
 mkdir desktop |
 mkdir documents |
@@ -446,7 +397,8 @@ mkdir misc |
 mkdir books |
 mkdir images |
 mkdir lists |
-mkdir apps
+mkdir apps |
+mkdir code
 ```
 
 ```bash
@@ -460,17 +412,19 @@ mkdir screenshots
 ```
 
 
-#### 18. Yay
+#### 17. Stow
 ```bash
-sudo pacman -Syu
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
+sh ~/code/scripts/define-links.sh
 
-cd apps
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
+cd ~/code/linux/dotfiles/.config/
+mkdir x 
+mv ~/.config/x/* ~/code/linux/dotfiles/x
+stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
 ```
 
-#### 19. Installing
+#### 18. Installing
 ##### Libraries
 ```bash
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts \
@@ -597,6 +551,27 @@ https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/v
 6. reboot
 7. `wmic cpu get NumberOfCores,NumberOfLogicalProcessors`
 
+#### 19. Python
+##### fuck pysimplegui
+```bash
+sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
+python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
+python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
+cython mypy python-pipx --needed
+```
+
+```bash
+yay -S python-yarg python-pipreqs python-pyautogui python-translate
+pipx ensurepath
+```
+
+```bash
+sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
+
+selenium 
+```
+
+
 #### 20. Websites
 ##### AppImages
 ```bash
@@ -680,27 +655,7 @@ cat ~/.config/fish/completions/magick.fish | head -n 10
 sudo sh ~/code/scripts/bspwm.sh
 ```
 
-#### 23. Python
-##### fuck pysimplegui
-```bash
-sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
-python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
-python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
-cython mypy python-pipx --needed
-```
-
-```bash
-yay -S python-yarg python-pipreqs python-pyautogui python-translate
-pipx ensurepath
-```
-
-```bash
-sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
-
-selenium 
-```
-
-#### 24. Files
+#### 23. Files
 ```bash
 start krita
 cp ~/code/linux/files/krita-workspace.kws ~/.local/share/krita/workspaces/
@@ -712,7 +667,7 @@ MEGA
 games?
 ```
 
-#### 25. Applications
+#### 24. Applications
 ```
 Razer
     500 Dpi
@@ -784,33 +739,7 @@ VS Codium
         Copy Line Down - Shift Alt Down
 ```
 
-#### 26. Anki
-Download decks from MEGA
-
-Addons:
-- 1771074083 heatmap
-- 3918629684 japanese support
-- 613684242 true retention
-- 947935257 reset ease
-- 1152543397 postpode cards's review
-- 1084228676 color confirmation
-- 1610304449 kanji grid
-- 1136455830 advanced review button bar
-<!-- - 2494384865 buttons colors -->
-
-Old Deck settings
-```
-Add Ons "config" interval coefficient 0.0
-30	9999	off	1m 5m 15m	1	4	Sequential
-2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
-600	off	off	off	off	off	off	
-180	2.5	1.3	1	1.2	0
-
-Change to default OS theme to prevent crashes
-Also, it might be possible not to rebind numpad keys
-```
-    
-#### 27. Security
+#### 25. Security
 ```bash
 sudo ufw limit 22/tcp |
 sudo ufw allow 80/tcp |
@@ -847,7 +776,7 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
 
-#### 28. Backup Kernel
+#### 26. Backup Kernel
 ```bash
 sudo pacman -S linux-zen-headers linux-zen
 # nvidia-lts
@@ -870,7 +799,7 @@ append -zen to linuz and to fs
 reboot and hold 't'
 ```
 
-#### 29. Ricing
+#### 27. Ricing
 ##### Display Manager
 ```bash
 sudoedit /etc/ly/config.ini
@@ -924,13 +853,41 @@ cd Adwaita-for-Steam
 python install.py
 ```
 
-#### 30. Useful
+#### 28. Anki
+Download decks from MEGA
+
+Addons:
+- 1771074083 heatmap
+- 3918629684 japanese support
+- 613684242 true retention
+- 947935257 reset ease
+- 1152543397 postpode cards's review
+- 1084228676 color confirmation
+- 1610304449 kanji grid
+- 1136455830 advanced review button bar
+<!-- - 2494384865 buttons colors -->
+
+Old Deck settings
+```
+Add Ons "config" interval coefficient 0.0
+30	9999	off	1m 5m 15m	1	4	Sequential
+2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
+600	off	off	off	off	off	off	
+180	2.5	1.3	1	1.2	0
+
+Change to default OS theme to prevent crashes
+Also, it might be possible not to rebind numpad keys
+```
+
+#### 29. Useful
 ```bash
 sudo -i
 sudo su
 xev # events, to find key names
 fc-list | grep Mono # list font names
 ```
+
+#### 30. -
 
 #### 31. Gnome
 ```bash
@@ -1115,6 +1072,94 @@ Todo.txt
 python code/rice/offset_colors.py ~/.themes/Marble-blue-dark/gnome-shell/gnome-shell.css -0.3
 nvim /home/calvo/.local/share/gnome-shell/extensions/custom-accent-colors@demiskp/resources/purple/gtk.css
 ```
+
+#### 32. BSPWM
+
+```bash
+sudo pacman -S xterm bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly slock --needed
+
+xrandr --listmonitors
+mkdir .config/sxhkd
+nvim .config/sxhkd/sxhkdrc
+```
+
+```bash
+super + Return
+    tilix
+
+super + 1
+    xterm
+
+super + 2
+    reboot
+
+super + 3
+    xrandr --output eDP-1-1 --mode 1920x1080
+
+super + 4
+    xrandr --output HDMI-1-1 --mode 1920x1080
+```
+
+```bash
+nvim /usr/share/xsessions/bspwm.desktop
+Exec=bspwm & sxhkd
+
+systemctl enable ly.service
+startx
+
+# might need
+nvim .xinitrc
+#!/bin/bash
+exec bspwm
+exec sxhkd
+
+reboot
+```
+
+```bash
+super + enter
+picom &
+```
+
+###### Troubleshooting
+```bash
+sudo X --configure
+sudo nvidia-xconfig
+nvim ~/.local/share/xorg/Xorg.0.log
+
+mv /etc/X11/xorg.conf /etc/X11/xorg.conf.backup
+mv /root/xorg.conf.new /etc/X11/xorg.conf
+
+nvim /usr/share/xsessions/bspwm.desktop
+bspwm & sxhkd
+
+nvim .xinitrc
+#!/bin/bash
+exec bspwm
+exec sxhkd
+
+systemctl --user calvo --global enable
+export XDG_RUNTIME_DIR="/run/user/$UID"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=$(XDG_RUNTIME_DIR)/bus"
+
+lsmod | grep nvidia
+cat /sys/class/drm/*/status
+
+mkdir ~/.config/bspwm
+nvim bspwmrc
+#!/bin/bash
+
+tty2, tty3 (ctrl + alt + f2, f3)
+DISPLAY=:0 xrandr
+sxhkd -> super + 2, reboot
+sxhkd -> super + 3, 
+sxhkd -> super + 4, xrandr --output HDMI-1-1 --auto
+
+xrandr --output eDP-1-1 --mode 1920x1080
+```
+
+Tilix -> Preferences -> Apearance -> Theme Variant -> Dark
+
 
 
 
