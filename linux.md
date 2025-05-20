@@ -20,13 +20,26 @@
  .`                                 `/
 ```
 
+### TODO
+ncdu fish alias
+xcolor / ycolor
+xdotool / ydotool
+feh
+pandoc replacement
+xresources
+xinitrc
+
+gpasswd -a $USER plugdev
+systemctl --user enable openrazer-daemon.service
+
+
 ### Arch Install
 #### 0. Getting image ready
 ```bash
 https://archlinux.org/download/
 
 sha256sum -b yourfile.iso
-gnome-disk-image-monter
+gnome-disks
 # https://etcher.balena.io/#download-etcher
 ```
 
@@ -371,6 +384,10 @@ Settings
     Log in
     Ask to save passwords
     Remove Import Bookmarks
+    Save downloads folder
+    Always ask you where to save files
+    Search engine
+    Theme
 ```
 
 #### 15. Clone repos
@@ -411,53 +428,53 @@ mkdir wallpapers |
 mkdir screenshots
 ```
 
-
-#### 17. Stow
-```bash
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
-sh ~/code/scripts/define-links.sh
-
-cd ~/code/linux/dotfiles/.config/
-mkdir x 
-mv ~/.config/x/* ~/code/linux/dotfiles/x
-stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
-```
-
-#### 18. Installing
+#### 17. Installing
 ##### Libraries
 ```bash
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts \
 ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader \
 lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
-libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk \
-inkscape ripgrep rofi playerctl numlockx lm_sensors xdg-user-dirs-gtk \
-gnome-backgrounds pulseaudio sox dosfstools composer unzip wget
+libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape ripgrep rofi playerctl \
+numlockx lm_sensors xdg-user-dirs-gtk gnome-backgrounds pulseaudio sox dosfstools \
+composer unzip wget less python-pip 
+```
+
+```bash
+vulkan-intel
+lib32-vulkan-intel
 ```
 
 ##### Apps
 ```bash
-sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita \
-flameshot nodejs npm calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq \
+sudo pacman -S --needed fastfetch qbittorrent screen krita ydotool \
+flameshot nodejs npm calibre ffmpeg trash-cli xarchiver fish jq \
 fzf tldr bat eza zoxide mpv stress glmark2 neovide fail2ban ufw imagemagick \
-pavucontrol feh yazi pandoc python-weasyprint clipcat calcurse xcolor \
-gnome-system-monitor nautilus gnome-terminal iftop figlet gnome-disk-utility \
-progress evince docker lazygit ncdu drawing speedtest-cli
+pavucontrol yazi python-weasyprint clipcat calcurse nautilus iftop figlet \
+gnome-disk-utility progress evince docker lazygit ncdu drawing speedtest-cli
 ```
 
 ```bash
+pandoc
 steam
 discord
 taskwarrior-tui
+dconf-editor 
+gnome-terminal
+feh
+gnome-system-monitor
+xdotool
+xcolor
 ```
 
 ##### AUR
 ```bash
-yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki \
-ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters \
-fish-done cheat-bin chatgpt-shell-cli librewolf-bin
+yay -S polychromatic wezterm qdirstat-bin youtube-music-bin ttf-juliamono \
+ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters fish-done \
+cheat-bin librewolf-bin
+```
 
-# Android
+```bash
+###### Android
 yay -S android-sdk-build-tools android-sdk-cmdline-tools-latest android-platform android-sdk-platform-tools android-sdk
 ```
 
@@ -465,6 +482,9 @@ yay -S android-sdk-build-tools android-sdk-cmdline-tools-latest android-platform
 tetrio
 vscodium
 zoom
+anki
+ahk_x11-bin
+chatgpt-shell-cli 
 ```
 
 ##### GPT
@@ -551,7 +571,7 @@ https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/v
 6. reboot
 7. `wmic cpu get NumberOfCores,NumberOfLogicalProcessors`
 
-#### 19. Python
+#### 18. Python
 ##### fuck pysimplegui
 ```bash
 sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
@@ -561,18 +581,23 @@ cython mypy python-pipx --needed
 ```
 
 ```bash
-yay -S python-yarg python-pipreqs python-pyautogui python-translate
-pipx ensurepath
+yay -S python-pipreqs python-pyautogui python-translate
 ```
 
 ```bash
+```
+
+```bash
+pipx ensurepath
+
 sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 
+python-yarg 
 selenium 
 ```
 
 
-#### 20. Websites
+#### 19. Websites
 ##### AppImages
 ```bash
 https://www.onlyoffice.com/download-desktop.aspx
@@ -589,6 +614,19 @@ cd btop
 make GPU_SUPPORT=true VERBOSE=true
 sudo make install
 ```
+
+#### 20. Stow
+```bash
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
+sh ~/code/scripts/define-links.sh
+
+cd ~/code/linux/dotfiles/.config/
+mkdir x 
+mv ~/.config/x/* ~/code/linux/dotfiles/x
+stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
+```
+
 
 #### 21. System Config
 ##### Directories
