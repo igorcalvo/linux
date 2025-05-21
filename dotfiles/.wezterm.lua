@@ -18,17 +18,20 @@ config.font = wezterm.font_with_fallback {
   'JuliaMono',
   'Noto Sans Mono'
 }
+config.enable_wayland = false
 config.max_fps = 240
 config.animation_fps = 120
 config.prefer_egl = true
+
 -- ctrl + shift + l
 -- wezterm.gui.enumerate_gpus()
+
 config.webgpu_preferred_adapter = {
   backend = "Vulkan",
   device = 7812,
   device_type = "DiscreteGpu",
   driver = "NVIDIA",
-  driver_info = "555.58.02",
+  driver_info = "570.144",
   name = "NVIDIA GeForce RTX 2070 SUPER",
   vendor = 4318,
 }
@@ -42,42 +45,42 @@ config.keys = {
   {
     key = 'DownArrow',
     mods = 'CTRL|SHIFT',
-    action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+    action = act.SplitVertical { domain = 'CurrentPaneDomain' },
   },
   {
     key = 'RightArrow',
     mods = 'CTRL|SHIFT',
-    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+    action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
   {
     key = 'Tab',
     mods = 'CTRL',
-    action = wezterm.action.ActivatePaneDirection 'Next',
+    action = act.ActivatePaneDirection 'Next',
   },
   {
     key = 'Tab',
     mods = 'CTRL|SHIFT',
-    action = wezterm.action.ActivatePaneDirection 'Prev',
+    action = act.ActivatePaneDirection 'Prev',
   },
   {
     key = 'w',
     mods = 'CTRL',
-    action = wezterm.action.CloseCurrentPane { confirm = false },
+    action = act.CloseCurrentPane { confirm = false },
   },
   {
     key = 't',
     mods = 'CTRL',
-    action = wezterm.action.SpawnTab 'CurrentPaneDomain',
+    action = act.SpawnTab 'CurrentPaneDomain',
   },
   {
     key = 'w',
     mods = 'CTRL|SHIFT',
-    action = wezterm.action.CloseCurrentTab { confirm = true },
+    action = act.CloseCurrentTab { confirm = true },
   },
   {
     key = 'i',
     mods = 'CTRL|SHIFT',
-    action = wezterm.action.ActivateCopyMode
+    action = act.ActivateCopyMode
   }
 }
 

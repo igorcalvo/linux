@@ -32,6 +32,8 @@ xinitrc
 gpasswd -a $USER plugdev
 systemctl --user enable openrazer-daemon.service
 
+bash
+export XDG_CONFIG_HOME=$HOME/.config
 
 ### Arch Install
 #### 0. Getting image ready
@@ -436,7 +438,7 @@ ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader \
 lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape ripgrep rofi playerctl \
 numlockx lm_sensors xdg-user-dirs-gtk gnome-backgrounds pulseaudio sox dosfstools \
-composer unzip wget less python-pip 
+composer unzip wget less python-pip dconf
 ```
 
 ```bash
@@ -450,7 +452,8 @@ sudo pacman -S --needed fastfetch qbittorrent screen krita ydotool \
 flameshot nodejs npm calibre ffmpeg trash-cli xarchiver fish jq \
 fzf tldr bat eza zoxide mpv stress glmark2 neovide fail2ban ufw imagemagick \
 pavucontrol yazi python-weasyprint clipcat calcurse nautilus iftop figlet \
-gnome-disk-utility progress evince docker lazygit ncdu drawing speedtest-cli
+gnome-disk-utility progress evince docker lazygit ncdu drawing speedtest-cli \
+wev 
 ```
 
 ```bash
@@ -642,7 +645,11 @@ nvim ~/.config/user-dirs.dirs
 ```bash
 dconf write /system/locale/region "'en_GB.UTF-8'" |
 git config --global user.email "igorcalvob@gmail.com" |
-git config --global user.name "igorcalvo" |
+git config --global user.name "igorcalvo"
+```
+
+```bash
+# NOT NEEDED ANYMORE
 xdg-settings set default-web-browser firefox.desktop
 ```
 
@@ -681,8 +688,8 @@ img ~/code/linux/mason.png
 ```bash
 fish_update_completions
 mkdir ~/.config/fish/completions/
-cp ~/.local/share/fish/generated_completions/* ~/.config/fish/completions/
 cp /usr/share/fish/completions/*  ~/.config/fish/completions/
+cp ~/.cache/fish/generated_completions/* ~/.config/fish/completions/
 mv ~/.config/fish/completions/convert.fish ~/.config/fish/completions/magick.fish
 sed -i 's/convert/magick/g' ~/.config/fish/completions/magick.fish
 cat ~/.config/fish/completions/magick.fish | head -n 10

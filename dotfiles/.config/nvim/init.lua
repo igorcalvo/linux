@@ -754,8 +754,32 @@ wk.add({
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
+
+local servers = {
+  angularls = {},
+  awk_ls = {},
+  cssls = {},
+  gopls = {},
+  html = {},
+  jqls = {},
+  lua_ls = {
+    Lua = {
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
+      -- NOTE: toggle below to ignore Lua_LS"s noisy `missing-fields` warnings
+      -- diagnostics = { disable = { "missing-fields" } },
+    },
+  },
+  pyright = {},
+  ts_ls = {}
+}
+
 require("mason").setup()
-require("mason-lspconfig").setup()
+local mason_lspconfig = require "mason-lspconfig"
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(servers),
+  automatic_installation = true
+}
 require("mason-nvim-dap").setup({
   ensure_installed = { "python" },
   automatic_installation = true,
@@ -827,35 +851,19 @@ require("nvim-dap-virtual-text").setup()
 --
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property "filetypes" to the map in question.
-local servers = {
-  angularls = {},
-  awk_ls = {},
-  cssls = {},
-  gopls = {},
-  html = {},
-  htmx = {},
-  jqls = {},
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-      -- NOTE: toggle below to ignore Lua_LS"s noisy `missing-fields` warnings
-      -- diagnostics = { disable = { "missing-fields" } },
-    },
-  },
-  pyright = {},
-  ts_ls = {}
-}
 
 local linters = {
   "debugpy", "prettier", "black", "delve", "jq", "markdownlint", "firefox-debug-adapter",
 }
-require('mason-nvim-lint').setup({
-  ensure_installed = linters,
-  automatic_installation = true,
-  ignore_install = { "inko", "ruby", "janet", "clj-kondo", "vale" },
-  quiet_mode = false
-})
+-- COMENTED until fix
+-- https://github.com/rshkarin/mason-nvim-lint/issues/22
+
+-- require('mason-nvim-lint').setup({
+--   ensure_installed = linters,
+--   automatic_installation = true,
+--   ignore_install = { "inko", "ruby", "janet", "clj-kondo", "vale" },
+--   quiet_mode = false
+-- })
 
 -- Setup neovim lua configuration
 require("neodev").setup({
@@ -875,24 +883,6 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Ensure the servers above are installed
-local mason_lspconfig = require "mason-lspconfig"
-
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
-  automatic_installation = true
-}
-
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require("lspconfig")[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end,
-}
-
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require "cmp"
