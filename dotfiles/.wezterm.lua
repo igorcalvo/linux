@@ -81,7 +81,12 @@ config.keys = {
     key = 'i',
     mods = 'CTRL|SHIFT',
     action = act.ActivateCopyMode
-  }
+  },
+  {
+    key = "Divide",
+    mods = "CTRL",
+    action = act.SendKey { key = "F19" },
+  },
 }
 
 -- and finally, return the configuration to wezterm

@@ -21,10 +21,9 @@
 ```
 
 ### TODO
-ncdu fish alias
-xcolor / ycolor
+btop fix
 xdotool / ydotool
-feh
+gimp
 pandoc replacement
 xresources
 xinitrc
@@ -163,7 +162,7 @@ parallel 15
 ##### Essentials
 ```bash
 pacman -Syu
-pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel stow openssh kitty
+pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel stow openssh kitty wl-clipboard
 
 xclip tilix firefox 
 intel-ucode
@@ -436,8 +435,8 @@ mkdir screenshots
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts \
 ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader \
 lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
-libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape ripgrep rofi playerctl \
-numlockx lm_sensors xdg-user-dirs-gtk gnome-backgrounds pulseaudio sox dosfstools \
+libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
+playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds pulseaudio sox dosfstools \
 composer unzip wget less python-pip dconf
 ```
 
@@ -453,7 +452,7 @@ flameshot nodejs npm calibre ffmpeg trash-cli xarchiver fish jq \
 fzf tldr bat eza zoxide mpv stress glmark2 neovide fail2ban ufw imagemagick \
 pavucontrol yazi python-weasyprint clipcat calcurse nautilus iftop figlet \
 gnome-disk-utility progress evince docker lazygit ncdu drawing speedtest-cli \
-wev 
+wev hyprpicker wl-clipboard imv cliphist fuzzel
 ```
 
 ```bash
@@ -467,6 +466,9 @@ feh
 gnome-system-monitor
 xdotool
 xcolor
+xev
+rofi
+numlockx 
 ```
 
 ##### AUR
@@ -629,7 +631,6 @@ mkdir x
 mv ~/.config/x/* ~/code/linux/dotfiles/x
 stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
 ```
-
 
 #### 21. System Config
 ##### Directories

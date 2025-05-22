@@ -42,6 +42,8 @@ alias unzip "screen -d -m xarchiver"
 alias yay-updates "grep '\[ALPM\] upgraded' /var/log/pacman.log"
 alias yay-clean "command yay -Sc"
 alias pacman-clean "command sudo pacman -Sc"
+alias disks "ncdu"
+alias keys "wev"
 
 ### OUTDATED
 ## GNOME
