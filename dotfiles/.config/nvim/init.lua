@@ -317,7 +317,7 @@ vim.keymap.set("n", "<leader>gb", ":Telescope git_branches<cr>", { desc = "[B]ra
 vim.keymap.set("n", "<leader>gc", ":Telescope git_commits<cr>", { desc = "[C]ommits" })
 vim.keymap.set("n", "<leader>gx", ":Telescope git_stash<cr>", { desc = "stash[X]" })
 vim.keymap.set("n", "<leader>gh", ":Telescope git_bcommits<cr>", { desc = "[H]istory" })
-vim.keymap.set('n', '<F19>', require('Comment.api').toggle.linewise.current, { noremap = true, silent = true })
+-- vim.keymap.set('n', '<F13>', require('Comment.api').toggle.linewise.current, { noremap = true, silent = true })
 
 -- Plugins keymaps?
 vim.keymap.set("n", "cp", "<cmd>PickColor<cr>", { desc = "[C]olor [P]ick" })

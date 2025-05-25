@@ -21,15 +21,16 @@
 ```
 
 ### TODO
-btop fix
+notification daemon
+rotate layout and default spawning
+plust changing windows modes
+pandoc replacement
+set wallpaper
+
 xdotool / ydotool
-gimp
 pandoc replacement
 xresources
 xinitrc
-
-gpasswd -a $USER plugdev
-systemctl --user enable openrazer-daemon.service
 
 bash
 export XDG_CONFIG_HOME=$HOME/.config
@@ -201,7 +202,7 @@ nvim /etc/hosts
 ##### User
 ```bash
 passwd
-useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
+useradd -m -g users -G wheel,storage,power,plugdev -s /bin/bash calvo
 passwd calvo
 
 EDITOR=nvim visudo
@@ -436,8 +437,9 @@ sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-font
 ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader \
 lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
-playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds pulseaudio sox dosfstools \
-composer unzip wget less python-pip dconf
+playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools \
+composer unzip wget less python-pip dconf pipewire pipewire-audio pipewire-alsa \
+pipewire-pulse wireplumber
 ```
 
 ```bash
@@ -447,15 +449,16 @@ lib32-vulkan-intel
 
 ##### Apps
 ```bash
-sudo pacman -S --needed fastfetch qbittorrent screen krita ydotool \
-flameshot nodejs npm calibre ffmpeg trash-cli xarchiver fish jq \
-fzf tldr bat eza zoxide mpv stress glmark2 neovide fail2ban ufw imagemagick \
-pavucontrol yazi python-weasyprint clipcat calcurse nautilus iftop figlet \
-gnome-disk-utility progress evince docker lazygit ncdu drawing speedtest-cli \
-wev hyprpicker wl-clipboard imv cliphist fuzzel
+sudo pacman -S --needed fastfetch qbittorrent screen flameshot nodejs npm \
+calibre ffmpeg trash-cli xarchiver fish jq fzf tldr bat eza zoxide mpv \
+stress glmark2 neovide fail2ban ufw imagemagick yazi pavucontrol\
+python-weasyprint clipcat calcurse nautilus iftop figlet gnome-disk-utility \
+progress evince docker lazygit ncdu drawing speedtest-cli wev hyprpicker \
+wl-clipboard imv cliphist fuzzel gimp wofi
 ```
 
 ```bash
+krita
 pandoc
 steam
 discord
@@ -468,14 +471,14 @@ xdotool
 xcolor
 xev
 rofi
-numlockx 
+numlockx
 ```
 
 ##### AUR
 ```bash
 yay -S polychromatic wezterm qdirstat-bin youtube-music-bin ttf-juliamono \
 ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters fish-done \
-cheat-bin librewolf-bin
+cheat-bin librewolf-bin bemoji
 ```
 
 ```bash
@@ -649,8 +652,14 @@ git config --global user.email "igorcalvob@gmail.com" |
 git config --global user.name "igorcalvo"
 ```
 
+##### Audio
 ```bash
-# NOT NEEDED ANYMORE
+systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service
+pactl info
+```
+
+##### NOT NEEDED ANYMORE
+```bash
 xdg-settings set default-web-browser firefox.desktop
 ```
 
@@ -697,6 +706,7 @@ cat ~/.config/fish/completions/magick.fish | head -n 10
 ```
 
 #### 22. Startup
+
 ```bash
 sudo sh ~/code/scripts/bspwm.sh
 ```

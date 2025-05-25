@@ -36,7 +36,7 @@ alias download-music "command yt-dlp --extract-audio --audio-format mp3 --audio-
 alias download-video "command yt-dlp"
 alias gpt "chatgpt -t 0.5 -m gpt-4o-2024-11-20"
 alias webcam "screen -d -m mpv av://v4l2:/dev/video0"
-alias btop "screen -d -m tilix"
+alias btop "screen -d -m kitty btop"
 alias lg "lazygit"
 alias unzip "screen -d -m xarchiver"
 alias yay-updates "grep '\[ALPM\] upgraded' /var/log/pacman.log"

@@ -40,6 +40,8 @@ config.webgpu_power_preference = "HighPerformance"
 config.show_update_window = true
 config.default_prog = { 'fish' }
 -- config.exit_behavior = "Hold"
+config.xcursor_theme = "volantes_light_cursors"
+config.xcursor_size = 24
 
 config.keys = {
   {
@@ -82,11 +84,10 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = act.ActivateCopyMode
   },
-  {
-    key = "Divide",
-    mods = "CTRL",
-    action = act.SendKey { key = "F19" },
-  },
+  -- { key = "Divide",
+  --   mods = "CTRL",
+  --   action = act.SendKey { key = "F13" },
+  -- },
 }
 
 -- and finally, return the configuration to wezterm
