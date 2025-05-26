@@ -9,3 +9,18 @@ dotfiles/.config/polybar/config.ini
 dotfiles/.config/polybar/nightlight.sh
 dotfiles/.config/dunst/dunstrc
 dotfiles/.config/cava/config
+# gimp
+dotfiles/.config/GIMP/3.0/action-history
+dotfiles/.config/GIMP/3.0/sessionrc
+dotfiles/.config/GIMP/3.0/shortcutsrc
+dotfiles/.config/GIMP/3.0/pluginrc
+dotfiles/.config/GIMP/3.0/parasiterc
+dotfiles/.config/GIMP/3.0/tags.xml
+dotfiles/.config/GIMP/3.0/toolrc
+dotfiles/.config/GIMP/3.0/unitrc
+dotfiles/.config/GIMP/3.0/tool-options/
+dotfiles/.config/GIMP/3.0/internal-data/
+dotfiles/.config/GIMP/3.0/plug-in-settings/
+dotfiles/.config/GIMP/3.0/CrashLog/
+dotfiles/.config/GIMP/3.0/tmp/
+dotfiles/.config/GIMP/3.0/backups/

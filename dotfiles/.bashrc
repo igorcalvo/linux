@@ -39,4 +39,6 @@ export VISUAL=/usr/bin/nvim
 export XDG_DOWNLOAD_DIR=$HOME/downloads
 export XDG_CONFIG_HOME=$HOME/.config
 
-
+# if uwsm check may-start && uwsm select; then
+# 	exec uwsm start default
+# fi

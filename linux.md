@@ -21,8 +21,15 @@
 ```
 
 ### TODO
+learn about manual
+learn linux about where default config is at
+display manager for hyprland to launch it prettily
+
 notification daemon
-rotate layout and default spawning
+https://github.com/emersion/mako
+
+rotate layout and default spawning to the other side
+fix librewolf not changing workspace
 plust changing windows modes
 pandoc replacement
 set wallpaper
@@ -408,26 +415,7 @@ clone scripts
 
 #### 16. Directories
 ```bash
-mkdir desktop |
-mkdir documents |
-mkdir videos |
-mkdir downloads |
-mkdir misc |
-mkdir books |
-mkdir images |
-mkdir lists |
-mkdir apps |
-mkdir code
-```
-
-```bash
-cd apps |
-mkdir appimages |
-cd ..|
-cd images |
-mkdir icons |
-mkdir wallpapers |
-mkdir screenshots
+sh ~/code/scripts/dirs.sh
 ```
 
 #### 17. Installing
@@ -439,7 +427,7 @@ lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
 playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools \
 composer unzip wget less python-pip dconf pipewire pipewire-audio pipewire-alsa \
-pipewire-pulse wireplumber
+pipewire-pulse wireplumber qt5-wayland qt6-wayland xdg-desktop-portal-hyprland \
 ```
 
 ```bash
@@ -477,8 +465,8 @@ numlockx
 ##### AUR
 ```bash
 yay -S polychromatic wezterm qdirstat-bin youtube-music-bin ttf-juliamono \
-ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters fish-done \
-cheat-bin librewolf-bin bemoji
+ttf-weather-icons ttf-kanjistrokeorders cava fish-done cheat-bin librewolf-bin \
+ttf-joypixels
 ```
 
 ```bash
@@ -649,7 +637,8 @@ nvim ~/.config/user-dirs.dirs
 ```bash
 dconf write /system/locale/region "'en_GB.UTF-8'" |
 git config --global user.email "igorcalvob@gmail.com" |
-git config --global user.name "igorcalvo"
+git config --global user.name "igorcalvo" | 
+systemctl --user enable --now hyprpolkitagent.service
 ```
 
 ##### Audio
@@ -1215,7 +1204,4 @@ xrandr --output eDP-1-1 --mode 1920x1080
 ```
 
 Tilix -> Preferences -> Apearance -> Theme Variant -> Dark
-
-
-
 
