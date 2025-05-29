@@ -1,0 +1,38 @@
+// -*- mode: jsonc -*-
+{
+    "output": "DP-1",
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+    "spacing": 5,
+    "reload_style_on_change": true,
+
+    // Choose the order of the modules
+    "modules-left": [
+        "custom/arch",
+        "hyprland/workspaces",
+        "custom/weather"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "tray",
+        "custom/keyboard",
+        //audio
+        //night light
+        //cpu
+        //memory
+        //gpu
+        //disk
+        //network?
+        "idle_inhibitor",
+        "wireplumber",
+        "cpu",
+        "memory",
+        "temperature"
+    ],
+
+    //Modules configuration
+    "include": ["~/.config/waybar/modules.json"]
+}

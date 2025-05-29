@@ -1,0 +1,82 @@
+{
+    "custom/arch": {
+        "format": "󰣇",
+        "tooltip": true,
+        "tooltip-format": "btw"
+    },
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "on-click": "activate",
+        "active-only": false,
+        "format": "{icon}",
+        "persistent-workspaces": {
+            "HDMI-A-1": [1, 4, 7],
+            "DP-1": [2, 5, 8]
+        },
+        "format-icons": {
+            "1": "L1",
+            "2": "R1",
+            "4": "L2",
+            "5": "R2",
+            "7": "L3",
+            "8": "R3"
+        }
+    },
+    "custom/weather": {
+        "exec": "~/code/scripts/waybar/openweathermap-simple.sh",
+        "interval": 60,
+        "format": "{}"
+    },
+    "clock": {
+        "format": "{:%a %d %b - %H:%M:%S - %W / 52}",
+        "tooltip-format": "{calendar}",
+        "format-alt": "{:%H:%M}",
+        "interval": 1
+    },
+    "tray": {
+	"icon-size": 24,
+	"spacing": 15,
+        "show-passive-items": true
+    },
+    "custom/keyboard": {
+        "format": "{}",
+        "exec": "~/code/scripts/waybar/keyboard-print.sh",
+        "on-click": "sh ~/code/scripts/waybar/keyboard-switch.sh",
+        "on-click-right": "sh ~/code/scripts/waybar/keyboard-switch.sh",
+        "exec-on-event": true,
+        "interval": 60
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "wireplumber": {
+	"format": "{volume}%",
+	"format-muted": "",
+	"on-click": "pavucontrol"
+    },
+    "cpu": {
+        "format": "  {usage}%",
+        "tooltip": true
+    },
+    "memory": {
+        "format": "  {}%",
+	"tooltip": true
+    },
+    "temperature": {
+        "interval": 10,
+        "hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input",
+        "critical-threshold": 100,
+        "format-critical": " {temperatureC}",
+        "format": " {temperatureC}°C"
+    },
+    "hyprland/language": {
+       "format": "{long}",
+       "keyboard-name": "corsair-corsair-k70-rgb-mk.2-low-profile-mechanical-gaming-keyboard",
+       "on-click": "hyprctl switchxkblayout corsair-corsair-k70-rgb-mk.2-low-profile-mechanical-gaming-keyboard next"
+    }
+}
