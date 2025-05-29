@@ -21,21 +21,12 @@
 ```
 
 ### TODO
-learn about manual
-learn linux about where default config is at
+pandoc replacement
+waybar?
+
 display manager for hyprland to launch it prettily
 
-notification daemon
-https://github.com/emersion/mako
-
-rotate layout and default spawning to the other side
-fix librewolf not changing workspace
-plust changing windows modes
-pandoc replacement
-set wallpaper
-
 xdotool / ydotool
-pandoc replacement
 xresources
 xinitrc
 
@@ -428,6 +419,7 @@ libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgre
 playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools \
 composer unzip wget less python-pip dconf pipewire pipewire-audio pipewire-alsa \
 pipewire-pulse wireplumber qt5-wayland qt6-wayland xdg-desktop-portal-hyprland \
+xcur2png 
 ```
 
 ```bash
@@ -437,12 +429,13 @@ lib32-vulkan-intel
 
 ##### Apps
 ```bash
-sudo pacman -S --needed fastfetch qbittorrent screen flameshot nodejs npm \
+sudo pacman -S --needed fastfetch qbittorrent screen nodejs npm \
 calibre ffmpeg trash-cli xarchiver fish jq fzf tldr bat eza zoxide mpv \
 stress glmark2 neovide fail2ban ufw imagemagick yazi pavucontrol\
 python-weasyprint clipcat calcurse nautilus iftop figlet gnome-disk-utility \
 progress evince docker lazygit ncdu drawing speedtest-cli wev hyprpicker \
-wl-clipboard imv cliphist fuzzel gimp wofi
+wl-clipboard imv cliphist fuzzel gimp wofi man-db man-pages mako \
+hyprpaper hyprsunset hyprcursor grim slurp 
 ```
 
 ```bash
@@ -460,6 +453,7 @@ xcolor
 xev
 rofi
 numlockx
+flameshot 
 ```
 
 ##### AUR
@@ -638,7 +632,9 @@ nvim ~/.config/user-dirs.dirs
 dconf write /system/locale/region "'en_GB.UTF-8'" |
 git config --global user.email "igorcalvob@gmail.com" |
 git config --global user.name "igorcalvo" | 
-systemctl --user enable --now hyprpolkitagent.service
+systemctl --user enable --now hyprpolkitagent.service |
+sudo locale-gen en_US.UTF-8 |
+export LANG=en_US.UTF-8
 ```
 
 ##### Audio
@@ -679,6 +675,9 @@ sudo systemctl enable bluetooth
 cd ~/.local/share/nvim/mason/
 img ~/code/linux/mason.png
 :MasonUpdate
+
+cd ~/.local/share/nvim/lazy/markdown-preview.nvim
+npm i
 ```
 
 /![Mason](./mason.png)
@@ -863,6 +862,23 @@ https://www.gnome-look.org/p/1356095
 cd apps
 git clone git@github.com:varlesh/volantes-cursors.git
 cd volantes-cursors
+
+# Hyprland
+sudo mkdir hypr
+hyprcursor-util --extract volantes_light_cursors -o hypr
+cd hypr
+sudo nvim manigest.hl
+
+name = VolantesLightHypr
+description = Volantes Light Hyprcursor
+:wq
+
+sudo mkdir result
+hyprcursor-util --create hypr -o result
+sudo mv result ../VolantesLightHypr
+# /usr/share/icons/VolantesLightHypr
+
+# XORG
 sudo make build
 sudo make install
 ```

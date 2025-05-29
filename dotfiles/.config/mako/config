@@ -1,0 +1,40 @@
+# Appearance
+font=JetBrains Mono 12
+background-color=#1e1e2e
+text-color=#ffffff
+border-color=#89b4fa
+border-size=2
+border-radius=12
+padding=16
+width=960
+
+max-visible=3
+default-timeout=5000
+actions=1
+icons=1
+
+# Positioning
+anchor=bottom-center
+margin=10
+outer-margin=0,0,50,0
+# top,right,bottom,left
+
+# Urgency levels
+# [urgency=low]
+# border-color=#89dceb
+# 
+# [urgency=normal]
+# border-color=#fab387
+
+[urgency=critical]
+default-timeout=10000
+border-color=#f38ba8
+
+# Modes (optional)
+[mode=do-not-disturb]
+invisible=1
+
+[app-name=volume]
+width=200
+font=JetBrains Mono 16
+default-timeout=250

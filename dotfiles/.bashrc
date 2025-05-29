@@ -29,8 +29,8 @@ PATH=$PATH:/home/calvo/.local/bin
 . "$HOME/.cargo/env"
 
 export LANG=en_US.UTF-8
-# export LC_CTYPE=en_US.UTF-8
-# export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 export EDITOR=/usr/bin/nvim
 export SUDO_EDITOR=/usr/bin/nvim
