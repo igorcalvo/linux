@@ -19,18 +19,14 @@
     "modules-right": [
         "tray",
         "custom/keyboard",
-        //audio
-        //night light
-        //cpu
-        //memory
-        //gpu
-        //disk
-        //network?
-        "idle_inhibitor",
         "wireplumber",
+        "custom/nightlight",
         "cpu",
         "memory",
-        "temperature"
+        "custom/gpu",
+        "custom/disk",
+        "network"
+        //"idle_inhibitor",
     ],
 
     //Modules configuration
