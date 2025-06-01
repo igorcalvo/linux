@@ -20,16 +20,13 @@
  .`                                 `/
 ```
 
-### TODO
-color.sh
-
 ### Arch Install
 #### 0. Getting image ready
 ```bash
 https://archlinux.org/download/
 
 sha256sum -b yourfile.iso
-gnome-disks
+gnome-disk-image-monter
 # https://etcher.balena.io/#download-etcher
 ```
 
@@ -95,13 +92,11 @@ mount --mkdir /dev/nvme0n1p5 /mnt/boot
 swapon /dev/nvme0n1p6
 ```
 
-#### 4. Update Image & Root
-##### Basics
+#### 4. Pacman setup
 ```bash
 sudo pacman -Sy archlinux-keyring pacman-contrib
 ```
 
-##### Pacman
 ```bash
 vim /etc/pacman.conf
 
@@ -109,7 +104,7 @@ parallel 10
 uncomment colors
 ```
 
-##### Image
+#### 5. Update Image & Root
 ```bash
 pacstrap -K /mnt base linux linux-firmware
 ```
@@ -120,19 +115,18 @@ genfstab -U -p /mnt > /mnt/etc/fstab
 cat /mnt/etc/fstab
 ```
 
-##### Chroot & Mounting
+##### Chroot
 ```bash
 arch-chroot /mnt
 mount --mkdir /dev/nvme0n1p2 /mnt/win #(windows EFI)
-mount --mkdir /dev/nvme0n1p5 /mnt/boot/efi #(Arch EFI)
 ```
 
 ##### Install Basics to disk
 ```bash
-pacman -Sy --needed neovim archlinux-keyring pacman-contrib
+pacman -Sy neovim archlinux-keyring pacman-contrib
 ```
 
-#### 5. Pacman
+#### 6. Pacman
 ##### Mirrors
 ```bash
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
@@ -151,22 +145,20 @@ parallel 15
 ##### Essentials
 ```bash
 pacman -Syu
-pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel stow openssh kitty wl-clipboard
+pacman -S --needed sudo amd-ucode linux-headers networkmanager git base-devel xclip tilix firefox stow openssh
 
 intel-ucode
 iucode-tool 
 dhcpcd 
 ```
 
-#### 6. Config 
-##### Language
+#### 7. Language & Time
 ```bash
 nvim /etc/locale.gen
 
 /en_US.UTF-8
 ```
 
-##### Time
 ```bash
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
@@ -176,7 +168,7 @@ ln -s /usr/share/zoneinfo/America/Sao_Paulo > /etc/localtime
 hwclock --systohc --utc
 ```
 
-##### Hostname
+#### 8. Hostname & User
 hostname = machine name
 ```bash
 echo arch-hostname > /etc/hostname
@@ -186,10 +178,9 @@ nvim /etc/hosts
 127.0.0.1 arch-pc
 ```
 
-##### User
 ```bash
 passwd
-useradd -m -g users -G wheel,storage,power,plugdev -s /bin/bash calvo
+useradd -m -g users -G wheel,storage,power -s /bin/bash calvo
 passwd calvo
 
 EDITOR=nvim visudo
@@ -203,16 +194,14 @@ G
 Defaults rootpw
 ```
 
-#### 8. Boot
+#### 9. Boot
 ##### Grub
 ```bash
 pacman -S --needed grub efibootmgr os-prober
+grub-install --targe=x86_64-efi --efi-directory=/mnt/win --bootloader-id=GRUB
 
-mount --mkdir /dev/nvme0n1p2 /mnt/win #(windows EFI)
-mount --mkdir /dev/nvme0n1p5 /mnt/boot/efi #(Arch EFI)
-
-grub-install --target=x86_64-efi --efi-directory=/mnt/win --bootloader-id=GRUB
-grub-install --target=x86_64-efi --efi-directory=/mnt/boot/efi --bootloader-id=GRUB
+mount --mkdir /dev/nvme0n1p1 /mnt/boot/efi
+grub-install --targer=x86_64-efi --bootloader-id=GRUB
 
 nvim /etc/default/grub
 GRUB_DISABLE_OS_PROBER=false
@@ -222,25 +211,42 @@ GRUB_COLOR_NORMAL="light-blue/black"
 GRUB_COLOR_HIGHLIGHT="light-cyan/black"
 GRUB_TIMEOUT=3
 GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet ipv6.disable=1 pcie_aspm=off"
-GRUB_DEFAULT=saved
+GRUB_DEFAULT=2
 
 os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
-cat /etc/fstab
+
+exit
+reboot
+sudo os-prober
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-#### 9. Nvidia & Image
+##### systemd-boot
 ```bash
-sudo pacman -S nvidia-open-dkms linux-headers nvidia-utils lib32-nvidia-utils egl-wayland libglvnd lib32-libglvnd opencl-nvidia lib32-opencl-nvidia nvidia-settings
+ls /sys/firmware/efi/efivars
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars/
+bootctl install
+nvim /boot/loader/entries/arch.conf
 ```
 
 ```bash
-nvim /etc/modprobe.d/nvidia.conf
-
-option nvidia_drm modeset=1
+title Arch
+linux /vmlinuz-linux
+initrd /intel-ucode.img /amd-ucode.img
+initrd /initramfs-linux.img
 ```
 
-##### Config
+```bash
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p3) rw nvidia-drm.modeset=1" >> /boot/loader/entries/arch.conf
+cat /boot/loader/entries/arch.conf
+```
+
+#### 10. Nvidia & Image
+```bash
+pacman -S nvidia-dkms libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
+```
+
 ```bash
 nvim /etc/mkinitcpio.conf
 
@@ -248,22 +254,21 @@ MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
 HOOKS(= -kms)
 ```
 
-##### Hooks
 ```bash
 mkdir /etc/pacman.d/hooks
 nvim /etc/pacman.d/hooks/nvidia.hook
 
 [Trigger]
-Operation = Install
-Operation = Upgrade
-Operation = Remove
-Type = Package
-Target = nvidia
+Operation=Install
+Operation=Upgrade
+Operation=Remove
+Type=Package
+Target=nvidia
 
 [Action]
-Depends = mkinitcpio
-When = PostTransaction
-Exec = /usr/bin/mkinitcpio -P
+Depends=mkinitcpio
+When=PostTransaction
+Exec=/usr/bin/mkinitcpio -P
 ```
 
 ```bash
@@ -286,7 +291,7 @@ Exec = /usr/bin/grub-mkconfig -o /boot/grub/grub.cfg
 mkinitcpio -P
 ```
 
-#### 10. Services
+#### 11. Services
 ```bash
 sudo systemctl enable fstrim.timer |
 sudo systemctl enable NetworkManager.service |
@@ -294,34 +299,168 @@ sudo systemctl enable systemd-resolved |
 sudo systemctl enable paccache.timer
 ```
 
-#### 11. Reboot
+#### 12. Reboot
 ```bash
 exit (until red)
 umount -R /mnt
 reboot
 ```
 
-#### 12. Internet
+#### 13. Internet
 ```bash
 nmtui
 ping archlinux.org
 
 ip link
-
-sudo systemctl enable NetworkManager.service
-sudo systemctl start NetworkManager.service
+sudo systemctl enable dhcpcd@wlo1.service
 ```
 
-#### 13. Display Manager
+#### 14. Display Manager
+##### BSPWM
 ```bash
-sudo pacman -S hyprland
-Hyprland
+sudo pacman -S xterm bspwm sxhkd picom nitrongen unclutter xorg xorg-xinit polybar dunst ly slock --needed
 
-super + q
-super + c
+xrandr --listmonitors
+mkdir .config/sxhkd
+nvim .config/sxhkd/sxhkdrc
 ```
 
-#### 14. YAY & Browser
+```bash
+super + Return
+    tilix
+
+super + 1
+    xterm
+
+super + 2
+    reboot
+
+super + 3
+    xrandr --output eDP-1-1 --mode 1920x1080
+
+super + 4
+    xrandr --output HDMI-1-1 --mode 1920x1080
+```
+
+```bash
+nvim /usr/share/xsessions/bspwm.desktop
+Exec=bspwm & sxhkd
+
+systemctl enable ly.service
+startx
+
+# might need
+nvim .xinitrc
+#!/bin/bash
+exec bspwm
+exec sxhkd
+
+reboot
+```
+
+```bash
+super + enter
+picom &
+```
+
+###### Troubleshooting
+```bash
+sudo X --configure
+sudo nvidia-xconfig
+nvim ~/.local/share/xorg/Xorg.0.log
+
+mv /etc/X11/xorg.conf /etc/X11/xorg.conf.backup
+mv /root/xorg.conf.new /etc/X11/xorg.conf
+
+nvim /usr/share/xsessions/bspwm.desktop
+bspwm & sxhkd
+
+nvim .xinitrc
+#!/bin/bash
+exec bspwm
+exec sxhkd
+
+systemctl --user calvo --global enable
+export XDG_RUNTIME_DIR="/run/user/$UID"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=$(XDG_RUNTIME_DIR)/bus"
+
+lsmod | grep nvidia
+cat /sys/class/drm/*/status
+
+mkdir ~/.config/bspwm
+nvim bspwmrc
+#!/bin/bash
+
+tty2, tty3 (ctrl + alt + f2, f3)
+DISPLAY=:0 xrandr
+sxhkd -> super + 2, reboot
+sxhkd -> super + 3, 
+sxhkd -> super + 4, xrandr --output HDMI-1-1 --auto
+
+xrandr --output eDP-1-1 --mode 1920x1080
+```
+
+Tilix -> Preferences -> Apearance -> Theme Variant -> Dark
+
+##### Gnome
+View # 31
+
+#### 15. Clone repos
+```bash
+mkdir code
+ssh-keygen -t rsa
+cd /home/calvo/.ssh
+xclip -sel c id_rsa.pub
+
+firefox
+clone linux
+clone scripts
+```
+
+#### 16. Stow & Tilix
+```bash
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
+stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
+sh ~/code/scripts/define-links.sh
+
+cd ~/code/linux/dotfiles/.config/
+mkdir x 
+mv ~/.config/x/* ~/code/linux/dotfiles/x
+stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
+```
+
+```bash
+cd ~/code/linux
+dconf load /com/gexperts/Tilix/ < tilix.dconf
+
+# dconf dump /com/gexperts/Tilix/ > tilix.dconf 
+```
+
+#### 17. Directories
+```bash
+mkdir desktop |
+mkdir documents |
+mkdir videos |
+mkdir downloads |
+mkdir misc |
+mkdir books |
+mkdir images |
+mkdir lists |
+mkdir apps
+```
+
+```bash
+cd apps |
+mkdir appimages |
+cd ..|
+cd images |
+mkdir icons |
+mkdir wallpapers |
+mkdir screenshots
+```
+
+
+#### 18. Yay
 ```bash
 sudo pacman -Syu
 
@@ -331,69 +470,28 @@ cd yay
 makepkg -si
 ```
 
-```bash
-yay -S librewolf-bin
-
-Settings
-    Enable Firefox Sync
-    Log in
-    Ask to save passwords
-    Remove Import Bookmarks
-    Save downloads folder
-    Always ask you where to save files
-    Search engine
-    Theme
-```
-
-#### 15. Clone repos
-```bash
-cd
-ssh-keygen -t rsa
-cd /home/calvo/.ssh
-
-cat id_rsa.pub
-xclip -sel c id_rsa.pub
-
-librewolf
-clone linux
-clone scripts
-```
-
-#### 16. Directories
-```bash
-sh ~/code/scripts/dirs.sh
-```
-
-#### 17. Installing
+#### 19. Installing
 ##### Libraries
 ```bash
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts \
-ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader ttf-space-mono-nerd\
-otf-font-awesome lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 \
-fuse3 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
-playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools composer unzip \
-wget less python-pip dconf pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
-qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xcur2png 
-```
-
-```bash
-vulkan-intel
-lib32-vulkan-intel
+ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader \
+lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
+libxkbcommon-x11 unrar p7zip vulkan-intel lib32-vulkan-intel clutter clutter-gtk \
+inkscape ripgrep rofi playerctl numlockx lm_sensors xdg-user-dirs-gtk \
+gnome-backgrounds pulseaudio sox dosfstools composer unzip wget
 ```
 
 ##### Apps
 ```bash
-sudo pacman -S --needed fastfetch qbittorrent screen nodejs npm \
-calibre ffmpeg trash-cli xarchiver fish jq fzf tldr bat eza zoxide mpv \
-stress glmark2 neovide fail2ban ufw imagemagick yazi pavucontrol\
-python-weasyprint clipcat calcurse nautilus iftop figlet gnome-disk-utility \
-progress evince docker lazygit ncdu drawing speedtest-cli wev hyprpicker \
-wl-clipboard imv cliphist fuzzel gimp wofi man-db man-pages mako \
-hyprpaper hyprsunset hyprcursor grim slurp sddm pandoc
+sudo pacman -S --needed fastfetch qbittorrent screen xdotool python-pip krita \
+flameshot nodejs npm calibre ffmpeg dconf-editor trash-cli xarchiver-gtk2 fish jq \
+fzf tldr bat eza zoxide mpv stress glmark2 neovide fail2ban ufw imagemagick \
+pavucontrol feh yazi pandoc python-weasyprint clipcat calcurse xcolor \
+gnome-system-monitor nautilus gnome-terminal iftop figlet gnome-disk-utility \
+progress evince docker lazygit ncdu drawing speedtest-cli
 ```
 
 ```bash
-krita
 steam
 discord
 taskwarrior-tui
@@ -401,13 +499,11 @@ taskwarrior-tui
 
 ##### AUR
 ```bash
-yay -S polychromatic wezterm qdirstat-bin youtube-music-bin ttf-juliamono \
-ttf-weather-icons ttf-kanjistrokeorders cava fish-done cheat-bin librewolf-bin \
-ttf-joypixels
-```
+yay -S polychromatic wezterm qdirstat youtube-music ahk_x11-bin anki \
+ttf-juliamono ttf-weather-icons ttf-kanjistrokeorders cava gnome-characters \
+fish-done cheat-bin chatgpt-shell-cli librewolf-bin
 
-```bash
-###### Android
+# Android
 yay -S android-sdk-build-tools android-sdk-cmdline-tools-latest android-platform android-sdk-platform-tools android-sdk
 ```
 
@@ -415,9 +511,6 @@ yay -S android-sdk-build-tools android-sdk-cmdline-tools-latest android-platform
 tetrio
 vscodium
 zoom
-anki
-ahk_x11-bin
-chatgpt-shell-cli 
 ```
 
 ##### GPT
@@ -504,34 +597,12 @@ https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/v
 6. reboot
 7. `wmic cpu get NumberOfCores,NumberOfLogicalProcessors`
 
-#### 18. Python
-```bash
-sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
-python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
-python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
-cython mypy --needed
-```
-
-```bash
-yay -S python-pipreqs python-pyautogui python-translate
-```
-
-```bash
-pipx ensurepath
-
-sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
-
-python-pipx 
-python-yarg 
-selenium 
-```
-
-
-#### 19. Websites
+#### 20. Websites
 ##### AppImages
 ```bash
 https://www.onlyoffice.com/download-desktop.aspx
 https://github.com/Nixola/VRRTest/releases/
+https://etcher.balena.io/
 ```
 
 ##### Must Compile
@@ -542,18 +613,6 @@ git clone https://github.com/aristocratos/btop.git
 cd btop
 make GPU_SUPPORT=true VERBOSE=true
 sudo make install
-```
-
-#### 20. Stow
-```bash
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --simulate . 
-stow --target="/home/calvo" --dir="/home/calvo/code/linux/dotfiles" -v --adopt . 
-sh ~/code/scripts/define-links.sh
-
-cd ~/code/linux/dotfiles/.config/
-mkdir x 
-mv ~/.config/x/* ~/code/linux/dotfiles/x
-stow --target="/home/calvo/.config/x" --dir="/home/calvo/code/linux/dotfiles/.config/x" -v --simulate .
 ```
 
 #### 21. System Config
@@ -570,21 +629,7 @@ nvim ~/.config/user-dirs.dirs
 ```bash
 dconf write /system/locale/region "'en_GB.UTF-8'" |
 git config --global user.email "igorcalvob@gmail.com" |
-git config --global user.name "igorcalvo" | 
-systemctl --user enable --now hyprpolkitagent.service |
-sudo locale-gen en_US.UTF-8 |
-export LANG=en_US.UTF-8 |
-xdg-mime default org.gnome.Nautilus.desktop inode/directory
-```
-
-##### Audio
-```bash
-systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service
-pactl info
-```
-
-##### NOT NEEDED ANYMORE
-```bash
+git config --global user.name "igorcalvo" |
 xdg-settings set default-web-browser firefox.desktop
 ```
 
@@ -615,9 +660,6 @@ sudo systemctl enable bluetooth
 cd ~/.local/share/nvim/mason/
 img ~/code/linux/mason.png
 :MasonUpdate
-
-cd ~/.local/share/nvim/lazy/markdown-preview.nvim
-npm i
 ```
 
 /![Mason](./mason.png)
@@ -626,32 +668,51 @@ npm i
 ```bash
 fish_update_completions
 mkdir ~/.config/fish/completions/
+cp ~/.local/share/fish/generated_completions/* ~/.config/fish/completions/
 cp /usr/share/fish/completions/*  ~/.config/fish/completions/
-cp ~/.cache/fish/generated_completions/* ~/.config/fish/completions/
 mv ~/.config/fish/completions/convert.fish ~/.config/fish/completions/magick.fish
 sed -i 's/convert/magick/g' ~/.config/fish/completions/magick.fish
 cat ~/.config/fish/completions/magick.fish | head -n 10
 ```
 
-##### Pacman & Haskel
+#### 22. Startup
 ```bash
-pacman -Qq | grep '^haskell' | tr '\n' ' '
-
-sudoedit /etc/pacman.conf
-/ignore
+sudo sh ~/code/scripts/bspwm.sh
 ```
 
-#### 23. Files
+#### 23. Python
+##### fuck pysimplegui
+```bash
+sudo pacman -S python-pandas python-numpy python-scipy python-matplotlib python-beautifulsoup4 \
+python-openpyxl python-requests python-pyperclip python-opencv python-debugpy python-pywal \
+python-virtualenv jupyter-notebook yt-dlp python-flask python-pillow python-numba \
+cython mypy python-pipx --needed
+```
+
+```bash
+yay -S python-yarg python-pipreqs python-pyautogui python-translate
+pipx ensurepath
+```
+
+```bash
+sudo rm /usr/lib/python3.12/EXTERNALLY-MANAGED
+
+selenium 
+```
+
+#### 24. Files
 ```bash
 start krita
 cp ~/code/linux/files/krita-workspace.kws ~/.local/share/krita/workspaces/
 
 cp ~/code/linux/files/icons/* ~/images/icons/
+# sudo cp ~/code/linux/files/dotdesktops/* /usr/share/applications/
 
 MEGA
+games?
 ```
 
-#### 24. Applications
+#### 25. Applications
 ```
 Razer
     500 Dpi
@@ -681,12 +742,14 @@ Discord
         Push to Mute
 Youtube Music
     Login
-LibreWolf
+Firefox
     Download directory
     Remove
         Import bookmarks
+        Getting Started
+        Spaces
     Icons and Logins
-    Theme Catpuccin Teal
+    Theme Beautiful Alpen Blue
     Search -> Brave
     Extensions
         Blocksite
@@ -704,14 +767,50 @@ LibreWolf
 Krita
     Load workspace -> Last
     Themes -> Krita Darker
+Nvidia
+    Sudo
+    OpenGL Settings
+        Gsync Indicator
+    PowerMizer -> Performance
+    Save
 Pavucontrol
     Configuration
         Disable what's necessary
     Input Devices
         150%
+VS Codium
+    Two Monokai
+    Keyboard Shortcuts
+        Copy Line Down - Shift Alt Down
 ```
 
-#### 25. Security
+#### 26. Anki
+Download decks from MEGA
+
+Addons:
+- 1771074083 heatmap
+- 3918629684 japanese support
+- 613684242 true retention
+- 947935257 reset ease
+- 1152543397 postpode cards's review
+- 1084228676 color confirmation
+- 1610304449 kanji grid
+- 1136455830 advanced review button bar
+<!-- - 2494384865 buttons colors -->
+
+Old Deck settings
+```
+Add Ons "config" interval coefficient 0.0
+30	9999	off	1m 5m 15m	1	4	Sequential
+2m 7m	1	6	 Tag Only	Deck	Card type	 Show after reviews	Show after reviews	 Due date, then random
+600	off	off	off	off	off	off	
+180	2.5	1.3	1	1.2	0
+
+Change to default OS theme to prevent crashes
+Also, it might be possible not to rebind numpad keys
+```
+    
+#### 27. Security
 ```bash
 sudo ufw limit 22/tcp |
 sudo ufw allow 80/tcp |
@@ -748,21 +847,36 @@ sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
 ```
 
-#### 26. Backup Kernel
+#### 28. Backup Kernel
 ```bash
 sudo pacman -S linux-zen-headers linux-zen
 # nvidia-lts
 ```
 
-#### 27. Ricing
+##### grub
+```bash
+sudoedit /etc/default/grub
+GRUB_DEFAULT=2
+grub-update
+```
+
+##### systemd-boot
+```bash
+sudo su
+cd /boot/loader/entries
+cp arch.conf arch-lts.conf
+
+append -zen to linuz and to fs
+reboot and hold 't'
+```
+
+#### 29. Ricing
 ##### Display Manager
 ```bash
-https://github.com/Keyitdev/sddm-astronaut-theme/tree/master?tab=readme-ov-file
-sudoedit /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop
-sudoedit /usr/share/sddm/scripts/Xsetup
+sudoedit /etc/ly/config.ini
 
-xrandr --output HDMI-A-1 --mode 1920x1080@240 --pos 0x0 \
-       --output DP-1 --mode 1920x1080@240 --pos 1920x0
+fg = 7
+border_fg = 5
 ```
 
 ##### Cursors
@@ -775,32 +889,22 @@ https://www.gnome-look.org/p/1356095
 cd apps
 git clone git@github.com:varlesh/volantes-cursors.git
 cd volantes-cursors
+sudo make build
+sudo make install
+```
 
-# Hyprland
-sudo mkdir hypr
-hyprcursor-util --extract volantes_light_cursors -o hypr
-cd hypr
-sudo nvim manigest.hl
-
-name = VolantesLightHypr
-description = Volantes Light Hyprcursor
-:wq
-
-sudo mkdir result
-hyprcursor-util --create hypr -o result
-sudo mv result ../VolantesLightHypr
-# /usr/share/icons/VolantesLightHypr
+```bash
+nvim ~/.config/gtk-3.0/settings.ini
+gtk-cursor-theme-name=volantes_light_cursors
 ```
 
 ##### Wallpaper
 1. Get it
-2. Hyprpaper
+2. Magick
+3. Nitrogen
+
 ```bash
-hyprctl monitors
-preload = /home/calvo/images/wallpapers/2025-06/l.png
-preload = /home/calvo/images/wallpapers/2025-06/r.png
-wallpaper = HDMI-A-1, /home/calvo/images/wallpapers/2025-06/l.png
-wallpaper = DP-1, /home/calvo/images/wallpapers/2025-06/r.png
+nitrogen ~/images/wallpapers/20xx/wallpaper.png --set-auto --save
 ```
 
 ##### Colors
@@ -811,14 +915,20 @@ python ~/code/rice/offset_colors.py ~/.config/rofi/rounded-pink-dark.rasi 0.5
 nvim ~/code/rice/wallpaper.sh
 ```
 
-#### 30. Gaming
-##### Zelda 3Ds
+##### Steam Theme
 ```bash
-stow
+cd
+cd apps
+git clone https://github.com/tkashkin/Adwaita-for-Steam
+cd Adwaita-for-Steam
+python install.py
 ```
 
-##### Ship
+#### 30. Useful
 ```bash
-cp ~/code/linux/files/games/shipofharkinian.json ~/apps/appimages/soh/
+sudo -i
+sudo su
+xev # events, to find key names
+fc-list | grep Mono # list font names
 ```
 
