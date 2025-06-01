@@ -20,12 +20,12 @@
         "tray",
         "custom/keyboard",
         "wireplumber",
-        "custom/nightlight",
-        "cpu",
-        "memory",
-        "custom/gpu",
-        "custom/disk",
-        "network"
+        "custom/nightlight"
+        // "cpu",
+        // "memory",
+        // "custom/gpu",
+        // "custom/disk",
+        // "network"
         //"idle_inhibitor",
     ],
 

@@ -21,14 +21,13 @@
 ```
 
 ### TODO
-pandoc replacement
-waybar?
+test android
+hyprland gaps and borders
+then color.sh
 
-display manager for hyprland to launch it prettily
+pandoc replacement
 
 xdotool / ydotool
-xresources
-xinitrc
 
 bash
 export XDG_CONFIG_HOME=$HOME/.config
@@ -413,13 +412,12 @@ sh ~/code/scripts/dirs.sh
 ##### Libraries
 ```bash
 sudo pacman -S --needed noto-fonts-cjk noto-fonts-emoji noto-fonts gnu-free-fonts \
-ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader \
-lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 fuse3 \
-libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
-playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools \
-composer unzip wget less python-pip dconf pipewire pipewire-audio pipewire-alsa \
-pipewire-pulse wireplumber qt5-wayland qt6-wayland xdg-desktop-portal-hyprland \
-xcur2png 
+ttf-jetbrains-mono ttf-liberation noto-fonts-emoji vulkan-icd-loader ttf-space-mono-nerd\
+otf-font-awesome lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mono fuse2 \
+fuse3 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
+playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools composer unzip \
+wget less python-pip dconf pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
+qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xcur2png 
 ```
 
 ```bash
@@ -435,7 +433,7 @@ stress glmark2 neovide fail2ban ufw imagemagick yazi pavucontrol\
 python-weasyprint clipcat calcurse nautilus iftop figlet gnome-disk-utility \
 progress evince docker lazygit ncdu drawing speedtest-cli wev hyprpicker \
 wl-clipboard imv cliphist fuzzel gimp wofi man-db man-pages mako \
-hyprpaper hyprsunset hyprcursor grim slurp 
+hyprpaper hyprsunset hyprcursor grim slurp sddm
 ```
 
 ```bash
@@ -635,6 +633,7 @@ git config --global user.name "igorcalvo" |
 systemctl --user enable --now hyprpolkitagent.service |
 sudo locale-gen en_US.UTF-8 |
 export LANG=en_US.UTF-8
+xdg-mime default org.gnome.Nautilus.desktop inode/directory
 ```
 
 ##### Audio
@@ -845,6 +844,17 @@ reboot and hold 't'
 
 #### 27. Ricing
 ##### Display Manager
+###### Hyprland
+```bash
+https://github.com/Keyitdev/sddm-astronaut-theme/tree/master?tab=readme-ov-file
+sudoedit /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop
+sudoedit /usr/share/sddm/scripts/Xsetup
+
+xrandr --output HDMI-A-1 --mode 1920x1080@240 --pos 0x0 \
+       --output DP-1 --mode 1920x1080@240 --pos 1920x0
+```
+
+###### XORG
 ```bash
 sudoedit /etc/ly/config.ini
 
@@ -889,6 +899,18 @@ gtk-cursor-theme-name=volantes_light_cursors
 ```
 
 ##### Wallpaper
+###### Hyprland
+1. Get it
+2. Hyprpaper
+```bash
+hyprctl monitors
+preload = /home/calvo/images/wallpapers/2025-06/l.png
+preload = /home/calvo/images/wallpapers/2025-06/r.png
+wallpaper = HDMI-A-1, /home/calvo/images/wallpapers/2025-06/l.png
+wallpaper = DP-1, /home/calvo/images/wallpapers/2025-06/r.png
+```
+
+###### XORG
 1. Get it
 2. Magick
 3. Nitrogen
@@ -903,15 +925,6 @@ edit ~/colors.sh
 python ~/code/rice/load_colors.py
 python ~/code/rice/offset_colors.py ~/.config/rofi/rounded-pink-dark.rasi 0.5
 nvim ~/code/rice/wallpaper.sh
-```
-
-##### Steam Theme
-```bash
-cd
-cd apps
-git clone https://github.com/tkashkin/Adwaita-for-Steam
-cd Adwaita-for-Steam
-python install.py
 ```
 
 #### 28. Anki
@@ -941,14 +954,23 @@ Also, it might be possible not to rebind numpad keys
 ```
 
 #### 29. Useful
-```bash
+```bashric
 sudo -i
 sudo su
 xev # events, to find key names
 fc-list | grep Mono # list font names
 ```
 
-#### 30. -
+#### 30. Gaming
+##### Zelda 3Ds
+```bash
+stow
+```
+
+##### Ship
+```bash
+cp ~/code/linux/files/games/shipofharkinian.json ~/apps/appimages/soh/
+```
 
 #### 31. Gnome
 ```bash
