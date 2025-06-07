@@ -373,7 +373,7 @@ otf-font-awesome lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mon
 fuse3 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
 playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools composer unzip \
 wget less python-pip dconf pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
-qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xcur2png 
+qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xcur2png fd
 ```
 
 ```bash

@@ -6,6 +6,11 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.keymap.del("n", "grn")
+vim.keymap.del("n", "gra")
+vim.keymap.del("n", "grr")
+vim.keymap.del("n", "gri")
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -318,6 +323,16 @@ vim.keymap.set("n", "<leader>gc", ":Telescope git_commits<cr>", { desc = "[C]omm
 vim.keymap.set("n", "<leader>gx", ":Telescope git_stash<cr>", { desc = "stash[X]" })
 vim.keymap.set("n", "<leader>gh", ":Telescope git_bcommits<cr>", { desc = "[H]istory" })
 -- vim.keymap.set('n', '<F13>', require('Comment.api').toggle.linewise.current, { noremap = true, silent = true })
+-- LSP Config
+vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references,
+  { desc = "LSP: [G]oto [R]eferences", noremap = true })
+vim.keymap.set("n", "gI", require("telescope.builtin").lsp_implementations,
+  { desc = "[G]oto [I]mplementation", noremap = true })
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[n]ame", noremap = true })
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction", noremap = true })
+vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "[G]oto [D]efinition", noremap = true })
+vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "[G]oto [R]eferences", noremap = true })
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration", noremap = true })
 
 -- Plugins keymaps?
 vim.keymap.set("n", "cp", "<cmd>PickColor<cr>", { desc = "[C]olor [P]ick" })
@@ -685,13 +700,8 @@ local on_attach = function(_, bufnr)
 
     vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
   end
+  keys = {}
 
-  nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-  nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-
-  nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-  nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-  nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
   nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
   nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
@@ -701,7 +711,6 @@ local on_attach = function(_, bufnr)
   nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
-  nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
   nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
   nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
   nmap("<leader>wl", function()
