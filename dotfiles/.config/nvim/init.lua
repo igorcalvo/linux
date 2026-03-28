@@ -209,7 +209,55 @@ require("lazy").setup({
       },
     }
   },
+  -- AI
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("codecompanion").setup({
+        adapters = {
+          openai = function()
+            return require("codecompanion.adapters").extend("openai", {
+              env = {
+                api_key = "OPENAI_API_KEY",
+              },
+              schema = {
+                model = {
+                  default = "gpt-4o", -- 👈 default model
+                  choices = {
+                    "gpt-4o",
+                    "gpt-4o-mini",
+                  },
+                },
+              },
+            })
+          end,
+        },
 
+        display = {
+          chat = {
+            window = {
+              layout = "vertical",
+              position = "right",
+              width = 0.4,
+            },
+          },
+        },
+
+        strategies = {
+          chat = {
+            adapter = "openai",
+          },
+          inline = {
+            adapter = "openai",
+          },
+        },
+      })
+    end,
+  },
   -- Fuzzy Finder (files, lsp, etc)
   {
     "nvim-telescope/telescope.nvim",
@@ -322,6 +370,8 @@ vim.keymap.set("n", "<leader>gb", ":Telescope git_branches<cr>", { desc = "[B]ra
 vim.keymap.set("n", "<leader>gc", ":Telescope git_commits<cr>", { desc = "[C]ommits" })
 vim.keymap.set("n", "<leader>gx", ":Telescope git_stash<cr>", { desc = "stash[X]" })
 vim.keymap.set("n", "<leader>gh", ":Telescope git_bcommits<cr>", { desc = "[H]istory" })
+vim.keymap.set("n", "<leader>cc", "<cmd>CodeCompanionChat<cr>", { desc = "Chat" })
+vim.keymap.set("v", "<leader>cc", "<cmd>CodeCompanionChat<cr>", { desc = "Chat with selection" })
 -- vim.keymap.set('n', '<F13>', require('Comment.api').toggle.linewise.current, { noremap = true, silent = true })
 -- LSP Config
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references,
@@ -356,7 +406,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "text", "markdown" },
   callback = function()
     vim.opt_local.spell = true
-    vim.opt_local.spelllang = { "en_us" }
+    vim.opt_local.spelllang = { "pt_br" } -- "en_us"
   end,
 })
 
