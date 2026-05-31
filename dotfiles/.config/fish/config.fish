@@ -38,12 +38,14 @@ alias gpt "chatgpt -t 0.5 -m gpt-4o-2024-11-20"
 alias webcam "screen -d -m mpv av://v4l2:/dev/video0"
 alias btop "screen -d -m kitty btop"
 alias lg "lazygit"
-alias unzip "screen -d -m xarchiver"
+alias extract "screen -d -m xarchiver"
 alias yay-updates "grep '\[ALPM\] upgraded' /var/log/pacman.log"
 alias yay-clean "command yay -Sc"
 alias pacman-clean "command sudo pacman -Sc"
 alias disks "ncdu"
 alias keys "wev"
+alias office "screen -d -m ~/apps/appimages/DesktopEditors-x86_64.AppImage"
+alias url "xdg-open "
 
 ### OUTDATED
 ## GNOME

@@ -407,12 +407,13 @@ taskwarrior-tui
 ```bash
 yay -S polychromatic wezterm qdirstat-bin youtube-music-bin ttf-juliamono \
 ttf-weather-icons ttf-kanjistrokeorders cava fish-done cheat-bin librewolf-bin \
-ttf-joypixels
+ttf-joypixels sqlitebrowser masterpdfeditor
 ```
 
 ```bash
 ###### Android
-yay -S android-sdk-build-tools android-sdk-cmdline-tools-latest android-platform android-sdk-platform-tools android-sdk
+yay -S android-sdk-build-tools android-sdk-cmdline-tools-latest android-platform android-sdk-platform-tools android-sdk android-studio
+sudo usermod -aG kvm $USER
 ```
 
 ```bash
