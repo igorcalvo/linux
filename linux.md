@@ -393,7 +393,7 @@ stress glmark2 neovide fail2ban ufw imagemagick yazi pavucontrol\
 python-weasyprint clipcat calcurse nautilus iftop figlet gnome-disk-utility \
 progress evince docker lazygit ncdu drawing speedtest-cli wev hyprpicker \
 wl-clipboard imv cliphist fuzzel gimp wofi man-db man-pages mako \
-hyprpaper hyprsunset hyprcursor grim slurp sddm pandoc
+hyprpaper hyprsunset hyprcursor grim slurp sddm pandoc opencode
 ```
 
 ```bash
@@ -425,23 +425,37 @@ ahk_x11-bin
 chatgpt-shell-cli 
 ```
 
-##### GPT
-###### Consider AUR instead
-```bash
-https://github.com/kardolus/chatgpt-cli
+##### OLLAMA
+https://github.com/pewdiepie-archdaemon/odysseus
 
-curl -L -o chatgpt https://github.com/kardolus/chatgpt-cli/releases/latest/download/chatgpt-linux-amd64 && chmod +x chatgpt && sudo mv chatgpt /usr/local/bin/
-openssl enc -aes-256-cbc -pbkdf2 -in ~/gpt.txt -out ~/gpt.enc -pass pass:gpt
-set -Ux OPENAI_API_KEY $(openssl enc -aes-256-cbc -pbkdf2 -d -in ~/gpt.enc -pass pass:gpt)
-chatgpt --config
-chatgpt --set-model gpt-4
+```shell
+#!/usr/bin/env fish
+
+screen -d -m fish -c '
+    source venv/bin/activate.fish
+    python setup.py
+    python -m uvicorn app:app --host 127.0.0.1 --port 7000
+'
+
+while not nc -z 127.0.0.1 7000
+    sleep 0.2
+end
+
+xdg-open http://127.0.0.1:7000 >/dev/null 2>&1 &
 ```
 
-##### OLLAMA
+```bash
+cd ~/apps/odysseus/
+chmod +x run.sh
+./run.sh
+```
+
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 sudo systemctl enable ollama.service
+ollama run gemma4:12b
+
 ollama run deepseek-r1:7b
 ollama run llama3.2
 ```
@@ -608,7 +622,7 @@ reboot
 ##### Misc II
 ```bash
 sudo modprobe razerkbd
-sudo gpasswd -a $USER plugdev
+sudo gpasswd -a $USER openrazer
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo sensors-detect
 

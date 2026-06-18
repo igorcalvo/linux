@@ -46,6 +46,7 @@ alias disks "ncdu"
 alias keys "wev"
 alias office "screen -d -m ~/apps/appimages/DesktopEditors-x86_64.AppImage"
 alias url "xdg-open "
+# alias ai "cd apps/odysseus/ & ./run.sh"
 
 ### OUTDATED
 ## GNOME
@@ -74,6 +75,7 @@ set -Ux SUDO_EDITOR /usr/bin/nvim
 set -Ux VISUAL /usr/bin/nvim
 set -Ux ANDROID_HOME /opt/android-sdk
 set -Ux XDG_CONFIG_HOME $HOME/.config
-set -Ux OPENAI_API_KEY $(openssl enc -aes-256-cbc -pbkdf2 -d -in ~/gpt.enc -pass pass:gpt)
+# set -Ux OPENAI_API_KEY $(openssl enc -aes-256-cbc -pbkdf2 -d -in ~/gpt.enc -pass pass:gpt)
 
-# fish_add_path ~/.local/bin/
+fish_add_path ~/.local/bin/
+fish_add_path /home/calvo/.npm-global/bin
