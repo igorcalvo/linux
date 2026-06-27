@@ -190,25 +190,6 @@ require("lazy").setup({
     opts = {},
   },
 
-  -- "gc" to comment visual regions/lines
-  {
-    "numToStr/Comment.nvim",
-    opts = {
-      toggler = {
-        ---Line-comment toggle keymap
-        line = "gj",
-        ---Block-comment toggle keymap
-        block = "gbc",
-      },
-      opleader = {
-        ---Line-comment keymap
-        -- line = "<C-KP_Divide>",
-        line = "gj",
-        ---Block-comment keymap
-        block = "gb",
-      },
-    }
-  },
   -- AI
   {
     "yetone/avante.nvim",
@@ -448,6 +429,8 @@ vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]c
 vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "[G]oto [D]efinition", noremap = true })
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "[G]oto [R]eferences", noremap = true })
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration", noremap = true })
+-- Force 'gj' to pass text directly to the native 'gc' operator in ALL visual modes
+vim.keymap.set("x", "gj", "gc", { remap = true, desc = "Toggle visual comment" })
 
 -- Plugins keymaps?
 vim.keymap.set("n", "cp", "<cmd>PickColor<cr>", { desc = "[C]olor [P]ick" })
