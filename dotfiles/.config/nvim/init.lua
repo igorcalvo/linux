@@ -372,6 +372,48 @@ vim.o.backup = false
 vim.o.swapfile = false
 vim.o.undofile = false
 
+-- Colors
+-- Force variables AND function arguments to be white, overriding colorscheme/LSP defaults
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    -- Groups targeted for white coloring
+    local white_groups = {
+      -- Standard Variables & Object Members
+      "@variable",
+      "@variable.member",
+      "Variable",
+
+      -- Parameter / Argument Groups
+      "@variable.parameter",
+      "@parameter",
+      "@lsp.type.parameter",
+      "@variable.parameter.typescript",
+      "@variable.parameter.typescriptreact",
+
+      -- Destructuring and Function Calls (Added your new group here!)
+      "typescriptDestructureVariable",
+      "typescriptArrayDestructure",
+      "typescriptFuncCallArg", -- 👈 Delinks this from PreProc and forces it white
+
+      -- LSP Semantic mappings
+      "@lsp.type.parameter.typescriptreact",
+      "@lsp.typemod.parameter.declaration",
+      "@lsp.typemod.parameter.local",
+    }
+
+    for _, group in ipairs(white_groups) do
+      vim.api.nvim_set_hl(0, group, { fg = "#FFFFFF", force = true })
+    end
+  end,
+})
+
+-- Re-trigger colorscheme to execute right away
+vim.cmd("colorscheme " .. (vim.g.colors_name or "monokai-pro"))
+
+-- Re-trigger colorscheme once to apply changes immediately without a restart
+vim.cmd("colorscheme " .. (vim.g.colors_name or "monokai-pro"))
+
 -- caret Multi Caret https://github.com/mg979/vim-visual-multi
 -- [[ Basic Keymaps ]] bindings Bindings keymaps custom keymaps custom bindings
 vim.keymap.set({ "n", "v", "t", "i" }, "<C-A-w>", "<esc><cmd>:lua require'dapui'.close()<cr>:q<cr>", { desc = "Quit" })
