@@ -8,6 +8,7 @@ abbr -a encrypt --set-cursor -- "openssl enc -aes-256-cbc -pbkdf2 -salt -in % -o
 abbr -a decrypt --set-cursor -- "openssl enc -aes-256-cbc -pbkdf2 -d -in % -pass pass:gpt"
 abbr -a f --set-cursor -- 'cd / | sudo find . -name "*%*"'
 abbr -a hs --set-cursor "history search --contains %"
+abbr -a ai --set-cursor "python ~/code/scripts/ai.py %"
 
 alias mouse "sh /home/calvo/code/scripts/track-mouse.sh"
 alias sudo "command sudo"
@@ -75,7 +76,16 @@ set -Ux SUDO_EDITOR /usr/bin/nvim
 set -Ux VISUAL /usr/bin/nvim
 set -Ux ANDROID_HOME /opt/android-sdk
 set -Ux XDG_CONFIG_HOME $HOME/.config
-# set -Ux OPENAI_API_KEY $(openssl enc -aes-256-cbc -pbkdf2 -d -in ~/gpt.enc -pass pass:gpt)
+set -Ux DEEPSEEK_API_KEY $(openssl enc -aes-256-cbc -pbkdf2 -d -in ~/ds.enc -pass pass:ds)
+
+set -Ux ANTHROPIC_BASE_URL https://api.deepseek.com/anthropic
+set -Ux ANTHROPIC_AUTH_TOKEN $(openssl enc -aes-256-cbc -pbkdf2 -d -in ~/ds.enc -pass pass:ds)
+set -Ux ANTHROPIC_MODEL deepseek-v4-pro[1m]
+set -Ux ANTHROPIC_DEFAULT_OPUS_MODEL deepseek-v4-pro[1m]
+set -Ux ANTHROPIC_DEFAULT_SONNET_MODEL deepseek-v4-pro[1m]
+set -Ux ANTHROPIC_DEFAULT_HAIKU_MODEL deepseek-v4-flash
+set -Ux CLAUDE_CODE_SUBAGENT_MODEL deepseek-v4-flash
+set -Ux CLAUDE_CODE_EFFORT_LEVEL max
 
 fish_add_path ~/.local/bin/
 fish_add_path /home/calvo/.npm-global/bin

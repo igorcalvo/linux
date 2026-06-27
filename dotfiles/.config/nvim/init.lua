@@ -211,57 +211,79 @@ require("lazy").setup({
   },
   -- AI
   {
-    "olimorris/codecompanion.nvim",
+    "yetone/avante.nvim",
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    -- ⚠️ must add this setting! ! !
+    build = vim.fn.has("win32") ~= 0
+        and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+        or "make",
+    event = "VeryLazy",
+    version = false, -- Never set this value to "*"! Never!
+    ---@module 'avante'
+    ---@type avante.Config
+    opts = {
+      -- this file can contain specific instructions for your project
+      instructions_file = "avante.md",
+      provider = "deepseek", -- Set deepseek as your default provider
+      providers = {
+        deepseek = {
+          __inherited_from = "openai",
+          api_key_name = "DEEPSEEK_API_KEY", -- The name of your env variable
+          endpoint = "https://api.deepseek.com",
+          model = "deepseek-v4-flash",
+        },
+      },
+      behaviour = {
+        auto_suggestions = false, -- Stops unexpected background ghost completions
+        auto_set_highlight = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
+      },
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("codecompanion").setup({
-        adapters = {
-          openai = function()
-            return require("codecompanion.adapters").extend("openai", {
-              env = {
-                api_key = "OPENAI_API_KEY",
-              },
-              schema = {
-                model = {
-                  default = "gpt-4o", -- 👈 default model
-                  choices = {
-                    "gpt-4o",
-                    "gpt-4o-mini",
-                  },
-                },
-              },
-            })
-          end,
-        },
-
-        display = {
-          chat = {
-            window = {
-              layout = "vertical",
-              position = "right",
-              width = 0.4,
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "nvim-mini/mini.pick",           -- for file_selector provider mini.pick
+      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
+      "ibhagwan/fzf-lua",              -- for file_selector provider fzf
+      "stevearc/dressing.nvim",        -- for input provider dressing
+      "folke/snacks.nvim",             -- for input provider snacks
+      "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua",        -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
             },
+            -- required for Windows users
+            use_absolute_path = true,
           },
         },
-
-        strategies = {
-          chat = {
-            adapter = "openai",
-          },
-          inline = {
-            adapter = "openai",
-          },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
         },
-      })
-    end,
+        ft = { "markdown", "Avante" },
+      },
+    },
   },
   -- Fuzzy Finder (files, lsp, etc)
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    branch = "master",
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
@@ -277,8 +299,9 @@ require("lazy").setup({
   {
     -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
     },
     build = ":TSUpdate",
   },
@@ -446,49 +469,49 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- [[ Configure Monokai-Pro ]]
-require("monokai-pro").setup({
-  transparent_background = false,
-  terminal_colors = true,
-  devicons = true, -- highlight the icons of `nvim-web-devicons`
-  styles = {
-    comment = { italic = true },
-    keyword = { italic = true },       -- any other keyword
-    type = { italic = true },          -- (preferred) int, long, char, etc
-    storageclass = { italic = true },  -- static, register, volatile, etc
-    structure = { italic = true },     -- struct, union, enum, etc
-    parameter = { italic = true },     -- parameter pass in function
-    annotation = { italic = true },
-    tag_attribute = { italic = true }, -- attribute of tag in reactjs
-  },
-  -- filter = "spectrum",                 -- classic | octagon | pro | machine | ristretto | spectrum
-  filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
-  -- Enable this will disable filter option
-  day_night = {
-    enable = false,            -- turn off by default
-    day_filter = "pro",        -- classic | octagon | pro | machine | ristretto | spectrum
-    night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
-  },
-  inc_search = "background",   -- underline | background
-  background_clear = {
-    "toggleterm",
-    "telescope",
-    "which-key",
-    "renamer",
-    "notify",
-    "neo-tree",
-  },
-  plugins = {
-    bufferline = {
-      underline_selected = false,
-      underline_visible = false,
-    },
-    indent_blankline = {
-      context_highlight = "default", -- default | pro
-      context_start_underline = false,
-    },
-  },
-  override = function(c) end,
-})
+-- require("monokai-pro").setup({
+--   transparent_background = false,
+--   terminal_colors = true,
+--   devicons = true, -- highlight the icons of `nvim-web-devicons`
+--   styles = {
+--     comment = { italic = true },
+--     keyword = { italic = true },       -- any other keyword
+--     type = { italic = true },          -- (preferred) int, long, char, etc
+--     storageclass = { italic = true },  -- static, register, volatile, etc
+--     structure = { italic = true },     -- struct, union, enum, etc
+--     parameter = { italic = true },     -- parameter pass in function
+--     annotation = { italic = true },
+--     tag_attribute = { italic = true }, -- attribute of tag in reactjs
+--   },
+--   -- filter = "spectrum",                 -- classic | octagon | pro | machine | ristretto | spectrum
+--   filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
+--   -- Enable this will disable filter option
+--   day_night = {
+--     enable = false,            -- turn off by default
+--     day_filter = "pro",        -- classic | octagon | pro | machine | ristretto | spectrum
+--     night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+--   },
+--   inc_search = "background",   -- underline | background
+--   background_clear = {
+--     "toggleterm",
+--     "telescope",
+--     "which-key",
+--     "renamer",
+--     "notify",
+--     "neo-tree",
+--   },
+--   plugins = {
+--     bufferline = {
+--       underline_selected = false,
+--       underline_visible = false,
+--     },
+--     indent_blankline = {
+--       context_highlight = "default", -- default | pro
+--       context_start_underline = false,
+--     },
+--   },
+--   override = function(c) end,
+-- })
 
 require("colorizer").setup()
 require("color-picker").setup()
@@ -671,7 +694,7 @@ vim.keymap.set("n", "<leader>fr", require("telescope.builtin").resume, { desc = 
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of "nvim {filename}"
 vim.defer_fn(function()
-  require("nvim-treesitter.configs").setup {
+  require("nvim-treesitter").setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "tsx", "javascript", "typescript", "vimdoc", "vim", "bash" },
 
