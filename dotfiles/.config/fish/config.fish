@@ -47,6 +47,7 @@ alias disks "ncdu"
 alias keys "wev"
 alias office "screen -d -m ~/apps/appimages/DesktopEditors-x86_64.AppImage"
 alias url "xdg-open "
+alias update "sh ~/code/scripts/update.sh"
 # alias ai "cd apps/odysseus/ & ./run.sh"
 
 ### OUTDATED

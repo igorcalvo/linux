@@ -377,7 +377,8 @@ otf-font-awesome lib32-vulkan-icd-loader vulkan-tools ttf-nerd-fonts-symbols-mon
 fuse3 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen ripgrep \
 playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools composer unzip \
 wget less python-pip dconf pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
-qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xcur2png fd gvfs-mtp android-udev
+qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xcur2png fd gvfs-mtp android-udev \
+tesseract tesseract-data-eng
 ```
 
 ```bash
@@ -393,7 +394,7 @@ stress glmark2 neovide fail2ban ufw imagemagick yazi pavucontrol\
 python-weasyprint clipcat calcurse nautilus iftop figlet gnome-disk-utility \
 progress evince docker lazygit ncdu drawing speedtest-cli wev hyprpicker \
 wl-clipboard imv cliphist fuzzel gimp wofi man-db man-pages mako \
-hyprpaper hyprsunset hyprcursor grim slurp sddm pandoc opencode
+hyprpaper hyprsunset hyprcursor grim slurp sddm pandoc expac
 ```
 
 ```bash
@@ -423,6 +424,11 @@ zoom
 anki
 ahk_x11-bin
 chatgpt-shell-cli 
+```
+
+##### NPM
+```bash
+npm install -g codewhale@0.8.66
 ```
 
 ##### OLLAMA
