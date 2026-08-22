@@ -286,7 +286,7 @@ hl.bind("SUPER + 0", hl.dsp.exec_cmd("nautilus ~/downloads/"))
 hl.bind("SUPER + E", hl.dsp.exec_cmd("nautilus"))
 
 -- Control layout
-hl.bind("CTRL + Alt_L + W",  hl.dsp.window.close())
+hl.bind("CTRL + ALT + W",  hl.dsp.window.close()) -- was killactive (Control Alt_L, W) in v1
 hl.bind("SUPER + R",            hl.dsp.layout("togglesplit"))
 hl.bind("SUPER + D",            hl.dsp.window.float({ action = "toggle" }))
 hl.bind("ALT + mouse:272",      hl.dsp.window.drag(), { mouse = true })
