@@ -258,16 +258,16 @@ hl.bind("SUPER + KP_Enter", hl.dsp.exec_cmd("wezterm start --always-new-process"
 hl.bind("SUPER + Q",       hl.dsp.exec_cmd("kitty"))
 
 -- Power
-hl.bind("Control + Scroll_Lock", hl.dsp.exec_cmd("reboot"))
-hl.bind("Control + Pause",       hl.dsp.exec_cmd("systemctl poweroff"))
+hl.bind("CTRL + Scroll_Lock", hl.dsp.exec_cmd("reboot"))
+hl.bind("CTRL + Pause",       hl.dsp.exec_cmd("systemctl poweroff"))
 
 -- Desktop
-hl.bind("Control + P",      hl.dsp.exec_cmd("hyprpicker -a"))
-hl.bind("Control + grave",  hl.dsp.exec_cmd("~/code/scripts/3rd-party/cliphist-fuzzel-img.sh"))
+hl.bind("CTRL + P",      hl.dsp.exec_cmd("hyprpicker -a"))
+hl.bind("CTRL + grave",  hl.dsp.exec_cmd("~/code/scripts/3rd-party/cliphist-fuzzel-img.sh"))
 hl.bind("SUPER + space",    hl.dsp.exec_cmd("fuzzel"))
-hl.bind("Control + period", hl.dsp.exec_cmd("sh ~/code/scripts/emoji.sh"))
+hl.bind("CTRL + period", hl.dsp.exec_cmd("sh ~/code/scripts/emoji.sh"))
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'))
-hl.bind("Control + Print",  hl.dsp.exec_cmd('grim ~/images/screenshots/$(date +"%Y-%m-%dT%H%M%S").png'))
+hl.bind("CTRL + Print",  hl.dsp.exec_cmd('grim ~/images/screenshots/$(date +"%Y-%m-%dT%H%M%S").png'))
 
 -- Launch
 -- hl.bind("SUPER + 1", hl.dsp.exec_cmd("hyprctl dispatch workspace 1; librewolf --new-tab --url about:newtab"))
@@ -286,7 +286,7 @@ hl.bind("SUPER + 0", hl.dsp.exec_cmd("nautilus ~/downloads/"))
 hl.bind("SUPER + E", hl.dsp.exec_cmd("nautilus"))
 
 -- Control layout
-hl.bind("Control + Alt_L + W",  hl.dsp.window.close())
+hl.bind("CTRL + Alt_L + W",  hl.dsp.window.close())
 hl.bind("SUPER + R",            hl.dsp.layout("togglesplit"))
 hl.bind("SUPER + D",            hl.dsp.window.float({ action = "toggle" }))
 hl.bind("ALT + mouse:272",      hl.dsp.window.drag(), { mouse = true })

@@ -37,7 +37,8 @@ config.webgpu_preferred_adapter = {
 }
 config.front_end = "WebGpu"
 config.webgpu_power_preference = "HighPerformance"
-config.show_update_window = true
+-- show_update_window was deprecated and is a no-op; check_for_updates is the replacement
+config.check_for_updates = true
 config.default_prog = { 'fish' }
 -- config.exit_behavior = "Hold"
 config.xcursor_theme = "volantes_light_cursors"
