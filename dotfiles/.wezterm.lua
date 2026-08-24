@@ -19,6 +19,7 @@ config.font = wezterm.font_with_fallback {
   'Noto Sans Mono'
 }
 config.enable_wayland = false
+config.enable_kitty_keyboard = true
 config.max_fps = 240
 config.animation_fps = 120
 config.prefer_egl = true
