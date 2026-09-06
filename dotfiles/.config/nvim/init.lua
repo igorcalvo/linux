@@ -401,6 +401,7 @@ vim.keymap.set({ "n", "v", "t", "i" }, "<C-A-w>", "<esc><cmd>:lua require'dapui'
 vim.keymap.set({ "n", "v", "t", "i" }, "<C-s>", "<cmd>:wa<cr>", { desc = "Save [A]ll" })
 vim.keymap.set({ "n", "v", "t", "i" }, "<C-e>", "<cmd>:Neotree toggle<cr>", { desc = "Toggle Tre[E]" })
 vim.keymap.set("i", "jk", "<esc>", { desc = "jk esc" })
+vim.keymap.set({ "i", "c" }, "<C-BS>", "<C-w>", { desc = "Delete [W]ord backwards (Ctrl+Backspace)" })
 vim.keymap.set("n", "<A-S-f>", ":Format <cr>:!black %<cr><enter>", { desc = "Format file" })
 vim.keymap.set("n", "<A-j>", ":m .+1<cr>==", { desc = "Move line down" })
 vim.keymap.set("n", "<A-k>", ":m .-2<cr>==", { desc = "Move line up" })
@@ -429,7 +430,9 @@ vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]c
 vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "[G]oto [D]efinition", noremap = true })
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "[G]oto [R]eferences", noremap = true })
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration", noremap = true })
--- Force 'gj' to pass text directly to the native 'gc' operator in ALL visual modes
+-- Force 'gj' to pass text directly to the native comment operators
+-- (normal: native 'gcc' toggles [count] lines; visual: native 'gc' toggles selection)
+vim.keymap.set("n", "gj", "gcc", { remap = true, desc = "Toggle line comment" })
 vim.keymap.set("x", "gj", "gc", { remap = true, desc = "Toggle visual comment" })
 
 -- Plugins keymaps?

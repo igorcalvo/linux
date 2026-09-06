@@ -46,6 +46,16 @@ config.xcursor_theme = "volantes_light_cursors"
 config.xcursor_size = 24
 
 config.keys = {
+  -- Workaround for upstream wezterm bug: with enable_kitty_keyboard = true,
+  -- apps that opt into the kitty keyboard protocol (fish 4.x, nvim, ...)
+  -- receive bare Delete as ^H because encode_kitty swaps \x08 and \x7f.
+  -- Send the canonical kdch1 sequence so Delete deletes forward again.
+  -- https://github.com/wezterm/wezterm/issues/4785
+  {
+    key = 'Delete',
+    mods = 'NONE',
+    action = act.SendString '\x1b[3~',
+  },
   {
     key = 'DownArrow',
     mods = 'CTRL|SHIFT',
