@@ -378,7 +378,7 @@ fuse3 libxkbcommon-x11 unrar p7zip clutter clutter-gtk inkscape xorg-xcursorgen 
 playerctl lm_sensors xdg-user-dirs-gtk gnome-backgrounds sox dosfstools composer unzip \
 wget less python-pip dconf pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
 qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xcur2png fd gvfs-mtp android-udev \
-tesseract tesseract-data-eng
+tesseract tesseract-data-eng uv
 ```
 
 ```bash
@@ -426,9 +426,62 @@ ahk_x11-bin
 chatgpt-shell-cli 
 ```
 
-##### NPM
+##### NPM CODEWHALE AI SETUP
 ```bash
 npm install -g codewhale@0.8.66
+uv tool install "headroom-ai[mcp]"
+uv tool install serena-agent
+serena context create --name codewhale --from-internal ide
+mkdir -p ~/.local/bin
+nvim ~/.local/bin/codewhale-serena
+
+#!/bin/sh
+exec serena start-mcp-server --context codewhale --project-from-cwd
+EOF
+
+chmod +x ~/.local/bin/codewhale-serena
+codewhale mcp add headroom --command "$(which headroom)" --arg mcp --arg serve
+codewhale mcp add serena --command "$HOME/.local/bin/codewhale-serena"
+codewhale mcp list
+codewhale mcp tools headroom
+codewhale mcp tools serena
+mkdir -p ~/.codewhale/skills/caveman
+curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/skills/caveman/SKILL.md -o ~/.codewhale/skills/caveman/SKILL.md
+nvim ~/AGENTS.md
+paste caveman
+```
+
+###### Serena Context
+```yml
+excluded_tools:
+  - create_text_file
+  - read_file
+  - execute_shell_command
+  - find_file
+  - list_dir
+  - delete_memory
+  - edit_memory
+  - list_memories
+  - read_memory
+  - rename_memory
+  - write_memory
+  - get_current_config
+  - onboarding
+```
+
+###### Caveman
+```md
+# Global Agent Rules
+
+Respond terse like smart caveman. Keep all technical substance and accuracy. Remove filler, unnecessary pleasantries, repetition, hedging, and verbose explanations.
+
+Use concise fragments when clearer. Prefer short wording.
+
+Default behavior: Caveman full mode for every response in every session. Keep this behavior throughout long sessions without verbosity drift.
+
+Code, commands, errors, file paths, identifiers, APIs, and other exact technical content must remain exact. Do not sacrifice correctness for brevity.
+
+Switch off only when the user explicitly asks for "stop caveman" or "normal mode".
 ```
 
 ##### OLLAMA
