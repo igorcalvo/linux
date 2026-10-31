@@ -39,6 +39,12 @@ export VISUAL=/usr/bin/nvim
 export XDG_DOWNLOAD_DIR=$HOME/downloads
 export XDG_CONFIG_HOME=$HOME/.config
 
+# Node version manager (Arch package: nvm). Versions live in ~/.config/nvm.
+export NVM_DIR="${XDG_CONFIG_HOME}/nvm"
+if [ -s /usr/share/nvm/init-nvm.sh ]; then
+    . /usr/share/nvm/init-nvm.sh
+fi
+
 # if uwsm check may-start && uwsm select; then
 # 	exec uwsm start default
 # fi
